@@ -17,12 +17,11 @@ public final class Multipass {
 
 	private static int[][] labelledMatrix(int width, int height,
 			boolean[][] pixelMatrix, boolean diagonalNeighbours) {
+		if (pixelMatrix.length==0) return null;
 		// if (pixels.length == 0 || pixels[0].length == 0) {
 		// return null;
 		// }
-System.out.println("lol");
 		int[][] labels = new int[height][width];
-		System.out.println("lol");
 
 		// boolean diagonalNeighbours = true;
 
@@ -31,7 +30,7 @@ System.out.println("lol");
 			for (int x = 0; x < width; x++) {
 				if (!pixelMatrix[y][x]) {
 					labels[y][x] = 0;
-					 System.out.println("x=" + x + " y=" + y + " label=" + 0);
+//					 System.out.println("x=" + x + " y=" + y + " label=" + 0);
 				} else {
 					boolean noLabelledNeighbours = !pixel(pixelMatrix, x, y - 1)
 							&& !pixel(pixelMatrix, x - 1, y);
@@ -58,11 +57,9 @@ System.out.println("lol");
 				}
 			}
 		}
-		System.out.println("lol");
 
 		boolean labelChanged = false;
 		do {
-			//System.out.println("lol");
 			labelChanged = false;
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
@@ -75,7 +72,7 @@ System.out.println("lol");
 						if (diagonalNeighbours) {
 							min = min(min, label(labels, x - 1, y - 1),
 									label(labels, x + 1, y - 1),
-									label(labels, x - 1, x + 1),
+									label(labels, x - 1, y + 1),
 									label(labels, x + 1, y + 1));
 						}
 
@@ -157,7 +154,7 @@ System.out.println("lol");
 //	final static int testWidth=0;
 	
 //	public static void main(String[] args) {
-//		int[][] labelMatrix = labelledMatrix8(testWidth, testHeight, testImage);
+//		int[][] labelMatrix = labelledMatrix4(testWidth, testHeight, testImage);
 //		for (int y = 0; y < testHeight; y++) {
 //			for (int x = 0; x < testWidth; x++) {
 //				System.out.print(labelMatrix[y][x]);
