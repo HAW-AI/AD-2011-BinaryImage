@@ -1,10 +1,12 @@
 package adp2.implementations;
 
+import java.util.Collection;
 import java.util.List;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import adp2.application.EsserImage;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
+import adp2.interfaces.Point;
 
 // Factory class
 public final class BinaryImages {
@@ -22,6 +24,10 @@ public final class BinaryImages {
 	 */
 	public static Point point(int x, int y) {
 		return PointImpl.valueOf(x, y);
+	}
+	
+	static Blob blob(Collection<Point> points) {
+		return BlobImpl.valueOf(points);
 	}
 
 	/**

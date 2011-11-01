@@ -1,9 +1,12 @@
 package adp2.implementations;
 
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
@@ -11,17 +14,73 @@ import adp2.interfaces.Point;
 
 public abstract class AbstractBinaryImage implements BinaryImage {
     private final List<Blob> blobs;
+    private final Set<Point> points;
     
     protected AbstractBinaryImage(List<List<Boolean>> shape) {
         // pre-conditions are checked in the BinaryImages factory
-        blobs = calcBlobs(shape);
+    	points = matrixToPointSet(shape);
+        blobs = calcBlobs(points);
     }
-    
-    private List<Blob> calcBlobs(List<List<Boolean>> shape) {
-        return null;
+    /**
+     * Delegates the calculation of Blobs to the preferred algorithm
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Set of points as representation of the image
+     * @return Ordered list of Blobs
+     */
+    private List<Blob> calcBlobs(Set<Point> points) {
+        return deepSearch(points);
     }
 
-    @Override
+    /**
+     * DeepSearch algorithm to find blobs. This method delegates to a recursive method in order to find all blobs for the points not already visited
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Set of points as representation of the image
+     * @return Ordered list of blobs 
+     */
+    private List<Blob> deepSearch(Set<Point> points) {
+    	List<Blob> result=new ArrayList<Blob>();
+    	Set<Point> visited=new TreeSet<Point>();
+		for(Point p : points){
+			if(!visited.contains(p)){
+				Set<Point> blobAsSet=deepSearch_(p, visited, points);
+				result.add(BinaryImages.blob(blobAsSet));
+			}
+		}
+		return result;
+	}
+    
+    /**
+     * Add the neighbours of all neighbours of a point, which haven't been visited before.
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param the point, at which the DeepSearch is currently at
+     * @param a Set of already visited points in order to avoid an infinite regress
+     * @param Set of points as representation of the image
+     * @return a Set of points as representation of a blob
+     */
+    private Set<Point> deepSearch_(Point p, Set<Point> visited, Set<Point> points){
+		Set<Point> result=new TreeSet<Point>();
+		result.add(p);
+		visited.add(p);
+		Set<Point> neighbours=this.neighbours(p, points);
+		neighbours.removeAll(visited);
+		for(Point neighbour: neighbours){
+			result.addAll(deepSearch_(neighbour, visited, points));
+		}
+		return result;
+    }
+
+	private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
     public Iterator<Blob> iterator() {
         // TODO Auto-generated method stub
         return null;
@@ -29,8 +88,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public int blobCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.blobs.size();
     }
 
     @Override
@@ -59,11 +117,12 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public Set<Point> neighbours(Point point) {
-        // TODO Auto-generated method stub
-        return null;
+        return neighbours(point, this.points);
     }
 
-    @Override
+    abstract protected Set<Point> neighbours(Point point, Set<Point> points); 
+    
+	@Override
     public boolean valueAt(Point point) {
         // TODO Auto-generated method stub
         return false;
