@@ -31,7 +31,6 @@ public class EsserParser {
 		int counter = 0;
 		for (String element : elements) {
 			result[counter] = parse_boolean(element);
-			System.out.println(String.format("%s - %s",element, result[counter]));
 			counter++; // never ever touch this line, else this shit will break
 		}
 		return result;
