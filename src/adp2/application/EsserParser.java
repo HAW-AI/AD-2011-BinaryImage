@@ -10,9 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 
- * @author Benjamin Rexin <benjamin.rexin@
- *
+ * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
+ * @author Patrick Detlefsen <patrick.detlefsen@haw-hamburg.de>
  */
 public class EsserParser {
 	private static final String LINE_DELIMITER = "\n";
