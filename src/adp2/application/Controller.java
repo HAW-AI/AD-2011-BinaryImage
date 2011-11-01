@@ -64,7 +64,12 @@ public class Controller {
 	 * @param image
 	 */
 	private void setBinaryImage(EsserImage image) {
-		setBinaryImage(BinaryImages.binaryImage(image));
+		if (!image.isValid()) {
+			setBinaryImage(BinaryImages.NaBI());
+		}
+		else {
+			setBinaryImage(BinaryImages.binaryImage(image));
+		}
 	}
 	
 	/**
