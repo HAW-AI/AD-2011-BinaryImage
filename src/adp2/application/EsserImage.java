@@ -30,4 +30,8 @@ public class EsserImage {
 	public boolean[][] pixels() {
 		return pixels;
 	}
+	
+	public String toString() {
+		return String.format("EsserImage[%sx%s]",width(), height());
+	}
 }
