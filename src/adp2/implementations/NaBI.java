@@ -1,5 +1,7 @@
 package adp2.implementations;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -9,64 +11,106 @@ import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
 
 final class NaBI implements BinaryImage {
-
+	
+	private final static NaBI instance = new NaBI();
+	
+	private NaBI() {}
+	
+	/**
+	 * 
+	 * @return the instance of NaBI 
+	 */
+	public static BinaryImage valueOf() {
+		return instance;
+	}
+	
+	/**
+	 * 
+	 * @return an iterator of an empty collection of Blob
+	 */
 	@Override
 	public Iterator<Blob> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return (new ArrayList<Blob>()).iterator();
 	}
 
+	/**
+	 * 
+	 * @return number of Blobs
+	 */
 	@Override
 	public int blobCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @return NaB
+	 */
 	@Override
 	public Blob blob(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return NaB.valueOf();
 	}
 
+	/**
+	 * 
+	 * @return an empty collection of Blobs
+	 */
 	@Override
 	public List<Blob> blobs() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Blob>();
 	}
 
+	/**
+	 * 
+	 * @return width of BinaryImage 
+	 */
 	@Override
 	public int width() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @return height of BinaryImage
+	 */
 	@Override
 	public int height() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @return a empty set of neighbours 
+	 */
 	@Override
 	public Set<Point> neighbours(Point point) {
-		// TODO Auto-generated method stub
-		return null;
+		return new HashSet<Point>();
 	}
 
+	/**
+	 * 
+	 * @return false 
+	 */
 	@Override
 	public boolean valueAt(Point point) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return false 
+	 */
 	@Override
 	public boolean connected(Point point1, Point point2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return NaBI
+	 */
 	@Override
 	public BinaryImage inverse() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 

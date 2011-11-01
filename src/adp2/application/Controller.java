@@ -4,17 +4,13 @@
 package adp2.application;
 
 /**
- * @author panos
+ * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
+ * @author Patrick Detlefsen <patrick.detlefsen@haw-hamburg.de>
  *
  */
 public class Controller {
-
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
