@@ -1,7 +1,6 @@
 package adp2.implementations;
 
 import java.util.List;
-import java.util.Set;
 
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Point;
@@ -17,10 +16,10 @@ public class EightNeighborBinaryImage extends AbstractBinaryImage {
     }
 
 	@Override
-	protected Set<Point> neighbours(Point point, Set<Point> points) {
-		// TODO Auto-generated method stub
-		return null;
+	protected boolean areNeighbours(Point p1, Point p2) {
+		return areNeighbours8n(p1,p2);
 	}
+
 
     
 }

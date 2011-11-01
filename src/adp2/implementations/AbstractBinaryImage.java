@@ -120,7 +120,52 @@ public abstract class AbstractBinaryImage implements BinaryImage {
         return neighbours(point, this.points);
     }
 
-    abstract protected Set<Point> neighbours(Point point, Set<Point> points); 
+    /**
+     * Get neighbours for a specific point. Results depend on how the areNeighbours method is implemented in concrete class
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Point
+     * @param Set of potential neighbour points
+     * @return
+     */
+	protected Set<Point> neighbours(Point point, Set<Point> points) {
+		Set<Point> result=new TreeSet<Point>();
+		for(Point other: points){
+			if(areNeighbours(point, other)){
+				result.add(other);
+			}
+		}
+		return result;
+	}
+    
+	protected abstract boolean areNeighbours(Point p1, Point p2);
+
+    /**
+     * Helper method to find out, if two points are neighbours (4 neighbourhood)
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Point
+     * @param Other Point
+     * @return
+     */
+    protected boolean areNeighbours4n(Point p1, Point p2){
+    	return (Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==0) || (Math.abs(p1.x()-p2.x())==0) && (Math.abs(p1.y()-p2.y())==1);
+    }
+    
+    /**
+     * Helper method to find out, if two points are neighbours (8 neighbourhood)
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Point
+     * @param Other Point
+     * @return
+     */
+    protected boolean areNeighbours8n(Point p1, Point p2){
+    	return areNeighbours4n(p1,p2) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1)) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1));
+    }
     
 	@Override
     public boolean valueAt(Point point) {
