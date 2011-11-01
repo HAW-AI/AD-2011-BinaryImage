@@ -1,7 +1,5 @@
 package adp2.application;
 
-import java.util.Arrays;
-
 /**
  * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
  * @author Patrick Detlefsen <patrick.detlefsen@haw-hamburg.de>
