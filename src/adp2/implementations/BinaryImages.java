@@ -1,5 +1,7 @@
 package adp2.implementations;
 
+import java.util.List;
+
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 
@@ -35,5 +37,44 @@ public final class BinaryImages {
 	 */
 	public static Blob NaB() {
 	    return NaB.valueOf();
+	}
+	
+	public static BinaryImage fourNeighborBinaryImage(List<List<Boolean>> shape) {
+	    BinaryImage img;
+	    
+	    if (isValidBinaryImageShape(shape)) {
+	        img = FourNeighborBinaryImage.valueOf(shape);
+	    } else {
+	        img = NaBI();
+	    }
+	    
+	    return img;
+	}
+	
+	public static BinaryImage eightNeighborBinaryImage(List<List<Boolean>> shape) {
+        BinaryImage img;
+        
+        if (isValidBinaryImageShape(shape)) {
+            img = EightNeighborBinaryImage.valueOf(shape);
+        } else {
+            img = NaBI();
+        }
+        
+        return img;
+	}
+	
+	private static boolean isValidBinaryImageShape(List<List<Boolean>> shape) {
+	    if (shape == null) return false;
+	    
+	    if (shape.size() == 0) return true;
+	    if (shape.get(0) == null) return false;
+	    
+	    int width = shape.get(0).size();
+	    
+	    for (List<Boolean> row : shape) {
+	        if (row == null || row.size() != width) return false;
+	    }
+	    
+	    return true;
 	}
 }
