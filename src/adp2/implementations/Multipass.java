@@ -18,12 +18,12 @@ public final class Multipass {
 
 	}
 
-	public static List<Blob> blobs4(int width, int height,
+	static List<Blob> blobs4(int width, int height,
 			boolean[][] pixelMatrix) {
 		return blobs(width, height, pixelMatrix, false);
 	}
 
-	public static List<Blob> blobs8(int width, int height,
+	static List<Blob> blobs8(int width, int height,
 			boolean[][] pixelMatrix) {
 		return blobs(width, height, pixelMatrix, true);
 	}
@@ -52,8 +52,8 @@ public final class Multipass {
 								&& !pixel(pixelMatrix, x + 1, y - 1);
 					}
 					if (noForegroundNeighbours) {
-						 System.out.println("x=" + x + " y=" + y + " label=" +
-						 label);
+//						 System.out.println("x=" + x + " y=" + y + " label=" +
+//						 label);
 						labels.put(point(x, y), label++);
 					} else {
 						int min = min(labels.get(point(x, y - 1)),
@@ -98,13 +98,13 @@ public final class Multipass {
 			}
 		} while (labelChanged);
 
-		for (int y=0; y<height; y++) {
-			for (int x=0; x<width; x++) {
-				System.out.print(labels.get(point(x,y)));
-			}
-			System.out.println();
-		}
-		System.out.println("end");
+//		for (int y=0; y<height; y++) {
+//			for (int x=0; x<width; x++) {
+//				System.out.print(labels.get(point(x,y)));
+//			}
+//			System.out.println();
+//		}
+//		System.out.println("end");
 		
 		
 		List<Blob> blobs = new ArrayList<Blob>();
