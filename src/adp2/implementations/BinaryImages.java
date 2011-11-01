@@ -42,6 +42,15 @@ public final class BinaryImages {
 		return NaB.valueOf();
 	}
 
+    /**
+     * Create a BinaryImage whose blobs are created from a neighborhood of
+     * four neighbors.
+     *
+     * @param shape n x n matrix with true values for the foreground and false
+     *              for the background
+     * @return a valid BinaryImage for correct input shape or NaBI if shape
+     *         contains null values or has rows of varying size
+     */
 	public static BinaryImage fourNeighborBinaryImage(List<List<Boolean>> shape) {
 		BinaryImage img;
 
@@ -54,6 +63,15 @@ public final class BinaryImages {
 		return img;
 	}
 
+    /**
+     * Create a BinaryImage whose blobs are created from a neighborhood of
+     * eight neighbors.
+     *
+     * @param shape n x m matrix with true values for the foreground and false
+     *              for the background
+     * @return a valid BinaryImage for correct input shape or NaBI if shape
+     *         contains null values or has rows of varying size
+     */
 	public static BinaryImage eightNeighborBinaryImage(List<List<Boolean>> shape) {
 		BinaryImage img;
 
@@ -66,6 +84,14 @@ public final class BinaryImages {
 		return img;
 	}
 
+    /**
+     * Check pre-conditions for BinaryImage shape.
+     *
+     * @param shape the BinaryImage shape
+     * @return true if a valid BinaryImage can be created from the shape -
+     *         else false
+     * @see BinaryImages#fourNeighborBinaryImage(List<List<Boolean>>)
+     */
 	private static boolean isValidBinaryImageShape(List<List<Boolean>> shape) {
 		if (shape == null)
 			return false;
