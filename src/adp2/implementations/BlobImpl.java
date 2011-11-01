@@ -7,25 +7,44 @@ import java.util.TreeSet;
 import adp2.interfaces.*;
 
 public class BlobImpl implements Blob {
-
-	private final TreeSet<Point> s;
 	
+	private final TreeSet<Point> s;
+
+	/**
+	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurück.
+	 * 
+	 * @param s: Collection, die alle Points des Blobs enthält.
+	 * @return
+	 */
 	public static Blob valueOf(Collection<Point> s){
 		return new BlobImpl(s);
 	}
-	
+	/**
+	 * Blob-Konstruktor.
+	 * 
+	 * @param s: Collection, die alle Points des Blobs enthält.
+	 */
 	private BlobImpl(Collection<Point> s){
 		this.s = new TreeSet<Point>(s);
 	}
-	
+
+	/**
+	 * Gibt einen Iterator über die Menge der Points des Blobs zurück.
+	 */
 	public Iterator<Point> iterator() {
 		return this.s.iterator();
 	}
 
+	/**
+	 * Gibt die Größe des Blobs als int zurück.
+	 */
 	public int pointCount() {
 		return this.s.size();
 	}
 
+	/**
+	 * Gibt die Breite des Blobs als int zurück.
+	 */
 	public int width() {
 		int max = s.first().x(),min = s.first().x();
 		for(Point p : s){
@@ -35,6 +54,9 @@ public class BlobImpl implements Blob {
 		return max-min;
 	}
 
+	/**
+	 * Gibt die Hoehe des Blobs als int zurück.
+	 */
 	public int height() {
 		int max = s.first().y(),min = s.first().y();
 		for(Point p : s){
@@ -44,6 +66,9 @@ public class BlobImpl implements Blob {
 		return max-min;
 	}
 
+	/**
+	 * Gibt den Hashcode des Blobs als int zurück.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,6 +77,12 @@ public class BlobImpl implements Blob {
 		return result;
 	}
 
+	/**
+	 * Prüft die Wertgleichheit des Blobs mit einem anderen Objekt.
+	 * 
+	 * param obj: Zu vergleichendes Objekt.
+	 * return: Gibt true bei Wertgleichheit zurück, ansonsten false.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
