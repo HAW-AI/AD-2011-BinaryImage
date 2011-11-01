@@ -33,8 +33,15 @@ public class EsserImage {
 		return pixels;
 	}
 	
+	public boolean isValid() {
+		for (boolean[] e : pixels()) {
+			if (e.length != width()) return false; 
+		}
+		return true;
+	}
+	
 	public String toString() {
-		return String.format("EsserImage[%sx%s,%s]",width(), height(), pixels_as_string());
+		return String.format("EsserImage[%sx%s,%s,%s]",width(), height(), isValid()?"valid":"invalid", pixels_as_string());
 	}
 	
 	private String pixels_as_string() {
