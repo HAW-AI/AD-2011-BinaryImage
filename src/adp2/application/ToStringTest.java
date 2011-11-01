@@ -12,5 +12,7 @@ public class ToStringTest {
 		System.out.println(EsserParser.parse("test/fixtures/4x4.esser"));
 		System.out.println(EsserParser.parse("test/fixtures/3x1.esser"));
 		System.out.println(EsserParser.parse("test/fixtures/1x3.esser"));
+		
+		System.out.println(EsserParser.parse("test/fixtures/invalid1.esser"));
 	}
 }
