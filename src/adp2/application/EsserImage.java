@@ -1,5 +1,7 @@
 package adp2.application;
 
+import java.util.Arrays;
+
 /**
  * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
  * @author Patrick Detlefsen <patrick.detlefsen@haw-hamburg.de>
@@ -32,6 +34,19 @@ public class EsserImage {
 	}
 	
 	public String toString() {
-		return String.format("EsserImage[%sx%s]",width(), height());
+		return String.format("EsserImage[%sx%s,%s]",width(), height(), pixels_as_string());
+	}
+	
+	private String pixels_as_string() {
+		StringBuilder result = new StringBuilder();
+		result.append("[");
+		for (boolean[] e : pixels()) {
+			result.append("[");
+			for (boolean b : e) {
+				result.append(b?"1":"0");
+			}
+			result.append("]");
+		}
+		return result.toString();
 	}
 }
