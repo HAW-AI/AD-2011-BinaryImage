@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
-import static adp2.implementations.BinaryImagez.point;
+import static adp2.implementations.BinaryImages.point;
 
 public final class Multipass {
 	private Multipass() {
@@ -117,7 +117,7 @@ public final class Multipass {
 					blobPoints.add(point);
 				}
 			}
-			blobs.add(adp2.implementations.BinaryImagez.blob(blobPoints));
+			blobs.add(adp2.implementations.BinaryImages.blob(blobPoints));
 		}
 		
 		return blobs;
