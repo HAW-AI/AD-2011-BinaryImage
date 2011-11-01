@@ -30,10 +30,15 @@ public class EsserParser {
 		boolean[] result = new boolean[elements.length];
 		int counter = 0;
 		for (String element : elements) {
-			result[counter] = Boolean.parseBoolean(element);
+			result[counter] = parse_boolean(element);
+			System.out.println(String.format("%s - %s",element, result[counter]));
 			counter++; // never ever touch this line, else this shit will break
 		}
 		return result;
+	}
+	
+	private static boolean parse_boolean(String string) {
+		return !string.equals("0");
 	}
 
 	/**
