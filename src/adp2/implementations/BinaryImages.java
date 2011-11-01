@@ -1,6 +1,7 @@
 package adp2.implementations;
 
 import adp2.interfaces.BinaryImage;
+import adp2.interfaces.Blob;
 
 // Factory class
 public final class BinaryImages {
@@ -13,5 +14,9 @@ public final class BinaryImages {
 	
 	public static BinaryImage NaBI() {
 	    return NaBI.valueOf();
+	}
+	
+	public static Blob NaB() {
+	    return NaB.valueOf();
 	}
 }
