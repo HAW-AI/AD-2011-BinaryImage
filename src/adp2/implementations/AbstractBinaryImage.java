@@ -14,7 +14,7 @@ import adp2.interfaces.Point;
 
 public abstract class AbstractBinaryImage implements BinaryImage {
     private final List<Blob> blobs;
-    private final Set<Point> points;
+    private final SortedSet<Point> points;
     private final int width;
     private final int height;
     
@@ -30,109 +30,11 @@ public abstract class AbstractBinaryImage implements BinaryImage {
         // pre-conditions are checked in the BinaryImages factory
     	this.height = height;
     	this.width = width;
-    	this.points = points;
+    	this.points = new TreeSet<Point>(points);
         this.blobs = calcBlobs(points);
     }
     
-    /**
-     * Delegates the calculation of Blobs to the preferred algorithm
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param Set of points as representation of the image
-     * @return Ordered list of Blobs
-     */
-    private List<Blob> calcBlobs(Set<Point> points) {
-        return deepSearch(points);
-    }
-
-    /**
-     * DeepSearch algorithm to find blobs. This method delegates to a recursive method in order to find all blobs for the points not already visited
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param Set of points as representation of the image
-     * @return Ordered list of blobs 
-     */
-    private List<Blob> deepSearch(Set<Point> points) {
-    	List<Blob> result=new ArrayList<Blob>();
-    	Set<Point> visited=new TreeSet<Point>();
-		for(Point p : points){
-			if(!visited.contains(p)){
-				Set<Point> blobAsSet=deepSearch_(p, visited, points);
-				result.add(BinaryImages.blob(blobAsSet));
-			}
-		}
-		return result;
-	}
-    
-    /**
-     * Add the neighbours of all neighbours of a point, which haven't been visited before.
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param the point, at which the DeepSearch is currently at
-     * @param a Set of already visited points in order to avoid an infinite regress
-     * @param Set of points as representation of the image
-     * @return a Set of points as representation of a blob
-     */
-    private Set<Point> deepSearch_(Point p, Set<Point> visited, Set<Point> points){
-		Set<Point> result=new TreeSet<Point>();
-		result.add(p);
-		visited.add(p);
-		Set<Point> neighbours=this.neighbours(p, points);
-		neighbours.removeAll(visited);
-		for(Point neighbour: neighbours){
-			result.addAll(deepSearch_(neighbour, visited, points));
-		}
-		return result;
-    }
-    
-    private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
-	SortedSet<Point> result = new TreeSet<Point>();
-	
-	int out = 0;
-	for(List<Boolean> elem : shape){
-		int in = 0;
-		for(Boolean e : elem){
-			if(e.equals(true)){
-				result.add(BinaryImages.point(in,out));
-			}
-			in++;
-		}
-		out++;
-	}
-	return result;
-		
-   }
-	
-
-	/**
-	 * Calculates width of image from matrix representation
-	 * 
-	 * @author Oliver Behncke
-	 * 
-	 * @param Binary Image as matrix
-	 * @return width of the matrix
-	 */
-	private int widthFromMatrix(List<List<Boolean>> shape) {
-		if(shape.size()==0) return 0;
-		else return shape.get(0).size();
-	}
-
-	/**
-	 * Calculates height of image from matrix representation
-	 * 
-	 * @author Oliver Behncke
-	 * 
-	 * @param Binary Image as matrix
-	 * @return height of the matrix
-	 */
-	private int heightFromMatrix(List<List<Boolean>> shape) {
-		return shape.size();
-	}
-
-	@Override
+    @Override
     public Iterator<Blob> iterator() {
         // TODO Auto-generated method stub
         return null;
@@ -170,54 +72,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
         return neighbours(point, this.points);
     }
 
-    /**
-     * Get neighbours for a specific point. Results depend on how the areNeighbours method is implemented in concrete class
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param Point
-     * @param Set of potential neighbour points
-     * @return
-     */
-	protected Set<Point> neighbours(Point point, Set<Point> points) {
-		Set<Point> result=new TreeSet<Point>();
-		for(Point other: points){
-			if(areNeighbours(point, other)){
-				result.add(other);
-			}
-		}
-		return result;
-	}
-    
-	protected abstract boolean areNeighbours(Point p1, Point p2);
-
-    /**
-     * Helper method to find out, if two points are neighbours (4 neighbourhood)
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param Point
-     * @param Other Point
-     * @return
-     */
-    protected boolean areNeighbours4n(Point p1, Point p2){
-    	return (Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==0) || (Math.abs(p1.x()-p2.x())==0) && (Math.abs(p1.y()-p2.y())==1);
-    }
-    
-    /**
-     * Helper method to find out, if two points are neighbours (8 neighbourhood)
-     * 
-     * @author Oliver Behncke
-     * 
-     * @param Point
-     * @param Other Point
-     * @return
-     */
-    protected boolean areNeighbours8n(Point p1, Point p2){
-    	return areNeighbours4n(p1,p2) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1)) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1));
-    }
-    
-	@Override
+    @Override
     public boolean valueAt(Point point) {
         // TODO Auto-generated method stub
         return false;
@@ -239,5 +94,169 @@ public abstract class AbstractBinaryImage implements BinaryImage {
         // TODO Auto-generated method stub
         return null;
     }
+
+	/**
+	 * Delegates the calculation of Blobs to the preferred algorithm
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Set of points as representation of the image
+	 * @return Ordered list of Blobs
+	 */
+	private List<Blob> calcBlobs(Set<Point> points) {
+	    return deepSearch(points);
+	}
+
+	/**
+	 * DeepSearch algorithm to find blobs. This method delegates to a recursive method in order to find all blobs for the points not already visited
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Set of points as representation of the image
+	 * @return Ordered list of blobs 
+	 */
+	private List<Blob> deepSearch(Set<Point> points) {
+		List<Blob> result=new ArrayList<Blob>();
+		Set<Point> visited=new TreeSet<Point>();
+		for(Point p : points){
+			if(!visited.contains(p)){
+				Set<Point> blobAsSet=deepSearch_(p, visited, points);
+				result.add(BinaryImages.blob(blobAsSet));
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Add the neighbours of all neighbours of a point, which haven't been visited before.
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param the point, at which the DeepSearch is currently at
+	 * @param a Set of already visited points in order to avoid an infinite regress
+	 * @param Set of points as representation of the image
+	 * @return a Set of points as representation of a blob
+	 */
+	private Set<Point> deepSearch_(Point p, Set<Point> visited, Set<Point> points){
+		Set<Point> result=new TreeSet<Point>();
+		result.add(p);
+		visited.add(p);
+		Set<Point> neighbours=this.neighbours(p, points);
+		neighbours.removeAll(visited);
+		for(Point neighbour: neighbours){
+			result.addAll(deepSearch_(neighbour, visited, points));
+		}
+		return result;
+	}
+
+	private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
+		SortedSet<Point> result = new TreeSet<Point>();
+		
+		int out = 0;
+		for(List<Boolean> elem : shape){
+			int in = 0;
+			for(Boolean e : elem){
+				if(e.equals(true)){
+					result.add(BinaryImages.point(in,out));
+				}
+				in++;
+			}
+			out++;
+		}
+		return result;
+			
+	   }
+
+	/**
+	 * Calculates width of image from matrix representation
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Binary Image as matrix
+	 * @return width of the matrix
+	 */
+	private int widthFromMatrix(List<List<Boolean>> shape) {
+		if(shape.size()==0) return 0;
+		else return shape.get(0).size();
+	}
+
+	/**
+	 * Calculates height of image from matrix representation
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Binary Image as matrix
+	 * @return height of the matrix
+	 */
+	private int heightFromMatrix(List<List<Boolean>> shape) {
+		return shape.size();
+	}
+	
+	/**
+	 * Checks a set of points and returns false if
+	 * Note: 	This relies on the implementation of matrixToPointSet, which currently creates points from 0..(widht-1) and 0..(height-1).
+	 * 			This check needs to be changed, when coordinates are created differently
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param points
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	protected static boolean properPoints(Set<Point> points, int width, int height){
+		if(points==null) return false;
+		for(Point p: points){
+			if(p.x()>=width || p.y()>=height) return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Get neighbours for a specific point. Results depend on how the areNeighbours method is implemented in concrete class
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Point
+	 * @param Set of potential neighbour points
+	 * @return
+	 */
+	protected Set<Point> neighbours(Point point, Set<Point> points) {
+		Set<Point> result=new TreeSet<Point>();
+		for(Point other: points){
+			if(areNeighbours(point, other)){
+				result.add(other);
+			}
+		}
+		return result;
+	}
+
+	protected abstract boolean areNeighbours(Point p1, Point p2);
+
+	/**
+	 * Helper method to find out, if two points are neighbours (4 neighbourhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Point
+	 * @param Other Point
+	 * @return
+	 */
+	protected boolean areNeighbours4n(Point p1, Point p2){
+		return (Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==0) || (Math.abs(p1.x()-p2.x())==0) && (Math.abs(p1.y()-p2.y())==1);
+	}
+
+	/**
+	 * Helper method to find out, if two points are neighbours (8 neighbourhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Point
+	 * @param Other Point
+	 * @return
+	 */
+	protected boolean areNeighbours8n(Point p1, Point p2){
+		return areNeighbours4n(p1,p2) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1)) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1));
+	}
 
 }
