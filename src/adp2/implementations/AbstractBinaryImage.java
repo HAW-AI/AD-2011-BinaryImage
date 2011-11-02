@@ -175,7 +175,12 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public boolean connected(Point point1, Point point2) {
-        // TODO Auto-generated method stub
+        for(Blob elem : blobs){
+        	if(elem.contains(point1)){
+        		if(elem.contains(point2)) return true;
+        		return false;
+        	}
+        }
         return false;
     }
 
