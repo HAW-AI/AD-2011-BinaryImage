@@ -77,17 +77,13 @@ public abstract class AbstractBinaryImage implements BinaryImage {
     
     private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
 	SortedSet<Point> result = new TreeSet<Point>();
-	Iterator<List<Boolean>> outerIt = shape.iterator();
-	int out = 0;
 	
-	while(outerIt.hasNext()){
-		List<Boolean> elem = outerIt.next();
-		Iterator<Boolean> innerIt = elem.iterator();
+	int out = 0;
+	for(List<Boolean> elem : shape){
 		int in = 0;
-		while(innerIt.hasNext()){
-			Boolean e = innerIt.next();
+		for(Boolean e : elem){
 			if(e.equals(true)){
-				result.add(BinaryImages.point(in, out));
+				result.add(BinaryImages.point(in,out));
 			}
 			in++;
 		}
@@ -95,8 +91,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 	}
 	return result;
 		
-    }
-
+   }
 	
 
 	@Override
