@@ -21,4 +21,8 @@ public interface BinaryImage extends Iterable<Blob> {
 	boolean connected(Point point1, Point point2);
 
 	BinaryImage inverse();
+	
+	BinaryImage toFourNeightborBinaryImage();
+	
+	BinaryImage toEigthNeighborBinaryImage();
 }

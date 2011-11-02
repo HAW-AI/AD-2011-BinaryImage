@@ -43,5 +43,16 @@ public class EightNeighborBinaryImage extends AbstractBinaryImage {
 	}
 
 
+	@Override
+	public BinaryImage toFourNeightborBinaryImage() {
+		return FourNeighborBinaryImage.valueOf(points, this.width(), this.height());
+	}
+
+	@Override
+	public BinaryImage toEigthNeighborBinaryImage() {
+		return this;
+	}
+
+
     
 }

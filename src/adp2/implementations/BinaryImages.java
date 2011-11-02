@@ -1,9 +1,11 @@
 package adp2.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import adp2.application.EsserImage;
+import adp2.application.EsserParser;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
@@ -124,6 +126,15 @@ public final class BinaryImages {
 	 * @return
 	 */
 	public static BinaryImage binaryImage(EsserImage image) {
-		throw new NotImplementedException();
+		boolean[][] array=image.pixels();
+		List<List<Boolean>> list=new ArrayList<List<Boolean>>();
+		for(int i=0; i<array.length; i++){
+			List<Boolean> innerList=new ArrayList<Boolean>();
+			for(int n=0; n<array[i].length; n++){
+				innerList.add(array[i][n]);
+			}
+			list.add(innerList);
+		}
+		return fourNeighborBinaryImage(list);
 	}
 }

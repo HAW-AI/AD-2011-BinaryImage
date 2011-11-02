@@ -14,7 +14,7 @@ import adp2.interfaces.Point;
 
 public abstract class AbstractBinaryImage implements BinaryImage {
     private final List<Blob> blobs;
-    private final SortedSet<Point> points;
+    protected final SortedSet<Point> points;
     private final int width;
     private final int height;
     
