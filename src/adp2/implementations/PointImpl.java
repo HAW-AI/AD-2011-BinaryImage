@@ -51,11 +51,7 @@ public class PointImpl implements Point {
 		if (!(obj instanceof Point))
 			return false;
 		Point other = (Point) obj;
-		if (x != other.x())
-			return false;
-		if (y != other.y())
-			return false;
-		return true;
+		return compareTo(other) == 0;
 	}
 
 }
