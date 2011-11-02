@@ -22,7 +22,7 @@ public interface BinaryImage extends Iterable<Blob> {
 
 	BinaryImage inverse();
 	
-	BinaryImage toFourNeightborBinaryImage();
+	BinaryImage toFourNeighborBinaryImage();
 	
 	BinaryImage toEigthNeighborBinaryImage();
 }

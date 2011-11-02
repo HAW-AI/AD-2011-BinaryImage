@@ -36,6 +36,18 @@ public abstract class AbstractBinaryImage implements BinaryImage {
         this.blobs = calcBlobs(points);
     }
     
+
+    @Override
+    public BinaryImage toFourNeighborBinaryImage() {
+        return FourNeighborBinaryImage.valueOf(points, width, height);
+    }
+    
+    @Override
+    public BinaryImage toEigthNeighborBinaryImage() {
+        return EightNeighborBinaryImage.valueOf(points, width, height);
+    }
+    
+    
     @Override
     public Iterator<Blob> iterator() {
         return blobs().iterator();
