@@ -74,11 +74,30 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		}
 		return result;
     }
-
-	private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
-		// TODO Auto-generated method stub
-		return null;
+    
+    private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
+	SortedSet<Point> result = new TreeSet<Point>();
+	Iterator<List<Boolean>> outerIt = shape.iterator();
+	int out = 0;
+	
+	while(outerIt.hasNext()){
+		List<Boolean> elem = outerIt.next();
+		Iterator<Boolean> innerIt = elem.iterator();
+		int in = 0;
+		while(innerIt.hasNext()){
+			Boolean e = innerIt.next();
+			if(e.equals(true)){
+				result.add(BinaryImages.point(in, out));
+			}
+			in++;
+		}
+		out++;
 	}
+	return result;
+		
+    }
+
+	
 
 	@Override
     public Iterator<Blob> iterator() {
