@@ -149,6 +149,15 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		return result;
 	}
 
+
+	/*
+	 * @author Sebastian Krome, Andreas Wimmer
+	 * 
+	 * @param Matrix, aus der das BinaryImage generiert wird
+	 * @return ein Set aller mit true markierten Punkte
+	 * 
+	 * Parameter werden nicht geprueft; geschieht bereits in der Factory
+	 */
 	private SortedSet<Point> matrixToPointSet(List<List<Boolean>> shape) {
 		SortedSet<Point> result = new TreeSet<Point>();
 		
