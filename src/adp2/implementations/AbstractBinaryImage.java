@@ -2,8 +2,10 @@ package adp2.implementations;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -104,6 +106,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 	 * @return Ordered list of Blobs
 	 */
 	private List<Blob> calcBlobs(Set<Point> points) {
+//	    return multiPass(points);
 	    return deepSearch(points);
 	}
 
@@ -266,6 +269,59 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 	 */
 	protected boolean areNeighbours8n(Point p1, Point p2){
 		return areNeighbours4n(p1,p2) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1)) || ((Math.abs(p1.x()-p2.x())==1) && (Math.abs(p1.y()-p2.y())==1));
+	}
+	
+	/**
+	 * Multipass algorithm to extract blobs of binary image. Takes a set of points as representation of the binary image.
+	 * 
+	 * @author Panos
+	 * @author Oliver Behncke
+	 * 
+	 * @param Set of points
+	 * @return list of blobs
+	 */
+	protected List<Blob> multiPass(Set<Point> points){
+		List<Blob> result=new ArrayList<Blob>();
+		Map<Point, Integer> labelMap=new HashMap<Point, Integer>();
+		
+		// Initial labeling
+		int labelCount=1;
+		for(Point p: points){
+			boolean neighborLabeled=false;
+			for(Point other: neighbours(p, points)){
+				if(labelMap.containsKey(other)){ 
+					labelMap.put(p, labelMap.get(other));
+					neighborLabeled=true;
+				}
+				
+			}
+			if(!neighborLabeled) labelMap.put(p, labelCount++);
+		}
+		
+		// Relabel as long as no relabeling is possible
+		// Relabeling consists of agregating neighboured labeled points to one label
+		boolean labelChanged=true;
+		while(labelChanged){
+			labelChanged=false;
+			for(Point p: points){
+				for(Point other: neighbours(p)){
+					if(labelMap.get(other)<labelMap.get(p)){
+						labelMap.put(p, labelMap.get(other));
+						labelChanged=true;
+					}
+				}
+			}
+		}
+		
+		// Extract blobs from labeled map
+		for(int i=1; i<=labelCount; i++){
+			Set<Point> blobSet=new TreeSet<Point>();
+			for(Point p: points){
+				if(labelMap.get(p)==i) blobSet.add(p);
+			}
+			if(blobSet.size()!=0) result.add(BinaryImages.blob(blobSet));
+		}
+		return result;
 	}
 
 }
