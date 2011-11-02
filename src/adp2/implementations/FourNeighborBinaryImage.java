@@ -1,18 +1,37 @@
 package adp2.implementations;
 
 import java.util.List;
+import java.util.Set;
 
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Point;
 
 public class FourNeighborBinaryImage extends AbstractBinaryImage {
     
-    public static BinaryImage valueOf(List<List<Boolean>> shape) {
+    static BinaryImage valueOf(List<List<Boolean>> shape) {
         return new FourNeighborBinaryImage(shape);
+    }
+
+    /**
+     * Factory method to create Binary Image from point set
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Set of points (representing foreground)
+     * @param width of image
+     * @param height of image
+     * @return Binary Image
+     */
+    static BinaryImage valueOf(Set<Point> points, int width, int height) {
+        return new FourNeighborBinaryImage(points, width, height);
     }
     
     private FourNeighborBinaryImage(List<List<Boolean>> shape) {
         super(shape);
+    }
+    
+    private FourNeighborBinaryImage(Set<Point> points, int width, int height) {
+        super(points, width, height);
     }
 
 	@Override

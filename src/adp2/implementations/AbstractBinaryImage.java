@@ -15,12 +15,25 @@ import adp2.interfaces.Point;
 public abstract class AbstractBinaryImage implements BinaryImage {
     private final List<Blob> blobs;
     private final Set<Point> points;
+    private final int width;
+    private final int height;
     
     protected AbstractBinaryImage(List<List<Boolean>> shape) {
         // pre-conditions are checked in the BinaryImages factory
+    	height = heightFromMatrix(shape);
+    	width = widthFromMatrix(shape);
     	points = matrixToPointSet(shape);
         blobs = calcBlobs(points);
     }
+    
+    protected AbstractBinaryImage(Set<Point> points, int width, int height) {
+        // pre-conditions are checked in the BinaryImages factory
+    	this.height = height;
+    	this.width = width;
+    	this.points = points;
+        this.blobs = calcBlobs(points);
+    }
+    
     /**
      * Delegates the calculation of Blobs to the preferred algorithm
      * 
@@ -94,6 +107,31 @@ public abstract class AbstractBinaryImage implements BinaryImage {
    }
 	
 
+	/**
+	 * Calculates width of image from matrix representation
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Binary Image as matrix
+	 * @return width of the matrix
+	 */
+	private int widthFromMatrix(List<List<Boolean>> shape) {
+		if(shape.size()==0) return 0;
+		else return shape.get(0).size();
+	}
+
+	/**
+	 * Calculates height of image from matrix representation
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Binary Image as matrix
+	 * @return height of the matrix
+	 */
+	private int heightFromMatrix(List<List<Boolean>> shape) {
+		return shape.size();
+	}
+
 	@Override
     public Iterator<Blob> iterator() {
         // TODO Auto-generated method stub
@@ -119,14 +157,12 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public int width() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.width;
     }
 
     @Override
     public int height() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.height;
     }
 
     @Override
