@@ -38,8 +38,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
     
     @Override
     public Iterator<Blob> iterator() {
-        // TODO Auto-generated method stub
-        return null;
+        return blobs().iterator();
     }
 
     @Override
@@ -55,8 +54,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public List<Blob> blobs() {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Blob>(blobs);
     }
 
     @Override
