@@ -40,6 +40,19 @@ public class Controller {
 		// no file given, what now?
 		// - create view
 		// - keep running
+				Frame f = new Frame();
+		f.addWindowListener(new java.awt.event.WindowAdapter() {
+	         public void windowClosing(java.awt.event.WindowEvent e) {
+	         System.exit(0);
+	         };
+	       });
+	    View ut = new View();
+	    ut.setSize(700,750);
+	    f.add(ut);
+	    f.pack();
+	    ut.init();
+	    f.setSize(750,770);
+	    f.setVisible(true);		
 	}
 	
 	/**
