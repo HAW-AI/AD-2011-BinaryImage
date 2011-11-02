@@ -55,5 +55,10 @@ final class NaB implements Blob {
 	public int height() {
 		return 0;
 	}
+	
+	@Override
+	public boolean contains(Point p) {
+		return false;
+	}
 
 }

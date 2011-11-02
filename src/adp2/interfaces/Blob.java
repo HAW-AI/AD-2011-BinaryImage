@@ -6,4 +6,6 @@ public interface Blob extends Iterable<Point> {
 	int width();
 
 	int height();
+	
+	boolean contains(Point p);
 }
