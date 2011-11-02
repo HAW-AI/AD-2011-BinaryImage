@@ -41,7 +41,7 @@ public class FourNeighborBinaryImage extends AbstractBinaryImage {
 	}
 
 	@Override
-	public BinaryImage toFourNeightborBinaryImage() {
+	public BinaryImage toFourNeighborBinaryImage() {
 		return this;
 	}
 
