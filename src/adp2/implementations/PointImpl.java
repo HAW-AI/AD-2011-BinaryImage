@@ -53,5 +53,9 @@ public class PointImpl implements Point {
 		Point other = (Point) obj;
 		return compareTo(other) == 0;
 	}
+	
+	public String toString(){
+		return "Point: x=" + x + " " + "y= " + y;
+	}
 
 }
