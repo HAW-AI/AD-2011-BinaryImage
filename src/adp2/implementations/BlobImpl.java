@@ -99,5 +99,10 @@ public class BlobImpl implements Blob {
 			return false;
 		return true;
 	}
+	
+	public boolean contains(Point p){
+		if(p == null) return false;
+		return s.contains(p);
+	}
 
 }
