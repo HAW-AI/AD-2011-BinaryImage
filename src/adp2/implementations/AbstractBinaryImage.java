@@ -93,8 +93,8 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public Blob blob(int i) {
-        // TODO Auto-generated method stub
-        return null;
+        if(i < 0 || i >= blobs.size()) return BinaryImages.NaB();
+        return blobs.get(i);
     }
 
     @Override
