@@ -26,7 +26,7 @@ public final class BinaryImages {
 		return PointImpl.valueOf(x, y);
 	}
 	
-	static Blob blob(Collection<Point> points) {
+	public static Blob blob(Collection<Point> points) {
 		return BlobImpl.valueOf(points);
 	}
 
