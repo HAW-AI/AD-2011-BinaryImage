@@ -86,8 +86,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
     @Override
     public boolean valueAt(Point point) {
-        // TODO Auto-generated method stub
-        return false;
+        return points.contains(point);
     }
 
     @Override
