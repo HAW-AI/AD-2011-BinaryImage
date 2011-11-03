@@ -23,7 +23,7 @@ public class View extends Applet {
 	
 	private Controller controller;
 
-	int pointSizeXY = 30;
+	int pointSizeXY = 10;
 	Graphics graphic;
 	int buttonLengeth = 40;
 	int buttonHeight = 25;
@@ -45,7 +45,7 @@ public class View extends Applet {
 	    f.add(this);
 	    f.pack();
 	    f.setSize(getImage().width()+350, getImage().height()+350);
-	    init(); //initialisiere Oberfläche
+	    init(); //initialisiere Oberflï¿½che
 	    f.setVisible(true);
 		f.addWindowListener(new java.awt.event.WindowAdapter() {
 	         public void windowClosing(java.awt.event.WindowEvent e) {
