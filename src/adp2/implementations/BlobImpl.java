@@ -59,7 +59,7 @@ public class BlobImpl implements Blob {
 			if(p.x() < min){min = p.x();}
 			if(p.x() > max){max = p.x();}
 		}
-		return max-min;
+		return max-min+1;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class BlobImpl implements Blob {
 			if(p.y() < min){min = p.y();}
 			if(p.y() > max){max = p.y();}
 		}
-		return max-min;
+		return max-min+1;
 	}
 
 	/**

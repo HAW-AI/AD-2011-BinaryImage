@@ -23,10 +23,16 @@ public class BlobTest {
 	Blob b3 = blob(l3);
 
 	@Test
-	public void testPonitCount() {
+	public void testPointCount() {
 		assertEquals(b1.pointCount(),b2.pointCount());
 		assertEquals(b2.pointCount(),b3.pointCount());
 		assertEquals(b1.pointCount(),b3.pointCount());
+	}
+	@Test
+	public void testPoints() {
+		assertTrue(b1.points().containsAll(l1));
+		assertTrue(b2.points().containsAll(l2));
+		assertTrue(b3.points().containsAll(l3));
 	}
 	@Test
 	public void testWidth() {
