@@ -23,6 +23,7 @@ public class Controller {
 	 * Mutable, else we would need to restart for opening a image
 	 */
 	private BinaryImage binaryImage;
+	private View view;
 	
 	/**
 	 * Constructor builds BinaryImage for given File
@@ -37,9 +38,9 @@ public class Controller {
 	 * Handles basic object init.
 	 */
 	private Controller() {
+		this.view = new View(this);
 		// for testing, just comment this line in:
 		//setBinaryImage(openImage("test/fixtures/4x4.esser"));
-		new View(this);
 	}
 	
 	/**
@@ -79,6 +80,7 @@ public class Controller {
 	 */
 	public void setBinaryImage(BinaryImage image) {
 		this.binaryImage = image;
+		if (this.view != null) this.view.repaint();
 	}
 	/**
 	 * predicate method indicating BinaryImage presents
