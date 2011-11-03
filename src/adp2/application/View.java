@@ -165,7 +165,7 @@ public class View extends Applet {
      * @param color The color the point should be drawn
      */	
 	public void drawBlob(Blob blob, boolean randomColor){
-		Color color = (randomColor ? choseColor() : Color.black);
+		Color color = (randomColor ? choseColor() : Color.BLACK);
 		for(Point point : blob){
 			drawPoint(point,color);
 		}
