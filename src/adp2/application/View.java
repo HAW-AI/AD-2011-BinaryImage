@@ -115,7 +115,7 @@ public class View extends Applet {
      */
 	public void buttonDrawImage(ActionEvent event) {
 		useRandomColor=false;
-		repaint()
+		repaint();
 	}
 
     /**
