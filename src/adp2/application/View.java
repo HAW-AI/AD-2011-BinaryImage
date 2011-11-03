@@ -47,7 +47,7 @@ public class View extends Applet {
 	    f.add(this);
 	    f.pack();
 	    f.setSize(getImage().width()+350, getImage().height()+350);
-	    init(); //initialisiere Oberfl�che
+	    init();
 	    f.setVisible(true);
 		f.addWindowListener(new java.awt.event.WindowAdapter() {
 	         public void windowClosing(java.awt.event.WindowEvent e) {
@@ -84,6 +84,7 @@ public class View extends Applet {
 		});
 		panel.add(buttonChooseFile);
 		buttonChooseFile.addActionListener(new ActionListener() {
+			
             @Override
             public void actionPerformed(ActionEvent e) {
                int ret = fileChooser.showOpenDialog(panel);
