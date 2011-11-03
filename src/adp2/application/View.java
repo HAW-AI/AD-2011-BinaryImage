@@ -214,5 +214,6 @@ public class View extends Applet {
 
 	public void setImage(BinaryImage image) {
 		this.image = image;
+		getController().setBinaryImage(image);
 	}
 }
