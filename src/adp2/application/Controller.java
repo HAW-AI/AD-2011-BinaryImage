@@ -88,7 +88,7 @@ public class Controller {
 		
 		BinaryImage testImage = BinaryImages.fourNeighborBinaryImage(testData);
 		
-		new View(binaryImage());
+		new View(testImage);
 		*/	
 	}
 	
