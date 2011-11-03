@@ -24,7 +24,6 @@ import java.applet.*;
 @SuppressWarnings("serial")
 public class View extends Applet {
 
-	private BinaryImage image;
 	private Controller controller;
 	
 	int pointSizeXY = 30;
@@ -209,11 +208,10 @@ public class View extends Applet {
 	}
 
 	public BinaryImage getImage() {
-		return image;
+		return getController().binaryImage();
 	}
 
 	public void setImage(BinaryImage image) {
-		this.image = image;
 		getController().setBinaryImage(image);
 	}
 }
