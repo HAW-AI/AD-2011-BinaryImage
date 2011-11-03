@@ -60,5 +60,10 @@ final class NaB implements Blob {
 	public boolean contains(Point p) {
 		return false;
 	}
+	
+	@Override
+	public Set<Point> points(){
+		return new HashSet<Point>();
+	}
 
 }
