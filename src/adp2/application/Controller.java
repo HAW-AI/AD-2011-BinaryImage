@@ -31,65 +31,13 @@ public class Controller {
 	private Controller(String filename) {
 		this();
 		setBinaryImage(openImage(filename));
-		new View(binaryImage());
 	}
 	
 	/**
 	 * Handles basic object init.
 	 */
 	private Controller() {
-		// no file given, what now?
-		// - create view
-		// - keep running
-		/*List<Boolean> array= new ArrayList<Boolean>();
-		array.add(new Boolean(true));
-		array.add(new Boolean(false));
-		array.add(new Boolean(true));
-		array.add(new Boolean(true));
-
-		List<Boolean> array2= new ArrayList<Boolean>();
-		array2.add(new Boolean(false));
-		array2.add(new Boolean(true));
-		array2.add(new Boolean(false));
-		array2.add(new Boolean(false));
-		
-		List<Boolean> array3= new ArrayList<Boolean>();
-		array3.add(new Boolean(true));
-		array3.add(new Boolean(false));
-		array3.add(new Boolean(true));
-		array3.add(new Boolean(true));
-		
-		List<Boolean> array4= new ArrayList<Boolean>();
-		array4.add(new Boolean(false));
-		array4.add(new Boolean(true));
-		array4.add(new Boolean(false));
-		array4.add(new Boolean(false));
-		
-		List<Boolean> array5= new ArrayList<Boolean>();
-		array5.add(new Boolean(true));
-		array5.add(new Boolean(false));
-		array5.add(new Boolean(false));
-		array5.add(new Boolean(true));
-		
-		List<Boolean> array6= new ArrayList<Boolean>();
-		array6.add(new Boolean(false));
-		array6.add(new Boolean(true));
-		array6.add(new Boolean(false));
-		array6.add(new Boolean(false));
-		
-		List<List<Boolean>> testData = new ArrayList<List<Boolean>>();
-		
-		testData.add(array);
-		testData.add(array2);
-		testData.add(array3);
-		testData.add(array4);
-		testData.add(array5);
-		testData.add(array6);
-		
-		BinaryImage testImage = BinaryImages.fourNeighborBinaryImage(testData);
-		
-		new View(testImage);
-		*/	
+		new View(this);
 	}
 	
 	/**

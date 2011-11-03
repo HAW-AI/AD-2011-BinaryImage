@@ -37,8 +37,8 @@ public class View extends Applet {
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	
-	public View(BinaryImage image){
-		this.image =  image;
+	public View(Controller controller){
+		this.image =  controller.binaryImage();
 		Frame f = new Frame();
 	    f.setResizable(false);
 	    f.add(this);
