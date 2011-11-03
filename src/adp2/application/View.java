@@ -24,7 +24,7 @@ public class View extends Applet {
 	private Frame frame;
 	private int pointSizeXY = 10;
 	private Graphics graphic;
-	private int buttonLengeth = 40;
+	private int buttonLength = 40;
 	private int buttonHeight = 25;
 	private int gridPositionX = 30;
 	private int gridPositionY = buttonHeight + gridPositionX;
@@ -56,7 +56,7 @@ public class View extends Applet {
 
 	public void init() {	
 		final Panel panel = new Panel();
-		Rectangle minBounds = new Rectangle(200, 0, gridPositionY + buttonLengeth * 2, 500);
+		Rectangle minBounds = new Rectangle(200, 0, gridPositionY + buttonLength * 2, 500);
 		
 		panel.setBounds(minBounds);
 		panel.getAlignmentX();
