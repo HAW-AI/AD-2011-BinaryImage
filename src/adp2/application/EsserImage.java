@@ -16,7 +16,16 @@ public class EsserImage {
 	}
 	
 	public static EsserImage valueOf(boolean[][] array) {
-		return new EsserImage(array[0].length, array.length, array);
+	    EsserImage img;
+	    
+	    if (array.length == 0 || array[0].length == 0) {
+	        boolean empty[][] = {};
+	        img = new EsserImage(0, 0, empty);
+	    } else {
+	        img = new EsserImage(array[0].length, array.length, array);
+	    }
+	    
+		return img;
 	}
 
 	public Integer width() {
