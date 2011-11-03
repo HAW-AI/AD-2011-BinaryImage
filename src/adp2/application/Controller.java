@@ -45,6 +45,7 @@ public class Controller {
 	 * @return BinaryImage
 	 */
 	public BinaryImage binaryImage() {
+		if (this.binaryImage == null) setBinaryImage(BinaryImages.NaBI());
 		return this.binaryImage;
 	}
 	
