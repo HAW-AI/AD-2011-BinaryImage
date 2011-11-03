@@ -113,4 +113,9 @@ public class BlobImpl implements Blob {
 		return s.contains(p);
 	}
 
+	@Override
+	public String toString(){
+		return this.s.toString();
+	}
+
 }
