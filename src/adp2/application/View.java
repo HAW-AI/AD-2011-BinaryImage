@@ -92,7 +92,7 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawImage(ActionEvent event) {
-		drawBlobs(true);
+		drawBlobs(false);
 	}
 	
     /**
