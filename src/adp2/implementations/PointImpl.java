@@ -116,7 +116,8 @@ public class PointImpl implements Point {
      * @return a String with the X- and Y-Coordinates of a given Point 
      */
     public String toString(){
-	return "Point: x=" + x + " " + "y= " + y;
+//	return "Point: x=" + x + " " + "y= " + y;
+    	return "P("+x+","+y+")";
     }
 
 }

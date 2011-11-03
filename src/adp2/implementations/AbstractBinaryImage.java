@@ -359,5 +359,15 @@ public abstract class AbstractBinaryImage implements BinaryImage {
     	}
     	return result;
     }
+    
+    @Override
+    public String toString(){
+    	String result= "BinaryImage: [ ";
+    	for(Blob b: blobs){
+    		result+=b.toString();
+    	}
+    	result+=" ]";
+    	return result;
+    }
 
 }
