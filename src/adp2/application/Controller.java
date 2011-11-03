@@ -74,7 +74,7 @@ public class Controller {
 	 * set binaryImage field to given BinaryImage
 	 * @param image
 	 */
-	private void setBinaryImage(BinaryImage image) {
+	public void setBinaryImage(BinaryImage image) {
 		this.binaryImage = image;
 	}
 	/**
