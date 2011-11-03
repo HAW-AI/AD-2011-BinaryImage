@@ -34,7 +34,14 @@ public class BlobImpl implements Blob {
 	public Iterator<Point> iterator() {
 		return this.s.iterator();
 	}
-
+	
+	/**
+	 * Gibt die alle Points eines Blobs als Set zurueck.
+	 */
+	public Set<Point> points(){
+		return this.s;
+	}
+	
 	/**
 	 * Gibt die Größe des Blobs als int zurück.
 	 */
