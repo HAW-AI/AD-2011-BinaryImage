@@ -169,6 +169,9 @@ public class View extends Applet {
      * @author Fenja Harbke
      */
 	public void paint(Graphics graphic) {
+	    // save graphic internally to not have to pass it through drawBlobs() etc.
+	    this.graphic = graphic;
+	    
 		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX + getImage().width() * (pointSizeXY + 1), gridPositionY);
 		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX, gridPositionY + getImage().height() * (pointSizeXY + 1));
 
