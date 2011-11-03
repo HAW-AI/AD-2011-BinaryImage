@@ -5,7 +5,7 @@ import adp2.implementations.BinaryImages;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Point;
 import static java.util.Arrays.asList;
-public class AllgemeinTest {
+public class BinaryImageTest {
 	public static void main(String args[]){
 		List<Boolean> l1 = new ArrayList<Boolean>(asList(true, false, false,true, false));
 		List<Boolean> l2 = new ArrayList<Boolean>(asList(true, false, false,true, false));
