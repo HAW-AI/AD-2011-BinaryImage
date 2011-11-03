@@ -190,12 +190,12 @@ public class View extends Applet {
 	}
 
     /**
-     * Draws blobs in block in black or different random color
+     * Draws blobs in black or different random colors
      * 
      * @author Daniel Liesener
      * @author Fenja Harbke
      * 
-     * @param randomColor If difference random color should be used
+     * @param randomColor If different random colors should be used for each blob
      */	
 	public void drawBlobs(boolean randomColor){
 		for(Blob blob : getImage().blobs()){
