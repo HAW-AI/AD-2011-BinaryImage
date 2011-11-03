@@ -158,6 +158,21 @@ public class View extends Applet {
 
 	
 	public void buttonChooseFile(Panel panel, ActionEvent event) {
+        int ret = fileChooser.showOpenDialog(panel);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            controller.setBinaryImage(BinaryImages.binaryImage(controller.openImage(path)));
+            
+            // Resize frame for new image
+            sizeToFit();
+        }
+	}
+	
+	/**
+	 * Resize window to properly fit its contents.
+	 */
+	private void sizeToFit() {
         int minWidth = buttonDrawImage.getWidth()
                      + buttonDrawFourNeighbor.getWidth()
                      + buttonDrawEightNeighbor.getWidth()
@@ -168,24 +183,15 @@ public class View extends Applet {
         
         Dimension minDimension = new Dimension(minWidth, minHeight);
 
-        int ret = fileChooser.showOpenDialog(panel);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String path = file.getAbsolutePath();
-            controller.setBinaryImage(BinaryImages.binaryImage(controller
-                    .openImage(path)));
-            
-            // Resize frame for new image
-            Dimension fittingDimension =
-                new Dimension(getImage().width() * pointSizeXY + getImage().width() + 70,
-                              getImage().height() * pointSizeXY + getImage().height() + 150);
-            Dimension newDimension =
-                new Dimension(Math.max(minDimension.width, fittingDimension.width),
-                              Math.max(minDimension.height, fittingDimension.height));
-            
-            getFrame().setPreferredSize(newDimension);
-            getFrame().pack();
-        }
+        Dimension fittingDimension =
+            new Dimension(getImage().width() * pointSizeXY + getImage().width() + 70,
+                          getImage().height() * pointSizeXY + getImage().height() + 150);
+        Dimension newDimension =
+            new Dimension(Math.max(minDimension.width, fittingDimension.width),
+                          Math.max(minDimension.height, fittingDimension.height));
+        
+        getFrame().setPreferredSize(newDimension);
+        getFrame().pack();
 	}
 	
 	
