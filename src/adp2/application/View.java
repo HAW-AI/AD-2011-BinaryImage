@@ -32,7 +32,7 @@ public class View extends Applet {
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	private Button buttonChooseFile = new Button("Datei laden...");
 	
-	private JFileChooser fileChooser = new JFileChooser();
+	private JFileChooser fileChooser = new JFileChooser(".");
 	
 	public View(Controller controller){
 		this.setController(controller);
