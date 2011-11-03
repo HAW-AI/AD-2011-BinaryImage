@@ -39,13 +39,13 @@ public class View extends Applet {
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	
 	public View(Controller controller){
-		this.controller = controller;
-		this.image =  controller.binaryImage();
+		this.setController(controller);
+		this.setImage(controller.binaryImage());
 		Frame f = new Frame();
 	    f.setResizable(false);
 	    f.add(this);
 	    f.pack();
-	    f.setSize(image.width()+350, image.height()+350);
+	    f.setSize(getImage().width()+350, getImage().height()+350);
 	    init(); //initialisiere Oberfläche
 	    f.setVisible(true);
 		f.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,7 +104,7 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawFourNeighbor(ActionEvent event) {
-		image = image.toFourNeighborBinaryImage();
+		setImage(getImage().toFourNeighborBinaryImage());
 		drawBlobs(true);
 	}
 	
@@ -117,7 +117,7 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawEightNeighbor(ActionEvent evt) {
-		image = image.toEigthNeighborBinaryImage();
+		setImage(getImage().toEigthNeighborBinaryImage());
 		drawBlobs(true);
 	}
 	
@@ -128,16 +128,16 @@ public class View extends Applet {
      * @author Fenja Harbke
      */
 	public void paint(Graphics graphic) {
-		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX + image.width() * (pointSizeXY + 1), gridPositionY);
-		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX, gridPositionY + image.height() * (pointSizeXY + 1));
+		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX + getImage().width() * (pointSizeXY + 1), gridPositionY);
+		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX, gridPositionY + getImage().height() * (pointSizeXY + 1));
 		
-		for (int i = 0; i < image.height(); i++) {
-			graphic.drawLine(gridPositionX, gridPositionY + 1 + (i + 1) * pointSizeXY + i, gridPositionX + image.width()
+		for (int i = 0; i < getImage().height(); i++) {
+			graphic.drawLine(gridPositionX, gridPositionY + 1 + (i + 1) * pointSizeXY + i, gridPositionX + getImage().width()
 					* (pointSizeXY + 1), gridPositionY + 1 + (i + 1) * pointSizeXY + i);
 		}
-		for (int j = 0; j < image.width(); j++) {
+		for (int j = 0; j < getImage().width(); j++) {
 			graphic.drawLine(gridPositionX + 1 + (j + 1) * pointSizeXY + j, gridPositionY, gridPositionX + 1
-					+ (j + 1) * pointSizeXY + j, gridPositionY + image.height() * (pointSizeXY + 1));
+					+ (j + 1) * pointSizeXY + j, gridPositionY + getImage().height() * (pointSizeXY + 1));
 		}
 	}
 
@@ -180,7 +180,7 @@ public class View extends Applet {
      * @param randomColor If difference random color should be used
      */	
 	public void drawBlobs(boolean randomColor){
-		for(Blob blob : image.blobs()){
+		for(Blob blob : getImage().blobs()){
 			drawBlob(blob, randomColor);
 		}
 	}
@@ -199,4 +199,20 @@ public class View extends Applet {
                          rand.nextInt(256),
                          rand.nextInt(256)));
      }
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
+	public BinaryImage getImage() {
+		return image;
+	}
+
+	public void setImage(BinaryImage image) {
+		this.image = image;
+	}
 }
