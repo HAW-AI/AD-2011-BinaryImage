@@ -1,5 +1,7 @@
 package adp2.interfaces;
 
+import java.util.Set;
+
 public interface Blob extends Iterable<Point> {
 	int pointCount();
 

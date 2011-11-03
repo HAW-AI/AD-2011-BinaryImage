@@ -351,7 +351,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
      * @ author Sebastian Krome, Andreas Wimmer
      */
     private Set<Point> allPoints(){
-    	Set<Point> result = new HashSet<Point>();
+    	Set<Point> result = new TreeSet<Point>();
     	for(int i = 0; i < height; i++){
     		for(int j = 0; j < width; j++){
     			result.add(BinaryImages.point(j, i));
