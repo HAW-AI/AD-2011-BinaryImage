@@ -22,9 +22,8 @@ public class View extends Applet {
 	private boolean useRandomColor=false;
 	
 	private Controller controller;
-	
 	private Frame frame;
-	
+
 	int pointSizeXY = 10;
 	Graphics graphic;
 	int buttonLengeth = 40;
@@ -42,14 +41,14 @@ public class View extends Applet {
 	public View(Controller controller){
 		this.setController(controller);
 		this.setImage(controller.binaryImage());
-		Frame f = new Frame();
-	    f.setResizable(false);
-	    f.add(this);
-	    f.pack();
-	    f.setSize(getImage().width()+350, getImage().height()+350);
-	    init();
-	    f.setVisible(true);
-		f.addWindowListener(new java.awt.event.WindowAdapter() {
+		frame = new Frame();
+	    frame.setResizable(false);
+	    frame.add(this);
+	    frame.pack();
+	    frame.setSize(getImage().width()+350, getImage().height()+350);
+	    init(); //initialisiere Oberfläche
+	    frame.setVisible(true);
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 	         public void windowClosing(java.awt.event.WindowEvent e) {
 	         System.exit(0);
 	         };
@@ -84,7 +83,6 @@ public class View extends Applet {
 		});
 		panel.add(buttonChooseFile);
 		buttonChooseFile.addActionListener(new ActionListener() {
-			
             @Override
             public void actionPerformed(ActionEvent e) {
                int ret = fileChooser.showOpenDialog(panel);
@@ -92,10 +90,9 @@ public class View extends Applet {
                    File file = fileChooser.getSelectedFile();
                    String path = file.getAbsolutePath();
                    controller.setBinaryImage(BinaryImages.binaryImage(controller.openImage(path)));
-                    //Resize frame for new image
+                   //Resize frame for new image
                    getFrame().setPreferredSize(new Dimension(getImage().width()*pointSizeXY+getImage().width()+70, getImage().height()*pointSizeXY+getImage().height()+150));
                    getFrame().pack();
-                   
                }
             }
         });
