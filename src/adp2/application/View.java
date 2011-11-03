@@ -58,7 +58,9 @@ public class View extends Applet {
 
 	public void init() {	
 		final Panel panel = new Panel();
-		panel.setBounds(200, 0, gridPositionY + buttonLengeth * 2, 500);
+		Rectangle minBounds = new Rectangle(200, 0, gridPositionY + buttonLengeth * 2, 500);
+		
+		panel.setBounds(minBounds);
 		panel.getAlignmentX();
 		add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -92,15 +94,7 @@ public class View extends Applet {
 		buttonChooseFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               int ret = fileChooser.showOpenDialog(panel);
-               if (ret == JFileChooser.APPROVE_OPTION) {
-                   File file = fileChooser.getSelectedFile();
-                   String path = file.getAbsolutePath();
-                   controller.setBinaryImage(BinaryImages.binaryImage(controller.openImage(path)));
-                   //Resize frame for new image
-                   getFrame().setPreferredSize(new Dimension(getImage().width()*pointSizeXY+getImage().width()+70, getImage().height()*pointSizeXY+getImage().height()+150));
-                   getFrame().pack();
-               }
+                buttonChooseFile(panel, e);
             }
         });
 	}
@@ -162,6 +156,39 @@ public class View extends Applet {
 		repaint();
 	}
 
+	
+	public void buttonChooseFile(Panel panel, ActionEvent event) {
+        int minWidth = buttonDrawImage.getWidth()
+                     + buttonDrawFourNeighbor.getWidth()
+                     + buttonDrawEightNeighbor.getWidth()
+                     + buttonInverse.getWidth()
+                     + buttonChooseFile.getWidth()
+                     + 50; // some spacing
+        int minHeight = buttonDrawImage.getHeight() + 50; // +50px spacing
+        
+        Dimension minDimension = new Dimension(minWidth, minHeight);
+
+        int ret = fileChooser.showOpenDialog(panel);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            controller.setBinaryImage(BinaryImages.binaryImage(controller
+                    .openImage(path)));
+            
+            // Resize frame for new image
+            Dimension fittingDimension =
+                new Dimension(getImage().width() * pointSizeXY + getImage().width() + 70,
+                              getImage().height() * pointSizeXY + getImage().height() + 150);
+            Dimension newDimension =
+                new Dimension(Math.max(minDimension.width, fittingDimension.width),
+                              Math.max(minDimension.height, fittingDimension.height));
+            
+            getFrame().setPreferredSize(newDimension);
+            getFrame().pack();
+        }
+	}
+	
+	
     /**
      * Paints grid using width and height of binary image
      * 
