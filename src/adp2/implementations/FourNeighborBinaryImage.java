@@ -8,12 +8,16 @@ import adp2.interfaces.Point;
 
 public class FourNeighborBinaryImage extends AbstractBinaryImage {
     
+    /**
+     * Factory for public use to create an image from a matrix.
+     */
     static BinaryImage valueOf(List<List<Boolean>> shape) {
         return new FourNeighborBinaryImage(shape);
     }
 
     /**
-     * Factory method to create Binary Image from point set
+     * Factory method to create Binary Image from point set (used internally
+     * for conversions etc.)
      * 
      * @author Oliver Behncke
      * 
