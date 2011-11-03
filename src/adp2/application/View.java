@@ -20,16 +20,14 @@ import java.io.File;
 public class View extends Applet {
 
 	private boolean useRandomColor=false;
-	
 	private Controller controller;
 	private Frame frame;
-
-	int pointSizeXY = 10;
-	Graphics graphic;
-	int buttonLengeth = 40;
-	int buttonHeight = 25;
-	int gridPositionX = 30;
-	int gridPositionY = buttonHeight + gridPositionX;
+	private int pointSizeXY = 10;
+	private Graphics graphic;
+	private int buttonLengeth = 40;
+	private int buttonHeight = 25;
+	private int gridPositionX = 30;
+	private int gridPositionY = buttonHeight + gridPositionX;
 
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
@@ -107,7 +105,7 @@ public class View extends Applet {
      * 
      * @param event ActionEvent of pressed button
      */
-	public void buttonDrawImage(ActionEvent event) {
+	private void buttonDrawImage(ActionEvent event) {
 		useRandomColor=false;
 		repaint();
 	}
@@ -120,7 +118,7 @@ public class View extends Applet {
      * 
      * @param event ActionEvent of pressed button
      */
-	public void buttonDrawFourNeighbor(ActionEvent event) {
+	private void buttonDrawFourNeighbor(ActionEvent event) {
 		useRandomColor=true;
 		setImage(getImage().toFourNeighborBinaryImage());
 		
@@ -136,7 +134,7 @@ public class View extends Applet {
      * 
      * @param event ActionEvent of pressed button
      */
-	public void buttonDrawEightNeighbor(ActionEvent evt) {
+	private void buttonDrawEightNeighbor(ActionEvent evt) {
 		useRandomColor=true;
 		setImage(getImage().toEigthNeighborBinaryImage());
 		
@@ -151,13 +149,13 @@ public class View extends Applet {
 	* 
 	* @param event ActionEvent of pressed button
 	*/ 
-	public void buttonInverse(ActionEvent event) {
+	private void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
 		repaint();
 	}
 
 	
-	public void buttonChooseFile(Panel panel, ActionEvent event) {
+	private void buttonChooseFile(Panel panel, ActionEvent event) {
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -242,7 +240,7 @@ public class View extends Applet {
      * @param point The point which should be drawn
      * @param color The color the point should be drawn
      */	
-	public void drawBlob(Blob blob, boolean randomColor){
+	private void drawBlob(Blob blob, boolean randomColor){
 		Color color = (randomColor ? choseColor() : Color.BLACK);
 		for(Point point : blob){
 			drawPoint(point,color);
@@ -257,7 +255,7 @@ public class View extends Applet {
      * 
      * @param randomColor If different random colors should be used for each blob
      */	
-	public void drawBlobs(boolean randomColor){
+	private void drawBlobs(boolean randomColor){
 		for(Blob blob : getImage().blobs()){
 			drawBlob(blob, randomColor);
 		}
@@ -282,11 +280,11 @@ public class View extends Applet {
 		return frame;
 	}
 
-	public Controller getController() {
+	private Controller getController() {
 		return controller;
 	}
 
-	public void setController(Controller controller) {
+	private void setController(Controller controller) {
 		this.controller = controller;
 	}
 
