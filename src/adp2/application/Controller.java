@@ -11,7 +11,7 @@ import adp2.interfaces.BinaryImage;
  */
 public class Controller {
 	public static void main(String[] args) {
-		if (new File(args[0]).canRead()) {
+		if (args.length >= 1 && new File(args[0]).canRead()) {
 			new Controller(args[0]);
 		}
 		else {
