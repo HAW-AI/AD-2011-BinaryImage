@@ -43,7 +43,7 @@ public class View extends Applet {
 		this.setController(controller);
 		this.setImage(controller.binaryImage());
 		frame = new Frame();
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.add(this);
 		frame.pack();
 		frame.setSize(getImage().width()+600, getImage().height()+350);
