@@ -102,9 +102,22 @@ public abstract class AbstractBinaryImage implements BinaryImage {
     }
 
     @Override
-    public BinaryImage inverse() {
-        // TODO Auto-generated method stub
-        return null;
+    public abstract BinaryImage inverse(); 
+    
+    /* 
+     * berechnet die Punkte, die nicht zu Blobs gehoeren ("die False-Punkte")
+     * 
+     * @author Sebastian Krome, Andreas Wimmer
+     * 
+     */
+    protected Set<Point> inversePoints() {
+        Set<Point> blobPoints = allPoints();
+        for(Blob elem : blobs){
+        	for(Point p : elem){
+        		blobPoints.remove(p);
+        	}
+        }
+        return blobPoints;
     }
 
 	/**
