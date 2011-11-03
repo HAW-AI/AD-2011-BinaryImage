@@ -195,9 +195,9 @@ public class View extends Applet {
      */	
 	private Color choseColor(){
 		Random rand = new Random(System.currentTimeMillis());
-        return(new Color(rand.nextInt(256), 
-                         rand.nextInt(256),
-                         rand.nextInt(256)));
+        return(new Color(rand.nextInt(255), 
+                         rand.nextInt(255),
+                         rand.nextInt(255)));
      }
 
 	public Controller getController() {
