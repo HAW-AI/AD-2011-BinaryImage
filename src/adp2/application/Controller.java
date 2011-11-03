@@ -37,6 +37,8 @@ public class Controller {
 	 * Handles basic object init.
 	 */
 	private Controller() {
+		// for testing, just comment this line in:
+		//setBinaryImage(openImage("test/fixtures/4x4.esser"));
 		new View(this);
 	}
 	
