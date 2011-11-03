@@ -43,18 +43,18 @@ public class View extends Applet {
 		this.setController(controller);
 		this.setImage(controller.binaryImage());
 		frame = new Frame();
-	    frame.setResizable(false);
-	    frame.add(this);
-	    frame.pack();
-	    frame.setSize(getImage().width()+350, getImage().height()+350);
-	    init(); //initialisiere Oberfläche
-	    frame.setVisible(true);
+		frame.setResizable(false);
+		frame.add(this);
+		frame.pack();
+		frame.setSize(getImage().width()+600, getImage().height()+350);
+		init();
+		frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
-	         public void windowClosing(java.awt.event.WindowEvent e) {
-	         System.exit(0);
-	         };
-	    });
-		}
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				System.exit(0);
+			};
+		});
+	    }
 
 	public void init() {	
 		final Panel panel = new Panel();
@@ -149,9 +149,16 @@ public class View extends Applet {
 	}
 	
 
+	/**
+	* Button method to inverse image and draw inverted image
+	* 
+	* @author Daniel Liesener
+     	* @author Fenja Harbke
+	* 
+	* @param event ActionEvent of pressed button
+	*/ 
 	public void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
-		System.out.println(getImage().inverse());
 		repaint();
 	}
 
