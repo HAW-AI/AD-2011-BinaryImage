@@ -6,6 +6,7 @@ public class ToStringTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println(EsserParser.parse("test/fixtures/0x0.esser"));
 		System.out.println(EsserParser.parse("test/fixtures/1x1.esser"));
 		System.out.println(EsserParser.parse("test/fixtures/2x2.esser"));
 		System.out.println(EsserParser.parse("test/fixtures/3x3.esser"));

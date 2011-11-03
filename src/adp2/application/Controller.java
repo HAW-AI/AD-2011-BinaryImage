@@ -11,13 +11,13 @@ import adp2.interfaces.BinaryImage;
  */
 public class Controller {
 	public static void main(String[] args) {
-//		if (args.length >= 1 && new File(args[0]).canRead()) {
-//			new Controller(args[0]);
-//		}
-//		else {
+		if (args.length >= 1 && new File(args[0]).canRead()) {
+			new Controller(args[0]);
+		}
+		else {
 			new Controller();
 		}
-//	}
+	}
 
 	/**
 	 * Mutable, else we would need to restart for opening a image
@@ -40,7 +40,7 @@ public class Controller {
 	private Controller() {
 		this.view = new View(this);
 		// for testing, just comment this line in:
-		//setBinaryImage(openImage("C:\\Users\\Sebastian\\Desktop\\testEsser.txt"));
+		//setBinaryImage(openImage("test/fixtures/32x32.esser"));
 	}
 
 	/**
