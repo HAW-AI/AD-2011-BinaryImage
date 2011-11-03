@@ -1,12 +1,15 @@
 package adp2.methodTests;
 import java.util.*;
 
-import adp2.implementations.BinaryImages;
+import static adp2.implementations.BinaryImages.*;
+import adp2.application.EsserParser;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Point;
 import static java.util.Arrays.asList;
 public class BinaryImageTest {
+	
 	public static void main(String args[]){
+		
 		List<Boolean> l1 = new ArrayList<Boolean>(asList(true, false, false,true, false));
 		List<Boolean> l2 = new ArrayList<Boolean>(asList(true, false, false,true, false));
 		List<Boolean> l3 = new ArrayList<Boolean>(asList(false, true, false,true, true));
@@ -18,8 +21,12 @@ public class BinaryImageTest {
 		list.add(l3);
 		list.add(l4);
 		list.add(l5);
-		BinaryImage b4 = BinaryImages.fourNeighborBinaryImage(list);
-		BinaryImage b8 = BinaryImages.eightNeighborBinaryImage(list);
+		BinaryImage b4 = fourNeighborBinaryImage(list);
+		BinaryImage b8 = eightNeighborBinaryImage(list);
+		BinaryImage b = binaryImage(EsserParser.parse("test/fixtures/32x32.esser"));
+
+		System.out.println("Blobcount b:\n");
+		System.out.println(b.blobCount());
 		
 		System.out.println("b4- blob(i):\n");
 		System.out.println(b4.blob(0).points());
@@ -37,13 +44,20 @@ public class BinaryImageTest {
 		System.out.println(b4.blobCount());
 		System.out.println(b8.blobCount());
 		
-		Point p = BinaryImages.point(0,3);
-		Point p1 = BinaryImages.point(0,4);
-		Point p2 = BinaryImages.point(0,0);
+		Point p = point(0,3);
+		Point p1 = point(0,4);
+		Point p2 = point(0,0);
+		Point p3 = point(1,0);
+		
 		System.out.println("Connected:\n");
 		System.out.println(b4.connected(p, p1));
 		System.out.println(b4.connected(p, p2));
 		System.out.println(b8.connected(p1, p2));
+		
+		System.out.println("valueAt:\n");
+		System.out.println(b4.valueAt(p));
+		System.out.println(b4.valueAt(p1));
+		System.out.println(b4.valueAt(p3));
 		
 		System.out.println("neighbours:\n");
 		System.out.println(b4.neighbours(p1));
