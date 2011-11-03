@@ -22,7 +22,9 @@ public class View extends Applet {
 	private boolean useRandomColor=false;
 	
 	private Controller controller;
-
+	
+	private Frame frame;
+	
 	int pointSizeXY = 10;
 	Graphics graphic;
 	int buttonLengeth = 40;
@@ -89,6 +91,9 @@ public class View extends Applet {
                    File file = fileChooser.getSelectedFile();
                    String path = file.getAbsolutePath();
                    controller.setBinaryImage(BinaryImages.binaryImage(controller.openImage(path)));
+                    //Resize frame for new image
+                   getFrame().setPreferredSize(new Dimension(getImage().width()*pointSizeXY+getImage().width()+70, getImage().height()*pointSizeXY+getImage().height()+150));
+                   getFrame().pack();
                    
                }
             }
@@ -217,6 +222,10 @@ public class View extends Applet {
                          rand.nextInt(255),
                          rand.nextInt(255)));
      }
+
+	private Frame getFrame(){
+		return frame;
+	}
 
 	public Controller getController() {
 		return controller;
