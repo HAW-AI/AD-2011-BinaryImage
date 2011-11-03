@@ -3,6 +3,7 @@ package adp2.application;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
 
+import java.sql.Time;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -91,7 +92,7 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawImage(ActionEvent event) {
-		drawBlobs(false);
+		drawBlobs(true);
 	}
 	
     /**
@@ -193,7 +194,7 @@ public class View extends Applet {
      * @return Random color object
      */	
 	private Color choseColor(){
-		Random rand = new Random();
+		Random rand = new Random(System.currentTimeMillis());
         return(new Color(rand.nextInt(256), 
                          rand.nextInt(256),
                          rand.nextInt(256)));
