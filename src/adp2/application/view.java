@@ -1,12 +1,8 @@
 package adp2.application;
 
-import adp2.implementations.BinaryImages;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
-import adp2.interfaces.BinaryImage;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -14,166 +10,191 @@ import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
 
+/**
+ * @author Daniel Liesener
+ * @author Fenja Harbke
+ */
 
 /* Daniel, Fenja
  * To-Do:
- * Implementierung für 4 und 8 Blob Anzeige
  * Anpassung des Designs
- * Code dokumentieren und sturkturieren
  * Testfälle entfernen
  */
 
+@SuppressWarnings("serial")
 public class View extends Applet {
 
-  private BinaryImage bi;
+	private BinaryImage image;
 	
-	int ps = 30; // Pixelsize
-	Graphics g;
-	int bl = 40; // buttonlength
-	int bh = 25; // buttonheight
-	int xbegin = 20;
-	int ybegin = bh + xbegin;
+	int pointSizeXY = 30;
+	Graphics graphic;
+	int buttonLengeth = 40;
+	int buttonHeight = 25;
+	int gridPositionX = 30;
+	int gridPositionY = buttonHeight + gridPositionX;
 
-	private Button buttonDrawAry = new Button("drawAry");
-
-//--------------------------------------------------------------------
+	private Button buttonDrawImage = new Button("Bild malen");
+	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
+	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	
-	
-	public View(){
-		List<Boolean> array= new ArrayList<Boolean>();
-		array.add(new Boolean(true));
-		array.add(new Boolean(false));
-		array.add(new Boolean(true));
-
-		List<Boolean> array2= new ArrayList<Boolean>();
-		array2.add(new Boolean(false));
-		array2.add(new Boolean(true));
-		array2.add(new Boolean(false));
-		
-		List<List<Boolean>> pic = new ArrayList<List<Boolean>>();
-		
-		pic.add(array);
-		pic.add(array2);
-		
-		bi =  BinaryImages.fourNeighborBinaryImage(pic);
+	public View(BinaryImage image){
+		this.image =  image;
+		Frame f = new Frame();
+	    f.setResizable(false);
+	    f.add(this);
+	    f.pack();
+	    f.setSize(image.width()+350, image.height()+350);
+	    init(); //initialisiere Oberfläche
+	    f.setVisible(true);
+		f.addWindowListener(new java.awt.event.WindowAdapter() {
+	         public void windowClosing(java.awt.event.WindowEvent e) {
+	         System.exit(0);
+	         };
+	    });
 		}
 	
-	public void init() {
-				
-		Panel cp = new Panel();
-		cp.setBounds(0, 0, ybegin + bl * 2, 500);
-		cp.getAlignmentX();
-		add(cp);
-		cp.setLayout(new BoxLayout(cp, BoxLayout.X_AXIS));
-		g = getGraphics();
+	public void init() {	
+		Panel panel = new Panel();
+		panel.setBounds(200, 0, gridPositionY + buttonLengeth * 2, 500);
+		panel.getAlignmentX();
+		add(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		graphic = getGraphics();
 
-		cp.add(buttonDrawAry);
-		buttonDrawAry.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				buttonDrawAryActionPerformed(evt);
+		panel.add(buttonDrawImage);
+		buttonDrawImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				buttonDrawImage(event);
+			}
+		});
+		panel.add(buttonDrawFourNeighbor);
+		buttonDrawFourNeighbor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				buttonDrawFourNeighbor(event);
+			}
+		});
+		panel.add(buttonDrawEightNeighbor);
+		buttonDrawEightNeighbor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				buttonDrawEightNeighbor(event);
 			}
 		});
 	}
-
-//--------------------------------------------------------------------
-	//Zeichnet Gitter mit width und height des BinaryImage
-	public void paint(Graphics g) {
-		g.drawLine(xbegin, ybegin, xbegin + bi.width() * (ps + 1), ybegin);
-		g.drawLine(xbegin, ybegin, xbegin, ybegin + bi.height() * (ps + 1));
-		for (int i = 0; i < bi.height(); i++) {//hier (richtig herum?)
-			g.drawLine(xbegin, ybegin + 1 + (i + 1) * ps + i, xbegin + bi.width()
-					* (ps + 1), ybegin + 1 + (i + 1) * ps + i);
+	
+    /**
+     * Button method to draw all points on an image black
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param event ActionEvent of pressed button
+     */
+	public void buttonDrawImage(ActionEvent event) {
+		drawBlobs(false);
+	}
+	
+    /**
+     * Button method to draw all blobs in an four neighborhood in different color
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param event ActionEvent of pressed button
+     */
+	public void buttonDrawFourNeighbor(ActionEvent event) {
+		image = image.toFourNeighborBinaryImage();
+		drawBlobs(true);
+	}
+	
+    /**
+     * Button method to draw all blobs in an eight neighborhood in different color
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param event ActionEvent of pressed button
+     */
+	public void buttonDrawEightNeighbor(ActionEvent evt) {
+		image = image.toEigthNeighborBinaryImage();
+		drawBlobs(true);
+	}
+	
+    /**
+     * Paints grid using width and height of binary image
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     */
+	public void paint(Graphics graphic) {
+		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX + image.width() * (pointSizeXY + 1), gridPositionY);
+		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX, gridPositionY + image.height() * (pointSizeXY + 1));
+		
+		for (int i = 0; i < image.height(); i++) {
+			graphic.drawLine(gridPositionX, gridPositionY + 1 + (i + 1) * pointSizeXY + i, gridPositionX + image.width()
+					* (pointSizeXY + 1), gridPositionY + 1 + (i + 1) * pointSizeXY + i);
 		}
-		for (int j = 0; j < bi.width(); j++) {//und hier
-			g.drawLine(xbegin + 1 + (j + 1) * ps + j, ybegin, xbegin + 1
-					+ (j + 1) * ps + j, ybegin + bi.height() * (ps + 1));
+		for (int j = 0; j < image.width(); j++) {
+			graphic.drawLine(gridPositionX + 1 + (j + 1) * pointSizeXY + j, gridPositionY, gridPositionX + 1
+					+ (j + 1) * pointSizeXY + j, gridPositionY + image.height() * (pointSizeXY + 1));
 		}
 	}
 
-//---------------------------------------------------------------------
-	
-	private void drawP(Point p, Color color){
-		g.setColor(color);
-		g.fillRect(xbegin+1+p.x()*(ps+1), ybegin+1+p.y()*(ps+1), ps, ps);  //x, y richtig herum?
+    /**
+     * Draws point in grid
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param point The point which should be drawn
+     * @param color The color the point should be drawn
+     */
+	private void drawPoint(Point point, Color color){
+		graphic.setColor(color);
+		graphic.fillRect(gridPositionX+1+point.x()*(pointSizeXY+1), gridPositionY+1+point.y()*(pointSizeXY+1), pointSizeXY, pointSizeXY);
 	}
 	
-	public void drawBlobs(List<Blob> b){
-		for(Blob blob : b){
-			drawSingleBlob(blob);
+    /**
+     * Draws point in grid
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param point The point which should be drawn
+     * @param color The color the point should be drawn
+     */	
+	public void drawBlob(Blob blob, boolean randomColor){
+		Color color = (randomColor ? choseColor() : Color.black);
+		for(Point point : blob){
+			drawPoint(point,color);
 		}
 	}
 	
-	public void drawSingleBlob(Blob blob){
-		  Color color = choseColor();
-		  for(Point p : blob){
-		   drawP(p,color);
-		  }
-		 }
+    /**
+     * Draws blobs in block in black or different random color
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @param randomColor If difference random color should be used
+     */	
+	public void drawBlobs(boolean randomColor){
+		for(Blob blob : image.blobs()){
+			drawBlob(blob, randomColor);
+		}
+	}
 	
-	
+    /**
+     * Generates random color
+     * 
+     * @author Daniel Liesener
+     * @author Fenja Harbke
+     * 
+     * @return Random color object
+     */	
 	private Color choseColor(){
 		Random rand = new Random();
         return(new Color(rand.nextInt(256), 
                          rand.nextInt(256),
                          rand.nextInt(256)));
-     
-		//		switch(color){
-		//		case 0:
-		//			color++;
-		//			return Color.gray;
-		//			break;
-		//		case 1:
-		//			color++;
-		//			return Color.blue;
-		//			break;
-		//		case 2:
-		//			color++;
-		//			return Color.yellow;
-		//			break;
-		//		case 3:
-		//			color++;
-		//			return Color.green;
-		//			break;
-		//		case 4:
-		//			color++;
-		//			return Color.magenta;
-		//			break;
-		//		case 5:
-		//			color++;
-		//			return Color.red;
-		//			break;
-		//		case 6:
-		//			color++;
-		//			return Color.cyan;
-		//			break;
-		//		case 7:
-		//			color++;
-		//			return Color.pink;
-		//			break;
-		//		case 8:
-		//			color++;
-		//			return Color.lightGray;
-		//			break;
-		//		case 9:
-		//			color=0;
-		//			return Color.orange;
-		//			break;
-		//		default:
-		//			System.out.println("Too many Blobs!");
-		//		}
-		//	}
-	}
-	
-	public void drawAry(){
-		for(Blob b : bi.blobs()){
-			for(Point p : b){
-				drawP(p,Color.black);
-			}
-		}
-	}
-	
-	// drawAry
-	public void buttonDrawAryActionPerformed(ActionEvent evt) {
-		drawAry();
-	}
+     }
 }
