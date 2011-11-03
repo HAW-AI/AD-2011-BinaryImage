@@ -115,7 +115,7 @@ final class NaBI implements BinaryImage {
 	}
 
 	@Override
-	public BinaryImage toFourNeightborBinaryImage() {
+	public BinaryImage toFourNeighborBinaryImage() {
 		return this;
 	}
 
