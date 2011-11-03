@@ -3,6 +3,7 @@ package adp2.application;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
 
+import java.sql.Time;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -183,7 +184,7 @@ public class View extends Applet {
      * @param color The color the point should be drawn
      */	
 	public void drawBlob(Blob blob, boolean randomColor){
-		Color color = (randomColor ? choseColor() : Color.black);
+		Color color = (randomColor ? choseColor() : Color.BLACK);
 		for(Point point : blob){
 			drawPoint(point,color);
 		}
@@ -212,10 +213,10 @@ public class View extends Applet {
      * @return Random color object
      */	
 	private Color choseColor(){
-		Random rand = new Random();
-        return(new Color(rand.nextInt(256), 
-                         rand.nextInt(256),
-                         rand.nextInt(256)));
+		Random rand = new Random(System.currentTimeMillis());
+        return(new Color(rand.nextInt(255), 
+                         rand.nextInt(255),
+                         rand.nextInt(255)));
      }
 
 	public Controller getController() {
