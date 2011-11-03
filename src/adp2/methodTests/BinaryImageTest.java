@@ -45,6 +45,20 @@ public class AllgemeinTest {
 		System.out.println(b4.connected(p, p2));
 		System.out.println(b8.connected(p1, p2));
 		
+		System.out.println("inverse 4n:\n");
+		System.out.println(b4.inverse().blob(0).points());
+		System.out.println(b4.inverse().blob(1).points());
+		System.out.println(b4.inverse().blob(2).points());
+		System.out.println(b4.inverse().blob(3).points());
+		System.out.println(b4.inverse().blob(4).points());
+		
+		System.out.println("inverse 8n:\n");
+		System.out.println(b8.inverse().blob(0).points());
+		System.out.println(b8.inverse().blob(1).points());
+		System.out.println(b8.inverse().blob(2).points());
+		System.out.println(b8.inverse().blob(3).points());
+		System.out.println(b8.inverse().blob(4).points());
+		
 	}
 	
 }
