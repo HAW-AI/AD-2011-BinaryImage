@@ -47,7 +47,7 @@ public class View extends Applet {
 	    frame.add(this);
 	    frame.pack();
 	    frame.setSize(getImage().width()+350, getImage().height()+350);
-	    init(); //initialisiere Oberfläche
+	    init();
 	    frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 	         public void windowClosing(java.awt.event.WindowEvent e) {
