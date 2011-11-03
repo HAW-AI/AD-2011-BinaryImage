@@ -1,11 +1,14 @@
 package adp2.implementations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.util.Set;
+import java.util.TreeSet;
+
+
 import adp2.application.EsserImage;
-import adp2.application.EsserParser;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
@@ -136,5 +139,53 @@ public final class BinaryImages {
 			list.add(innerList);
 		}
 		return fourNeighborBinaryImage(list);
+	}
+	
+	/**
+	 * Create a binary image from width, height and foreground points
+	 * (4 Neighborhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param width
+	 * @param height
+	 * @param points
+	 * @return Binary Image
+	 */
+	public static BinaryImage binaryImage4n(int width, int height, Point...points){
+		Set<Point> set=new TreeSet<Point>(Arrays.asList(points));
+		return FourNeighborBinaryImage.valueOf(set,width, height);
+	}
+
+	
+	/**
+	 * Create a binary image from width, height and foreground points
+	 * (8 Neighborhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param width
+	 * @param height
+	 * @param points
+	 * @return Binary Image
+	 */
+	public static BinaryImage binaryImage8n(int width, int height, Point...points){
+		Set<Point> set=new TreeSet<Point>(Arrays.asList(points));
+		return EightNeighborBinaryImage.valueOf(set,width, height);
+	}
+
+	/**
+	 * Create a binary image from width, height and foreground points
+	 * (Deafault: 4 Neighborhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param width
+	 * @param height
+	 * @param points
+	 * @return Binary Image
+	 */
+	public static BinaryImage binaryImage(int width, int height, Point...points){
+		return binaryImage4n(width, height, points);
 	}
 }
