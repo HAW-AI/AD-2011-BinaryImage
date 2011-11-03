@@ -148,14 +148,7 @@ public class View extends Applet {
 		
 	}
 	
-	/**
-	 * Button method invert Image and print inverted Image
-	 * 
-	 * @author Daniel Liesener
-	 * @author Fenja Harbke
-	 * 
-	 * @param event ActionEvent of pressed button
-	 * /
+
 	public void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
 		System.out.println(getImage().inverse());
