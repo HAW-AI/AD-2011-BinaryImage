@@ -11,20 +11,20 @@ import adp2.interfaces.BinaryImage;
  */
 public class Controller {
 	public static void main(String[] args) {
-		if (args.length >= 1 && new File(args[0]).canRead()) {
-			new Controller(args[0]);
-		}
-		else {
+//		if (args.length >= 1 && new File(args[0]).canRead()) {
+//			new Controller(args[0]);
+//		}
+//		else {
 			new Controller();
 		}
-	}
-	
+//	}
+
 	/**
 	 * Mutable, else we would need to restart for opening a image
 	 */
 	private BinaryImage binaryImage;
 	private View view;
-	
+
 	/**
 	 * Constructor builds BinaryImage for given File
 	 * @param filename
@@ -33,16 +33,16 @@ public class Controller {
 		this();
 		setBinaryImage(openImage(filename));
 	}
-	
+
 	/**
 	 * Handles basic object init.
 	 */
 	private Controller() {
 		this.view = new View(this);
 		// for testing, just comment this line in:
-		//setBinaryImage(openImage("test/fixtures/4x4.esser"));
+		//setBinaryImage(openImage("C:\\Users\\Sebastian\\Desktop\\testEsser.txt"));
 	}
-	
+
 	/**
 	 * accessor method for retrieving binaryImage 
 	 * @return BinaryImage
@@ -51,7 +51,7 @@ public class Controller {
 		if (this.binaryImage == null) setBinaryImage(BinaryImages.NaBI());
 		return this.binaryImage;
 	}
-	
+
 	/**
 	 * open file and build EsserImage
 	 * @param filename
@@ -60,7 +60,7 @@ public class Controller {
 	public EsserImage openImage(String filename) {
 		return EsserParser.parse(filename);
 	}
-	
+
 	/**
 	 * set binaryImage field to given BinaryImage, after converting from EsserImage
 	 * @param image
@@ -73,7 +73,7 @@ public class Controller {
 			setBinaryImage(BinaryImages.binaryImage(image));
 		}
 	}
-	
+
 	/**
 	 * set binaryImage field to given BinaryImage
 	 * @param image

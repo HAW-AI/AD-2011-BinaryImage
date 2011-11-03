@@ -1,5 +1,6 @@
 package adp2.application;
 
+import adp2.implementations.BinaryImages;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
 import java.util.Random;
@@ -18,8 +19,10 @@ import java.io.File;
 @SuppressWarnings("serial")
 public class View extends Applet {
 
-	private Controller controller;
+	private boolean useRandomColor=false;
 	
+	private Controller controller;
+
 	int pointSizeXY = 30;
 	Graphics graphic;
 	int buttonLengeth = 40;
@@ -31,9 +34,9 @@ public class View extends Applet {
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	private Button buttonChooseFile = new Button("Datei laden...");
-	
+
 	private JFileChooser fileChooser = new JFileChooser(".");
-	
+
 	public View(Controller controller){
 		this.setController(controller);
 		this.setImage(controller.binaryImage());
@@ -42,7 +45,7 @@ public class View extends Applet {
 	    f.add(this);
 	    f.pack();
 	    f.setSize(getImage().width()+350, getImage().height()+350);
-	    init(); //initialisiere Oberfl√§che
+	    init(); //initialisiere Oberfl‰che
 	    f.setVisible(true);
 		f.addWindowListener(new java.awt.event.WindowAdapter() {
 	         public void windowClosing(java.awt.event.WindowEvent e) {
@@ -50,7 +53,7 @@ public class View extends Applet {
 	         };
 	    });
 		}
-	
+
 	public void init() {	
 		final Panel panel = new Panel();
 		panel.setBounds(200, 0, gridPositionY + buttonLengeth * 2, 500);
@@ -85,13 +88,13 @@ public class View extends Applet {
                if (ret == JFileChooser.APPROVE_OPTION) {
                    File file = fileChooser.getSelectedFile();
                    String path = file.getAbsolutePath();
-                   controller.openImage(path);
+                   controller.setBinaryImage(BinaryImages.binaryImage(controller.openImage(path)));
                    
                }
             }
         });
 	}
-	
+
     /**
      * Button method to draw all points on an image black
      * 
@@ -101,9 +104,10 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawImage(ActionEvent event) {
-		drawBlobs(false);
+		useRandomColor=false;
+		paint(graphic);
 	}
-	
+
     /**
      * Button method to draw all blobs in an four neighborhood in different color
      * 
@@ -113,10 +117,13 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawFourNeighbor(ActionEvent event) {
+		useRandomColor=true;
 		setImage(getImage().toFourNeighborBinaryImage());
-		drawBlobs(true);
+		
 	}
 	
+	
+
     /**
      * Button method to draw all blobs in an eight neighborhood in different color
      * 
@@ -126,10 +133,11 @@ public class View extends Applet {
      * @param event ActionEvent of pressed button
      */
 	public void buttonDrawEightNeighbor(ActionEvent evt) {
+		useRandomColor=true;
 		setImage(getImage().toEigthNeighborBinaryImage());
-		drawBlobs(true);
+		
 	}
-	
+
     /**
      * Paints grid using width and height of binary image
      * 
@@ -139,7 +147,7 @@ public class View extends Applet {
 	public void paint(Graphics graphic) {
 		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX + getImage().width() * (pointSizeXY + 1), gridPositionY);
 		graphic.drawLine(gridPositionX, gridPositionY, gridPositionX, gridPositionY + getImage().height() * (pointSizeXY + 1));
-		
+
 		for (int i = 0; i < getImage().height(); i++) {
 			graphic.drawLine(gridPositionX, gridPositionY + 1 + (i + 1) * pointSizeXY + i, gridPositionX + getImage().width()
 					* (pointSizeXY + 1), gridPositionY + 1 + (i + 1) * pointSizeXY + i);
@@ -148,6 +156,7 @@ public class View extends Applet {
 			graphic.drawLine(gridPositionX + 1 + (j + 1) * pointSizeXY + j, gridPositionY, gridPositionX + 1
 					+ (j + 1) * pointSizeXY + j, gridPositionY + getImage().height() * (pointSizeXY + 1));
 		}
+		drawBlobs(useRandomColor);
 	}
 
     /**
@@ -163,7 +172,7 @@ public class View extends Applet {
 		graphic.setColor(color);
 		graphic.fillRect(gridPositionX+1+point.x()*(pointSizeXY+1), gridPositionY+1+point.y()*(pointSizeXY+1), pointSizeXY, pointSizeXY);
 	}
-	
+
     /**
      * Draws point in grid
      * 
@@ -179,7 +188,7 @@ public class View extends Applet {
 			drawPoint(point,color);
 		}
 	}
-	
+
     /**
      * Draws blobs in block in black or different random color
      * 
@@ -193,7 +202,7 @@ public class View extends Applet {
 			drawBlob(blob, randomColor);
 		}
 	}
-	
+
     /**
      * Generates random color
      * 
