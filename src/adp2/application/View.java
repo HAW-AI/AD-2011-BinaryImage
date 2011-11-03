@@ -2,13 +2,9 @@ package adp2.application;
 
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
-
-import java.sql.Time;
 import java.util.Random;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
