@@ -53,5 +53,9 @@ public class FourNeighborBinaryImage extends AbstractBinaryImage {
 	public BinaryImage toEigthNeighborBinaryImage() {
 		return EightNeighborBinaryImage.valueOf(points, this.width(), this.height());
 	}
+	
+	public BinaryImage inverse(){
+		return valueOf(inversePoints(),this.width(), this.height());
+	}
 
 }
