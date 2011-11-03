@@ -2,6 +2,8 @@ package adp2.implementations;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.HashSet;
 
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
