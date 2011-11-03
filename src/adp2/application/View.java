@@ -6,9 +6,12 @@ import adp2.interfaces.Point;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
+import java.io.File;
 
 /**
  * @author Daniel Liesener
@@ -36,6 +39,9 @@ public class View extends Applet {
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
+	private Button buttonChooseFile = new Button("Datei laden...");
+	
+	private JFileChooser fileChooser = new JFileChooser();
 	
 	public View(Controller controller){
 		this.setController(controller);
@@ -55,7 +61,7 @@ public class View extends Applet {
 		}
 	
 	public void init() {	
-		Panel panel = new Panel();
+		final Panel panel = new Panel();
 		panel.setBounds(200, 0, gridPositionY + buttonLengeth * 2, 500);
 		panel.getAlignmentX();
 		add(panel);
@@ -80,6 +86,19 @@ public class View extends Applet {
 				buttonDrawEightNeighbor(event);
 			}
 		});
+		panel.add(buttonChooseFile);
+		buttonChooseFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               int ret = fileChooser.showOpenDialog(panel);
+               if (ret == JFileChooser.APPROVE_OPTION) {
+                   File file = fileChooser.getSelectedFile();
+                   String path = file.getAbsolutePath();
+                   controller.openImage(path);
+                   
+               }
+            }
+        });
 	}
 	
     /**
