@@ -45,6 +45,10 @@ public class BinaryImageTest {
 		System.out.println(b4.connected(p, p2));
 		System.out.println(b8.connected(p1, p2));
 		
+		System.out.println("neighbours:\n");
+		System.out.println(b4.neighbours(p1));
+		System.out.println(b4.neighbours(p));
+		
 		System.out.println("inverse 4n:\n");
 		System.out.println(b4.inverse().blob(0).points());
 		System.out.println(b4.inverse().blob(1).points());
