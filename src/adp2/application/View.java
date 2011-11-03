@@ -46,7 +46,7 @@ public class View extends Applet {
 		frame.setResizable(false);
 		frame.add(this);
 		frame.pack();
-		frame.setSize(getImage().width()+350, getImage().height()+350);
+		frame.setSize(getImage().width()+600, getImage().height()+350);
 		init();
 		frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -149,9 +149,16 @@ public class View extends Applet {
 	}
 	
 
+	/**
+	* Button method to inverse image and draw inverted image
+	* 
+	* @author Daniel Liesener
+     	* @author Fenja Harbke
+	* 
+	* @param event ActionEvent of pressed button
+	*/ 
 	public void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
-		System.out.println(getImage().inverse());
 		repaint();
 	}
 
