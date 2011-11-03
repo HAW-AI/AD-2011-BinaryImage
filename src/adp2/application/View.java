@@ -19,12 +19,6 @@ import java.io.File;
  * @author Fenja Harbke
  */
 
-/* Daniel, Fenja
- * To-Do:
- * Anpassung des Designs
- * Testfälle entfernen
- */
-
 @SuppressWarnings("serial")
 public class View extends Applet {
 
@@ -213,7 +207,7 @@ public class View extends Applet {
      * @return Random color object
      */	
 	private Color choseColor(){
-		Random rand = new Random(System.currentTimeMillis());
+		Random rand = new Random();
         return(new Color(rand.nextInt(255), 
                          rand.nextInt(255),
                          rand.nextInt(255)));
