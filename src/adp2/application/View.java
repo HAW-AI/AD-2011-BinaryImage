@@ -34,6 +34,7 @@ public class View extends Applet {
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
+	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
 
 	private JFileChooser fileChooser = new JFileChooser(".");
@@ -79,6 +80,12 @@ public class View extends Applet {
 		buttonDrawEightNeighbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				buttonDrawEightNeighbor(event);
+			}
+		});
+		panel.add(buttonInverse);
+		buttonInverse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				buttonInverse(event);
 			}
 		});
 		panel.add(buttonChooseFile);
@@ -139,6 +146,20 @@ public class View extends Applet {
 		useRandomColor=true;
 		setImage(getImage().toEigthNeighborBinaryImage());
 		
+	}
+	
+	/**
+	 * Button method invert Image and print inverted Image
+	 * 
+	 * @author Daniel Liesener
+	 * @author Fenja Harbke
+	 * 
+	 * @param event ActionEvent of pressed button
+	 * /
+	public void buttonInverse(ActionEvent event) {
+		setImage(getImage().inverse());
+		System.out.println(getImage().inverse());
+		repaint();
 	}
 
     /**
