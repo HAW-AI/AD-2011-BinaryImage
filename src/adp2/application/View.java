@@ -25,6 +25,7 @@ import java.applet.*;
 public class View extends Applet {
 
 	private BinaryImage image;
+	private Controller controller;
 	
 	int pointSizeXY = 30;
 	Graphics graphic;
@@ -38,6 +39,7 @@ public class View extends Applet {
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
 	
 	public View(Controller controller){
+		this.controller = controller;
 		this.image =  controller.binaryImage();
 		Frame f = new Frame();
 	    f.setResizable(false);
