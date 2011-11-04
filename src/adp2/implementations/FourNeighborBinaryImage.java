@@ -27,7 +27,7 @@ public class FourNeighborBinaryImage extends AbstractBinaryImage {
      * @return Binary Image
      */
     static BinaryImage valueOf(Set<Point> points, int width, int height) {
-    	if(!properPoints(points, width, height)) return BinaryImages.NaBI();
+    	if(width<0 || height <0 || !properPoints(points, width, height)) return BinaryImages.NaBI();
         return new FourNeighborBinaryImage(points, width, height);
     }
     

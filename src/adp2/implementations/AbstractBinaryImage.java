@@ -103,23 +103,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
     @Override
     public abstract BinaryImage inverse(); 
     
-    /* 
-     * berechnet die Punkte, die nicht zu Blobs gehoeren ("die False-Punkte")
-     * 
-     * @author Sebastian Krome, Andreas Wimmer
-     * 
-     */
-    protected Set<Point> inversePoints() {
-        Set<Point> blobPoints = allPoints();
-        for(Blob elem : blobs){
-        	for(Point p : elem){
-        		blobPoints.remove(p);
-        	}
-        }
-        return blobPoints;
-    }
-
-	/**
+    /**
 	 * Delegates the calculation of Blobs to the preferred algorithm
 	 * 
 	 * @author Oliver Behncke
@@ -174,6 +158,22 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		return result;
 	}
 
+
+	/* 
+	 * berechnet die Punkte, die nicht zu Blobs gehoeren ("die False-Punkte")
+	 * 
+	 * @author Sebastian Krome, Andreas Wimmer
+	 * 
+	 */
+	protected Set<Point> inversePoints() {
+	    Set<Point> blobPoints = allPoints();
+	    for(Blob elem : blobs){
+	    	for(Point p : elem){
+	    		blobPoints.remove(p);
+	    	}
+	    }
+	    return blobPoints;
+	}
 
 	/*
 	 * @author Sebastian Krome, Andreas Wimmer
@@ -241,7 +241,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 	protected static boolean properPoints(Set<Point> points, int width, int height){
 		if(points==null) return false;
 		for(Point p: points){
-			if(p.x()>=width || p.y()>=height) return false;
+			if(p.x()>=width || p.y()>=height || p.x()<0 || p.y() <0) return false;
 		}
 		return true;
 	}
