@@ -12,4 +12,6 @@ public interface Blob extends Iterable<Point> {
 	boolean contains(Point p);
 	
 	Set<Point> points();
+	
+	BinaryImage binaryImage();
 }

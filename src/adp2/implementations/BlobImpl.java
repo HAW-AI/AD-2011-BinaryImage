@@ -10,6 +10,7 @@ import adp2.interfaces.*;
 public class BlobImpl implements Blob {
 	
 	private final TreeSet<Point> s;
+	private final BinaryImage binaryImage;
 
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurück.
@@ -17,16 +18,17 @@ public class BlobImpl implements Blob {
 	 * @param s: Collection, die alle Points des Blobs enthält.
 	 * @return
 	 */
-	public static Blob valueOf(Collection<Point> s){
-		return new BlobImpl(s);
+	public static Blob valueOf(Collection<Point> s, BinaryImage image){
+		return new BlobImpl(s, image);
 	}
 	/**
 	 * Blob-Konstruktor.
 	 * 
 	 * @param s: Collection, die alle Points des Blobs enthält.
 	 */
-	private BlobImpl(Collection<Point> s){
+	private BlobImpl(Collection<Point> s, BinaryImage image){
 		this.s = new TreeSet<Point>(s);
+		this.binaryImage = image;
 	}
 
 	/**
@@ -116,6 +118,13 @@ public class BlobImpl implements Blob {
 	@Override
 	public String toString(){
 		return this.s.toString();
+	}
+	@Override
+	public BinaryImage binaryImage() {
+		return this.getBinaryImage();
+	}
+	public BinaryImage getBinaryImage() {
+		return binaryImage;
 	}
 
 }

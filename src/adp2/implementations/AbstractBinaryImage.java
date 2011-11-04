@@ -130,7 +130,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		for(Point p : points){
 			if(!visited.contains(p)){
 				Set<Point> blobAsSet=deepSearch_(p, visited, points);
-				result.add(BinaryImages.blob(blobAsSet));
+				result.add(BinaryImages.blob(blobAsSet,this));
 			}
 		}
 		return result;
@@ -341,7 +341,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 			for(Point p: points){
 				if(labelMap.get(p)==i) blobSet.add(p);
 			}
-			if(blobSet.size()!=0) result.add(BinaryImages.blob(blobSet));
+			if(blobSet.size()!=0) result.add(BinaryImages.blob(blobSet,this));
 		}
 		return result;
 	}

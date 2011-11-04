@@ -77,6 +77,9 @@ public class BinaryImageTest {
 		System.out.println(b8.inverse().blob(3).points());
 		System.out.println(b8.inverse().blob(4).points());
 		
+		System.out.println(b8.blobCount());
+		System.out.println(b8.blob(0).binaryImage());
 	}
+	
 	
 }
