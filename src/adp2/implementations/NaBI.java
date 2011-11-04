@@ -123,5 +123,8 @@ final class NaBI implements BinaryImage {
 	public BinaryImage toEigthNeighborBinaryImage() {
 		return this;
 	}
-
+	
+	public String toString() {
+		return "NaBI";
+	}
 }
