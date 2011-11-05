@@ -1,6 +1,7 @@
 package adp2.methodTests;
 
 import static adp2.implementations.BinaryImages.*;
+import static adp2.application.EsserParser.parse;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -8,19 +9,20 @@ import java.util.List;
 
 import org.junit.Test;
 
+import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
 
 public class BlobTest {
 	Point p1 = point(3,1);
 	Point p2 = point(5,6);
-	List<Point> l1 =  Arrays.asList(p1,point(4,1),point(3,2));
-	List<Point> l2 =  Arrays.asList(p2,point(6,5),point(6,6));
-	List<Point> l3 =  Arrays.asList(p2,point(6,5),point(6,6));
-	
-	Blob b1 = blob(l1);
-	Blob b2 = blob(l2);
-	Blob b3 = blob(l3);
+	List<Point> l1 = Arrays.asList(p1,point(4,1),point(3,2));
+	List<Point> l2 = Arrays.asList(p2,point(6,5),point(6,6));
+	List<Point> l3 = Arrays.asList(p2,point(6,5),point(6,6));
+	BinaryImage Bi = binaryImage(parse("test/fixtures/32x32.esser"));
+	Blob b1 = blob(l1, Bi);
+	Blob b2 = blob(l2, Bi);
+	Blob b3 = blob(l3, Bi);
 
 	@Test
 	public void testPointCount() {
