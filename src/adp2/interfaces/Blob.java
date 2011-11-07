@@ -17,7 +17,5 @@ public interface Blob extends Iterable<Point> {
 	
 	Set<Point> boundary();
 
-	int perimeter();
-
 	double circularity();
 }

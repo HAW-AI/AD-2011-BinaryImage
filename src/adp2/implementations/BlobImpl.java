@@ -11,6 +11,7 @@ public class BlobImpl implements Blob {
 	
 	private final TreeSet<Point> s;
 	private final BinaryImage binaryImage;
+	private final double circularity;
 
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurÃ¼ck.
@@ -29,6 +30,7 @@ public class BlobImpl implements Blob {
 	private BlobImpl(Collection<Point> s, BinaryImage image){
 		this.s = new TreeSet<Point>(s);
 		this.binaryImage = image;
+		this.circularity = 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
 	}
 
 	/**
@@ -160,18 +162,17 @@ public class BlobImpl implements Blob {
 		return boundary;
 	}
 	
-	// kommt noch
-	 @Override
-	 public int perimeter() {
-	  // TODO Auto-generated method stub
-	  return 0;
+	 private int perimeter() {
+	  // TODO Ändern auf final-Variable für Boundary (anstelle von boundary()), sobald diese vorhanden ist
+	  return boundary().size();
 	 }
 	 
 	 // vielleicht speichern, wenn ja dann final vaiable benutzen und im constructor initialisieren?
 	 // oder jedes mal berechnen
 	 @Override
 	 public double circularity() {
-	  return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
+		 return circularity;
+	  //return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
 	 }
 
 }
