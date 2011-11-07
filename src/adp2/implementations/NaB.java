@@ -82,4 +82,19 @@ final class NaB implements Blob {
 	public Set<Point> boundary() {
 		return new HashSet<Point>();
 	}
+	
+	
+	//Was ist der Umfang eines NaB???
+	@Override
+	public int perimeter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	//Was ist die circularity eines NaB???
+	@Override
+	public double circularity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

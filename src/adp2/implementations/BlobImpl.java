@@ -138,5 +138,19 @@ public class BlobImpl implements Blob {
 		
 		return boundary;
 	}
+	
+	// kommt noch
+	 @Override
+	 public int perimeter() {
+	  // TODO Auto-generated method stub
+	  return 0;
+	 }
+	 
+	 // vielleicht speichern, wenn ja dann final vaiable benutzen und im constructor initialisieren?
+	 // oder jedes mal berechnen
+	 @Override
+	 public double circularity() {
+	  return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
+	 }
 
 }

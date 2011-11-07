@@ -16,4 +16,8 @@ public interface Blob extends Iterable<Point> {
 	BinaryImage binaryImage();
 	
 	Set<Point> boundary();
+
+	int perimeter();
+
+	double circularity();
 }
