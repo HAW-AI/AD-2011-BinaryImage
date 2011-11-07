@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import adp2.implementations.EightNeighborBinaryImage;
+import adp2.implementations.FourNeighborBinaryImage;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
@@ -68,6 +70,11 @@ public class BlobTest {
 		assertTrue(b1.hashCode() == b1.hashCode());
 		assertTrue(b2.hashCode() == b2.hashCode());
 		assertTrue(b3.hashCode() == b3.hashCode());
+	}
+	
+	@Test
+	public void testBoundary() {
+		assertEquals(24,Bi.blob(0).boundary().size());	
 	}
 
 }

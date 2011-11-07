@@ -126,13 +126,34 @@ public class BlobImpl implements Blob {
 	public BinaryImage getBinaryImage() {
 		return binaryImage;
 	}
+	
+	
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * 
+	 * Gibt die Points zurück die zum Rand des Blobs gehören
+	 * 
+	 * 
+	 * @return Set<Point> mit Punkten des Blobrandes
+	 */
 	@Override
 	public Set<Point> boundary() {
 		Set<Point> boundary = new TreeSet<Point>();
+		int count = 0;
+		if (binaryImage instanceof EightNeighborBinaryImage) {
+			count = 8;
+		}
+		if(binaryImage instanceof FourNeighborBinaryImage) {
+			count = 4;
+		}
+		
 		for(Point p : s){
-			if(!(s.containsAll(binaryImage.neighbours(p)))){
+//			System.out.println("Neighbours" +binaryImage.neighbours(p) + " p: " + p);
+			
+			if((binaryImage.neighbours(p).size() < count)){
 				boundary.add(p);
-				
 			}
 		}
 		
