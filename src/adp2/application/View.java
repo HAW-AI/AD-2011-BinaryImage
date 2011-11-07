@@ -3,7 +3,11 @@ package adp2.application;
 import adp2.implementations.BinaryImages;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
+
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import java.awt.*;
@@ -20,6 +24,7 @@ import java.io.File;
 public class View extends Applet {
 
 	private boolean useRandomColor=false;
+	private boolean useBoundary=false;
 	private Controller controller;
 	private Frame frame;
 	private int pointSizeXY = 10;
@@ -32,6 +37,7 @@ public class View extends Applet {
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
+	private Button buttonDrawBoundary = new Button("Ränder");
 	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
 
@@ -80,6 +86,12 @@ public class View extends Applet {
 		buttonDrawEightNeighbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				buttonDrawEightNeighbor(event);
+			}
+		});
+		panel.add(buttonDrawBoundary);
+		buttonDrawBoundary.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				buttonDrawBoundary(event);
 			}
 		});
 		panel.add(buttonInverse);
@@ -140,6 +152,22 @@ public class View extends Applet {
 		
 	}
 	
+	/**
+	 * Zeichnet den Rand der Blobs farbig.
+	 * 
+	 * @author Kai Bielenberg
+	 * @param evt
+	 * 
+	 */
+	
+	private void buttonDrawBoundary(ActionEvent evt) {
+		repaint();
+		if (useBoundary) {
+			useBoundary = false;
+		} else {
+			useBoundary = true;
+		}
+	}
 
 	/**
 	* Button method to inverse image and draw inverted image
@@ -242,10 +270,16 @@ public class View extends Applet {
      */	
 	private void drawBlob(Blob blob, boolean randomColor){
 		Color color = (randomColor ? choseColor() : Color.BLACK);
+		Set<Point> boundary = new HashSet<Point>(blob.boundary());
 		for(Point point : blob){
-			drawPoint(point,color);
+			if((useBoundary == true) && (boundary.contains(point)))
+				drawPoint(point,Color.CYAN);
+			else
+				drawPoint(point,color);
 		}
 	}
+	
+	
 
     /**
      * Draws blobs in black or different random colors
