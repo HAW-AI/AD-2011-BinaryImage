@@ -14,4 +14,6 @@ public interface Blob extends Iterable<Point> {
 	Set<Point> points();
 	
 	BinaryImage binaryImage();
+	
+	Set<Point> boundary();
 }

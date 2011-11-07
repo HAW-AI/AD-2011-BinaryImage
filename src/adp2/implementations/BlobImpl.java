@@ -126,5 +126,17 @@ public class BlobImpl implements Blob {
 	public BinaryImage getBinaryImage() {
 		return binaryImage;
 	}
+	@Override
+	public Set<Point> boundary() {
+		Set<Point> boundary = new TreeSet<Point>();
+		for(Point p : s){
+			if(!(s.containsAll(binaryImage.neighbours(p)))){
+				boundary.add(p);
+				
+			}
+		}
+		
+		return boundary;
+	}
 
 }

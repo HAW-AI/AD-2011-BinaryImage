@@ -77,4 +77,9 @@ final class NaB implements Blob {
 	public String toString() {
 		return "NaB";
 	}
+
+	@Override
+	public Set<Point> boundary() {
+		return new HashSet<Point>();
+	}
 }
