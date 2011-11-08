@@ -85,19 +85,19 @@ final class NaB implements Blob {
 	}
 
 	/**
-	 * returnt Integer.MIN_VALUE,gültiger circularity-Wert liegt zwischen 0 und
-	 * 1 NaB hat keine gültige circularity.
+	 * returnt -1, gültiger circularity-Wert liegt zwischen 0 und
+	 * 1, NaB hat keine gültige circularity.
 	 * 
 	 * @author Tobias Meurer
 	 * @author Stephan Berngruber
 	 * 
-	 * @return Integer.MIN_VALUE
+	 * @return -1
 	 * 
 	 */
 
 	@Override
 	public double circularity() {
 		// TODO Auto-generated method stub
-		return Integer.MIN_VALUE;
+		return -1;
 	}
 }
