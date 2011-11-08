@@ -410,6 +410,7 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 			sB.append(blob.circularity());
 			sB.append("\n");
 		}
+    	System.out.println(sB);
     	return sB.toString();
     }
 }

@@ -8,7 +8,7 @@ import java.util.TreeSet;
 import adp2.interfaces.*;
 
 public class BlobImpl implements Blob {
-	
+
 	private final TreeSet<Point> s;
 	private final BinaryImage binaryImage;
 	private final double circularity;
@@ -16,21 +16,25 @@ public class BlobImpl implements Blob {
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zur√ºck.
 	 * 
-	 * @param s: Collection, die alle Points des Blobs enth√§lt.
+	 * @param s
+	 *            : Collection, die alle Points des Blobs enth√§lt.
 	 * @return
 	 */
-	public static Blob valueOf(Collection<Point> s, BinaryImage image){
+	public static Blob valueOf(Collection<Point> s, BinaryImage image) {
 		return new BlobImpl(s, image);
 	}
+
 	/**
 	 * Blob-Konstruktor.
 	 * 
-	 * @param s: Collection, die alle Points des Blobs enth√§lt.
+	 * @param s
+	 *            : Collection, die alle Points des Blobs enth√§lt.
 	 */
-	private BlobImpl(Collection<Point> s, BinaryImage image){
+	private BlobImpl(Collection<Point> s, BinaryImage image) {
 		this.s = new TreeSet<Point>(s);
 		this.binaryImage = image;
-		this.circularity = 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
+		this.circularity = 4 * Math.PI * pointCount()
+				/ Math.pow(perimeter(), 2);
 	}
 
 	/**
@@ -39,14 +43,14 @@ public class BlobImpl implements Blob {
 	public Iterator<Point> iterator() {
 		return this.s.iterator();
 	}
-	
+
 	/**
 	 * Gibt die alle Points eines Blobs als Set zurueck.
 	 */
-	public Set<Point> points(){
+	public Set<Point> points() {
 		return this.s;
 	}
-	
+
 	/**
 	 * Gibt die Gr√∂√üe des Blobs als int zur√ºck.
 	 */
@@ -58,24 +62,32 @@ public class BlobImpl implements Blob {
 	 * Gibt die Breite des Blobs als int zur√ºck.
 	 */
 	public int width() {
-		int max = s.first().x(),min = s.first().x();
-		for(Point p : s){
-			if(p.x() < min){min = p.x();}
-			if(p.x() > max){max = p.x();}
+		int max = s.first().x(), min = s.first().x();
+		for (Point p : s) {
+			if (p.x() < min) {
+				min = p.x();
+			}
+			if (p.x() > max) {
+				max = p.x();
+			}
 		}
-		return max-min+1;
+		return max - min + 1;
 	}
 
 	/**
 	 * Gibt die Hoehe des Blobs als int zur√ºck.
 	 */
 	public int height() {
-		int max = s.first().y(),min = s.first().y();
-		for(Point p : s){
-			if(p.y() < min){min = p.y();}
-			if(p.y() > max){max = p.y();}
+		int max = s.first().y(), min = s.first().y();
+		for (Point p : s) {
+			if (p.y() < min) {
+				min = p.y();
+			}
+			if (p.y() > max) {
+				max = p.y();
+			}
 		}
-		return max-min+1;
+		return max - min + 1;
 	}
 
 	/**
@@ -92,8 +104,8 @@ public class BlobImpl implements Blob {
 	/**
 	 * Pr√ºft die Wertgleichheit des Blobs mit einem anderen Objekt.
 	 * 
-	 * param obj: Zu vergleichendes Objekt.
-	 * return: Gibt true bei Wertgleichheit zur√ºck, ansonsten false.
+	 * param obj: Zu vergleichendes Objekt. return: Gibt true bei Wertgleichheit
+	 * zur√ºck, ansonsten false.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -111,31 +123,33 @@ public class BlobImpl implements Blob {
 			return false;
 		return true;
 	}
-	
-	public boolean contains(Point p){
-		if(p == null) return false;
+
+	public boolean contains(Point p) {
+		if (p == null)
+			return false;
 		return s.contains(p);
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return this.s.toString();
 	}
+
 	@Override
 	public BinaryImage binaryImage() {
 		return this.getBinaryImage();
 	}
+
 	public BinaryImage getBinaryImage() {
 		return binaryImage;
 	}
-	
-	
+
 	/**
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
 	 * 
-	 * Gibt die Points zur¸ck die zum Rand des Blobs gehˆren
+	 *         Gibt die Points zur¸ck die zum Rand des Blobs gehˆren
 	 * 
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
@@ -147,32 +161,45 @@ public class BlobImpl implements Blob {
 		if (binaryImage instanceof EightNeighborBinaryImage) {
 			count = 8;
 		}
-		if(binaryImage instanceof FourNeighborBinaryImage) {
+		if (binaryImage instanceof FourNeighborBinaryImage) {
 			count = 4;
 		}
-		
-		for(Point p : s){
-//			System.out.println("Neighbours" +binaryImage.neighbours(p) + " p: " + p);
-			
-			if((binaryImage.neighbours(p).size() < count)){
+
+		for (Point p : s) {
+			// System.out.println("Neighbours" +binaryImage.neighbours(p) +
+			// " p: " + p);
+
+			if ((binaryImage.neighbours(p).size() < count)) {
 				boundary.add(p);
 			}
 		}
-		
+
 		return boundary;
 	}
-	
-	 private int perimeter() {
-	  // TODO ƒndern auf final-Variable f¸r Boundary (anstelle von boundary()), sobald diese vorhanden ist
-	  return boundary().size();
-	 }
-	 
-	 // vielleicht speichern, wenn ja dann final vaiable benutzen und im constructor initialisieren?
-	 // oder jedes mal berechnen
-	 @Override
-	 public double circularity() {
-		 return circularity;
-	  //return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
-	 }
+
+	/**
+	 * gibt die Anzahl der Points im boundary (Umrandung) zur¸ck
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 */
+
+	private int perimeter() {
+		// TODO ƒndern auf final-Variable f¸r Boundary (anstelle von
+		// boundary()), sobald diese vorhanden ist
+		return boundary().size();
+	}
+
+	/**
+	 * gibt die Circularity des blobs zur¸ck
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 */
+	@Override
+	public double circularity() {
+		return circularity;
+		// return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
+	}
 
 }

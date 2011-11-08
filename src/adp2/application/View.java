@@ -40,7 +40,15 @@ public class View extends Applet {
 	private Button buttonDrawBoundary = new Button("Ränder");
 	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
-	private Label labelCircularity = new Label();
+
+	// panel hält die Buttons
+	private final Panel panel = new Panel();
+	// panel2 hält die TextArea zur circularity ausgabe
+	private final Panel panel2 = new Panel();
+	// distance hält die höhe von panel + panel2
+	private final int distance;
+	// textAreaCircularity zur ausgabe der Circularitäten
+	private TextArea textAreaCircularity = new TextArea();
 
 	private JFileChooser fileChooser = new JFileChooser(".");
 
@@ -53,6 +61,13 @@ public class View extends Applet {
 		frame.pack();
 		frame.setSize(getImage().width() + 600, getImage().height() + 350);
 		init();
+
+		// distance berechnen
+		distance = panel2.getHeight() + gridPositionY + buttonLength * 2;
+		// gridpositionY hochrechnen sodass BinaryImagesan der korrekten
+		// position gezeichnet werden
+		gridPositionY += distance;
+
 		frame.setVisible(true);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
@@ -62,7 +77,7 @@ public class View extends Applet {
 	}
 
 	public void init() {
-		final Panel panel = new Panel();
+
 		Rectangle minBounds = new Rectangle(200, 0, gridPositionY
 				+ buttonLength * 2, 500);
 
@@ -111,22 +126,31 @@ public class View extends Applet {
 		});
 
 		// ---------------------
+		// @author Stephan Berngruber
+		// @author Tobias Meurer
+		//
 		// add circularity value
-		setCircularityLabel();
-		final Panel panel2 = new Panel();
-		// Rectangle minBounds2 = new Rectangle(200, 26, gridPositionY
-		// + buttonLength * 2, 500);
-
+		setCircularityText();
+		// hier wird in mehreren schritten die größe von panel2 gesetzt,
 		panel2.setBounds(0, 30, 50, 50);
+		// es zu view geadded
 		add(panel2);
+		// das Layout gesetzt
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-
-		panel2.add(labelCircularity);
+		// und die textAreaCircularity panel2 geadded
+		panel2.add(textAreaCircularity);
 
 	}
 
-	private void setCircularityLabel() {
-		labelCircularity.setText("Circularity: " + getImage().circularities());
+	/**
+	 * trägt Circularity aller blobs in die Textarea ein
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 */
+	private void setCircularityText() {
+		textAreaCircularity.setText("Circularity:\n"
+				+ getImage().circularities());
 	}
 
 	/**
@@ -213,7 +237,7 @@ public class View extends Applet {
 			String path = file.getAbsolutePath();
 			controller.setBinaryImage(BinaryImages.binaryImage(controller
 					.openImage(path)));
-			setCircularityLabel();
+			setCircularityText();
 			// Resize frame for new image
 			sizeToFit();
 		}
@@ -226,14 +250,15 @@ public class View extends Applet {
 		int minWidth = buttonDrawImage.getWidth()
 				+ buttonDrawFourNeighbor.getWidth()
 				+ buttonDrawEightNeighbor.getWidth() + buttonInverse.getWidth()
-				+ buttonChooseFile.getWidth() + 50; // some spacing
+				+ buttonChooseFile.getWidth() + panel2.getWidth() + 50; // some
+																		// spacing
 		int minHeight = buttonDrawImage.getHeight() + 50; // +50px spacing
 
 		Dimension minDimension = new Dimension(minWidth, minHeight);
 
 		Dimension fittingDimension = new Dimension(getImage().width()
 				* pointSizeXY + getImage().width() + 70, getImage().height()
-				* pointSizeXY + getImage().height() + 150);
+				* pointSizeXY + getImage().height() + panel2.getHeight() + 150);
 		Dimension newDimension = new Dimension(Math.max(minDimension.width,
 				fittingDimension.width), Math.max(minDimension.height,
 				fittingDimension.height));
@@ -248,6 +273,7 @@ public class View extends Applet {
 	 * @author Daniel Liesener
 	 * @author Fenja Harbke
 	 */
+	@Override
 	public void paint(Graphics graphic) {
 		// save graphic internally to not have to pass it through drawBlobs()
 		// etc.
