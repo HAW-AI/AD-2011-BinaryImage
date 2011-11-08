@@ -28,11 +28,14 @@ public class BlobImpl implements Blob {
 	 * Blob-Konstruktor.
 	 * 
 	 * @param pointsOfBlob
-	 *            : Collection, die alle Points des Blobs enth√§lt.
+	 *            : Collection, die alle Points des Blobs enth‰lt.
 	 */
 	private BlobImpl(Collection<Point> pointsOfBlob, BinaryImage image) {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
 		this.binaryImage = image;
+
+		// Berechnung der Circularity des Blobs, festgehalten in der private
+		// final double circularity;
 		this.circularity = 4 * Math.PI * pointCount()
 				/ Math.pow(perimeter(), 2);
 	}
@@ -179,11 +182,14 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * gibt die Anzahl der (feistehenden) Auﬂendkanten der Points der Umrandung
+	 * gibt die Anzahl der (freistehenden) Auﬂenkanten der Points der Umrandung
 	 * zur¸ck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl Auﬂenkannten
+	 * 
 	 */
 
 	private int perimeter() {
@@ -205,11 +211,12 @@ public class BlobImpl implements Blob {
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
+	 * 
+	 * @return circularity (liegt zwischen 0 und 1)
 	 */
 	@Override
 	public double circularity() {
 		return circularity;
-		// return 4*Math.PI * pointCount() / Math.pow(perimeter(), 2);
 	}
 
 }

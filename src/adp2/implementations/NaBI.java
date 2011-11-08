@@ -128,6 +128,15 @@ final class NaBI implements BinaryImage {
 		return "NaBI";
 	}
 
+	
+	/**
+	 * gibt String "NaBI has no circularity!" für NaBIs zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return String "NaBI has no circularity!"
+	 */
 	@Override
 	public String circularities() {
 		return "NaBI has no circularity!";

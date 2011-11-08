@@ -147,6 +147,8 @@ public class View extends Applet {
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
+	 * 
+	 * 
 	 */
 	private void setCircularityText() {
 		textAreaCircularity.setText("Circularity:\n"

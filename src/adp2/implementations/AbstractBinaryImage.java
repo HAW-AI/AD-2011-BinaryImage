@@ -403,6 +403,15 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		return result;
 	}
 
+	/**
+	 * gibt String mit Circularity-Werten aller Blobs zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return String mit Circularity-Werten
+	 */
+	
 	public String circularities() {
 		int i = 1;
 		StringBuilder sB = new StringBuilder();
