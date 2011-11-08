@@ -403,14 +403,20 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		return result;
 	}
 
-	public String circularities(){
-    	StringBuilder sB = new StringBuilder();
-    	for (Blob blob : blobs) {
-    		//sB.append(blob.
+	public String circularities() {
+		int i = 1;
+		StringBuilder sB = new StringBuilder();
+
+		for (Blob blob : blobs) {
+
+			sB.append(i);
+
+			sB.append(".)  ");
 			sB.append(blob.circularity());
 			sB.append("\n");
+			i++;
 		}
-    	System.out.println(sB);
-    	return sB.toString();
-    }
+		System.out.println(sB);
+		return sB.toString();
+	}
 }
