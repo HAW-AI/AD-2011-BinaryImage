@@ -195,7 +195,7 @@ public class BlobImpl implements Blob {
 	private int perimeter() {
 		int counter = 0;
 
-		for (Point p : pointsOfBlob) {
+		for (Point p : boundary()) {
 			int noOfNeighbours = binaryImage.neighbours(p).size();
 
 			if ((noOfNeighbours < 4)) {
