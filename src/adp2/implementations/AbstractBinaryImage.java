@@ -403,23 +403,32 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		return result;
 	}
 
+	/**
+	 * gibt String mit Circularity-Werten aller Blobs zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return String mit Circularity-Werten
+	 */
+	
 	public String circularities() {
 		int i = 1;
 		StringBuilder sB = new StringBuilder();
 		String nl = "\n";
 		String zwischenraum = ".)  ";
-		// String area = "    Area: ";
-		// String perimeter = "    Perimeter: ";
+		 String area = "    Area: ";
+		 String perimeter = "    Perimeter: ";
 
 		for (Blob blob : blobs) {
 			sB.append(String.format("%5d", i));
 
 			sB.append(zwischenraum);
 			sB.append(blob.circularity());
-			// sB.append(area);
-			// sB.append(blob.pointCount());
-			// sB.append(perimeter);
-			// sB.append(blob.boundary().size());
+			 sB.append(area);
+			 sB.append(blob.pointCount());
+			 sB.append(perimeter);
+			 sB.append(blob.boundary().size());
 			sB.append(nl);
 			i++;
 		}

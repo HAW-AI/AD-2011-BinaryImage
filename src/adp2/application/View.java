@@ -147,6 +147,8 @@ public class View extends Applet {
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
+	 * 
+	 * 
 	 */
 	private void setCircularityText() {
 		textAreaCircularity.setText("Circularity:\n"
@@ -227,6 +229,7 @@ public class View extends Applet {
 	 */
 	private void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
+		setCircularityText();
 		repaint();
 	}
 

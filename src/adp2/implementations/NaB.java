@@ -10,11 +10,12 @@ import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
 
 final class NaB implements Blob {
-	
+
 	private final static NaB instance = new NaB();
-	
-	private NaB() {}
-	
+
+	private NaB() {
+	}
+
 	/**
 	 * 
 	 * @return the instance of NaB
@@ -22,7 +23,7 @@ final class NaB implements Blob {
 	public static Blob valueOf() {
 		return instance;
 	}
-	
+
 	/**
 	 * 
 	 * @return an iterator of an empty collection of Point
@@ -34,7 +35,7 @@ final class NaB implements Blob {
 
 	/**
 	 * 
-	 * @return number of Points 
+	 * @return number of Points
 	 */
 	@Override
 	public int pointCount() {
@@ -58,14 +59,14 @@ final class NaB implements Blob {
 	public int height() {
 		return 0;
 	}
-	
+
 	@Override
 	public boolean contains(Point p) {
 		return false;
 	}
-	
+
 	@Override
-	public Set<Point> points(){
+	public Set<Point> points() {
 		return new HashSet<Point>();
 	}
 
@@ -83,10 +84,20 @@ final class NaB implements Blob {
 		return new HashSet<Point>();
 	}
 
-	//Was ist die circularity eines NaB???
+	/**
+	 * returnt -1, gültiger circularity-Wert liegt zwischen 0 und
+	 * 1, NaB hat keine gültige circularity.
+	 * 
+	 * @author Tobias Meurer
+	 * @author Stephan Berngruber
+	 * 
+	 * @return -1
+	 * 
+	 */
+
 	@Override
 	public double circularity() {
 		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 }
