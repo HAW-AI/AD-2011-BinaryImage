@@ -229,6 +229,7 @@ public class View extends Applet {
 	 */
 	private void buttonInverse(ActionEvent event) {
 		setImage(getImage().inverse());
+		setCircularityText();
 		repaint();
 	}
 
