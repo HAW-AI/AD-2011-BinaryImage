@@ -2,8 +2,10 @@ package adp2.implementations;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import adp2.interfaces.*;
 
@@ -158,13 +160,13 @@ public class BlobImpl implements Blob {
 	@Override
 	public Set<Point> boundary() {
 		Set<Point> boundary = new TreeSet<Point>();
-		int count = 0;
+		int count = 8;
 		if (binaryImage instanceof EightNeighborBinaryImage) {
 			count = 8;
 		}
-		if (binaryImage instanceof FourNeighborBinaryImage) {
-			count = 4;
-		}
+	//	if (binaryImage instanceof FourNeighborBinaryImage) {
+	//		count = 4;
+	//	}
 
 		for (Point p : pointsOfBlob) {
 			// System.out.println("Neighbours" +binaryImage.neighbours(p) +
@@ -177,7 +179,58 @@ public class BlobImpl implements Blob {
 
 		return boundary;
 	}
+	
+	
+	
+	// FUNKTIONIERT NUR KORREKT FÜR 8er IMAGES
+//@Override
+//	public Set<Point> boundary() {
+//		Set<Point> boundary = new TreeSet<Point>();
+//		Queue<Point> queue = new ConcurrentLinkedQueue<Point>();
+//		boolean stop = false;
+//		int count = 8;
+//		Point start;
+//		
+////		if (binaryImage instanceof EightNeighborBinaryImage) {
+////			count = 8;
+////		}
+////		if (binaryImage instanceof FourNeighborBinaryImage) {
+////			count = 4;
+////		}
+//		
+//		// Startpunkt suchen (erster Punkt mit weniger Nachbarn)
+//		Iterator<Point> it = pointsOfBlob.iterator();
+//		start = it.next();
+//		while (stop == false && it.hasNext()) {
+//			
+//			if (binaryImage.neighbours(start).size() < count) {
+//				stop = true;
+//			}
+//			start = it.next();
+//		}
+//		// Startpunkt in die Queue pushen
+//		queue.add(start);
+//
+//		// Nachbarn der Punkte überprüfen ob diese weniger als Count Nachbarn
+//		// haben.
+//		// Wenn ja, werden diese zur Queue hinzugefügt, falls sie nicht schon in
+//		// Boundary stehen.
+//		while (!queue.isEmpty()) {
+//			
+//			for (Point p : binaryImage.neighbours(queue.element())) {
+//				
+//				if ((binaryImage.neighbours(p).size() < count)
+//						&& (!(boundary.contains(p)))) {
+//					queue.add(p);		
+//				}	
+//			}
+//			boundary.add(queue.poll());	
+//		}
+//		return boundary;
+//	}
 
+	
+	
 	/**
 	 * gibt die Anzahl der (feistehenden) Außendkanten der Points der Umrandung
 	 * zurück
@@ -186,6 +239,7 @@ public class BlobImpl implements Blob {
 	 * @author Tobias Meurer
 	 */
 
+	// TODO: perimeter mit boundary implementieren?
 	private int perimeter() {
 		int counter = 0;
 
