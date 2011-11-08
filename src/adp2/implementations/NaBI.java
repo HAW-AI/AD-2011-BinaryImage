@@ -127,4 +127,9 @@ final class NaBI implements BinaryImage {
 	public String toString() {
 		return "NaBI";
 	}
+
+	@Override
+	public String circularities() {
+		return "NaBI has no circularity!";
+	}
 }
