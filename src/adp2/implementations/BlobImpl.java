@@ -97,7 +97,8 @@ public class BlobImpl implements Blob {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((pointsOfBlob == null) ? 0 : pointsOfBlob.hashCode());
+		result = prime * result
+				+ ((pointsOfBlob == null) ? 0 : pointsOfBlob.hashCode());
 		return result;
 	}
 
@@ -178,16 +179,25 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * gibt die Anzahl der Points im boundary (Umrandung) zurück
+	 * gibt die Anzahl der (feistehenden) Außendkanten der Points der Umrandung
+	 * zurück
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
 	 */
 
 	private int perimeter() {
-		// TODO Ändern auf final-Variable für Boundary (anstelle von
-		// boundary()), sobald diese vorhanden ist
-		return boundary().size();
+		int counter = 0;
+
+		for (Point p : pointsOfBlob) {
+			int noOfNeighbours = binaryImage.neighbours(p).size();
+
+			if ((noOfNeighbours < 4)) {
+				counter += 4 - noOfNeighbours;
+			}
+		}
+
+		return counter;
 	}
 
 	/**
