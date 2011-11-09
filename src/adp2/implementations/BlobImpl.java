@@ -257,10 +257,10 @@ public class BlobImpl implements Blob {
 		for (Point p : boundary()) {
 			
 			//Anzahl der Rand-Kanten bestimmen
-			int noOfPerimeterEdges = binaryImage.noOfPerimeterEdges(p);
+			int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
 
-			if ((noOfPerimeterEdges < 4)) {
-				counter += 4 - noOfPerimeterEdges; //coounter um Anzahl der Randkanten erhöhen
+			if ((noOfInnerEdges < 4)) {
+				counter += 4 - noOfInnerEdges; //coounter um Anzahl der Randkanten erhöhen
 			}
 		}
 

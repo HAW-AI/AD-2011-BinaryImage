@@ -432,15 +432,15 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 	}
 	
 	/**
-	 * Berechnet die Anzahl der Randkanten eines Pixels in einem Bild und gibt diese zurück
+	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
 	 * 
-	 * @return Anzahl der Randkanten eines Pixels in einem Bild
+	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
 	 */	
 	@Override
-	public int noOfPerimeterEdges(Point point) {
+	public int noOfInnerEdges(Point point) {
 		int counter = 0;
 		//Set<Point> result = new TreeSet<Point>();
 		for (Point other : points) {

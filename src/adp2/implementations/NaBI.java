@@ -143,15 +143,15 @@ final class NaBI implements BinaryImage {
 	}
 	
 	/**
-	 * Berechnet die Anzahl der Randkanten eines Pixels in einem Bild und gibt diese zurück
+	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
 	 * 
-	 * @return Anzahl der Randkanten eines Pixels in einem Bild. Hier Wert 0, da NaBI
+	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild. Hier Wert 0, da NaBI
 	 */	
 	@Override
-	public int noOfPerimeterEdges(Point point) {
+	public int noOfInnerEdges(Point point) {
 		return 0;
 	}
 }
