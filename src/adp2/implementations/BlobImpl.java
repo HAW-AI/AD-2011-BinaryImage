@@ -167,9 +167,9 @@ public class BlobImpl implements Blob {
 		if (binaryImage instanceof EightNeighborBinaryImage) {
 			count = 8;
 		}
-	//	if (binaryImage instanceof FourNeighborBinaryImage) {
-	//		count = 4;
-	//	}
+		if (binaryImage instanceof FourNeighborBinaryImage) {
+			count = 4;
+		}
 
 		for (Point p : pointsOfBlob) {
 			// System.out.println("Neighbours" +binaryImage.neighbours(p) +
@@ -182,31 +182,24 @@ public class BlobImpl implements Blob {
 
 		return boundary;
 	}
-	
-	
-	
+
 	// FUNKTIONIERT NUR KORREKT FÜR 8er IMAGES
-//@Override
+//	@Override
 //	public Set<Point> boundary() {
 //		Set<Point> boundary = new TreeSet<Point>();
 //		Queue<Point> queue = new ConcurrentLinkedQueue<Point>();
+//		
 //		boolean stop = false;
-//		int count = 8;
+//		// Anzahl Nachbarn bei 8er Nachbarschaft
+//		int maxNeighbourCount = 8;
 //		Point start;
-//		
-////		if (binaryImage instanceof EightNeighborBinaryImage) {
-////			count = 8;
-////		}
-////		if (binaryImage instanceof FourNeighborBinaryImage) {
-////			count = 4;
-////		}
-//		
+//
 //		// Startpunkt suchen (erster Punkt mit weniger Nachbarn)
 //		Iterator<Point> it = pointsOfBlob.iterator();
 //		start = it.next();
 //		while (stop == false && it.hasNext()) {
-//			
-//			if (binaryImage.neighbours(start).size() < count) {
+//
+//			if (binaryImage.neighbours(start).size() < maxNeighbourCount) {
 //				stop = true;
 //			}
 //			start = it.next();
@@ -219,21 +212,30 @@ public class BlobImpl implements Blob {
 //		// Wenn ja, werden diese zur Queue hinzugefügt, falls sie nicht schon in
 //		// Boundary stehen.
 //		while (!queue.isEmpty()) {
-//			
+//
 //			for (Point p : binaryImage.neighbours(queue.element())) {
-//				
-//				if ((binaryImage.neighbours(p).size() < count)
+//
+//				if ((binaryImage.neighbours(p).size() < maxNeighbourCount)
 //						&& (!(boundary.contains(p)))) {
-//					queue.add(p);		
-//				}	
+//					queue.add(p);
+//				}
 //			}
-//			boundary.add(queue.poll());	
+//			boundary.add(queue.poll());
 //		}
+//
+//		// Entfernen der Inneren Ecken bei 4rer Nachbarschaft?!?!
+////		if (binaryImage instanceof FourNeighborBinaryImage) {
+////			maxNeighbourCount = 4;
+////			for (Point p : boundary) {
+////				if (binaryImage.neighbours(p).size() == 4)
+////					boundary.remove(p);
+////			}
+////
+////		}
+//
 //		return boundary;
 //	}
 
-	
-	
 	/**
 	 * gibt die Anzahl der (freistehenden) Außenkanten der Points der Umrandung
 	 * zurück

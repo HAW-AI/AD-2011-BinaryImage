@@ -74,7 +74,11 @@ public class BlobTest {
 	
 	@Test
 	public void testBoundary() {
+		BinaryImage Bi = binaryImage(parse("test/fixtures/32x32.esser"));
+//		BinaryImage Bi2 = binaryImage(parse("test/fixtures/huge.esser"));
+//		BinaryImage Bi3 = binaryImage(parse("test/fixtures/huge-einsen.esser"));
 		assertEquals(24,Bi.blob(0).boundary().size());	
+// TODO: Test mit Huge Bildern, geht aber erst nach neuem Algortihmus
 	}
 
 }
