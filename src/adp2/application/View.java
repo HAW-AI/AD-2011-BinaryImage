@@ -182,6 +182,7 @@ public class View extends Applet {
 	private void buttonDrawFourNeighbor(ActionEvent event) {
 		useRandomColor = true;
 		setImage(getImage().toFourNeighborBinaryImage());
+		setCircularityText();
 
 	}
 
@@ -198,7 +199,7 @@ public class View extends Applet {
 	private void buttonDrawEightNeighbor(ActionEvent evt) {
 		useRandomColor = true;
 		setImage(getImage().toEigthNeighborBinaryImage());
-
+		setCircularityText();
 	}
 
 	/**
