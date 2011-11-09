@@ -14,6 +14,8 @@ public class BlobImpl implements Blob {
 	private final TreeSet<Point> pointsOfBlob;
 	private final BinaryImage binaryImage;
 	private final double circularity;
+	private final int perimeter;
+
 
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zur√ºck.
@@ -36,11 +38,12 @@ public class BlobImpl implements Blob {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
 		this.binaryImage = image;
 
+		this.perimeter = initializePerimeter();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
-		this.circularity = 4 * Math.PI * pointCount()
-				/ Math.pow(perimeter(), 2);
+		this.circularity = initializeCircularity();
 	}
+	
 
 	/**
 	 * Gibt einen Iterator √ºber die Menge der Points des Blobs zur√ºck.
@@ -138,7 +141,8 @@ public class BlobImpl implements Blob {
 
 	@Override
 	public String toString() {
-		return this.pointsOfBlob.toString();
+		return String.format(" A=%3d, P=%3d ", pointCount(), perimeter()).concat(this.pointsOfBlob.toString());
+		//return this.pointsOfBlob.toString();
 	}
 
 	@Override
@@ -236,9 +240,10 @@ public class BlobImpl implements Blob {
 //		return boundary;
 //	}
 
+
+
 	/**
-	 * gibt die Anzahl der (freistehenden) Auﬂenkanten der Points der Umrandung
-	 * zur¸ck
+	 * berechnet Perimeter, wird im Konstruktor zur initialisierung der perimeter konstante verwendet
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
@@ -246,9 +251,7 @@ public class BlobImpl implements Blob {
 	 * @return Anzahl Auﬂenkannten
 	 * 
 	 */
-
-	// TODO: perimeter mit boundary implementieren?
-	private int perimeter() {
+	private int initializePerimeter() {
 		int counter = 0;
 
 		for (Point p : boundary()) {
@@ -260,6 +263,33 @@ public class BlobImpl implements Blob {
 		}
 
 		return counter;
+	}
+	
+	/**
+	 * berechnet circularity, wird im Konstruktor zur initialisierung der circularity konstante verwendet
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl Auﬂenkannten
+	 * 
+	 */
+	private double initializeCircularity(){
+		return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
+	}
+
+	/**
+	 * gibt die Anzahl der (freistehenden) Auﬂenkanten der Points der Umrandung
+	 * zur¸ck
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl Auﬂenkannten
+	 * 
+	 */
+	private int perimeter() {
+		return perimeter;
 	}
 
 	/**

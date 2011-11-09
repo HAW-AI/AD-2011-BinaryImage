@@ -417,18 +417,13 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 		StringBuilder sB = new StringBuilder();
 		String nl = "\n";
 		String zwischenraum = ".)  ";
-		 String area = "    Area: ";
-		 String perimeter = "    Perimeter: ";
 
 		for (Blob blob : blobs) {
 			sB.append(String.format("%5d", i));
 
 			sB.append(zwischenraum);
 			sB.append(blob.circularity());
-			 sB.append(area);
-			 sB.append(blob.pointCount());
-			 sB.append(perimeter);
-			 sB.append(blob.boundary().size());
+			 sB.append(blob);
 			sB.append(nl);
 			i++;
 		}
