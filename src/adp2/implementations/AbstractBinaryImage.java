@@ -423,11 +423,36 @@ public abstract class AbstractBinaryImage implements BinaryImage {
 
 			sB.append(zwischenraum);
 			sB.append(blob.circularity());
-			 sB.append(blob);
+			 //sB.append(blob);
 			sB.append(nl);
 			i++;
 		}
 		// System.out.println(sB);
 		return sB.toString();
+	}
+	
+	/**
+	 * Berechnet die Anzahl der Randkanten eines Pixels in einem Bild und gibt diese zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl der Randkanten eines Pixels in einem Bild
+	 */	
+	@Override
+	public int noOfPerimeterEdges(Point point) {
+		int counter = 0;
+		//Set<Point> result = new TreeSet<Point>();
+		for (Point other : points) {
+			//Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
+			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
+			// Das hängt damit zusammen, das es für den Umfang nur entscheidend ist,
+			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an die Ecken
+			// grenzen beeinflussen den Umfang des einen Pixels NICHT
+			if (areNeighbours4n(point, other)) {
+				counter++;
+			}
+		}
+		return counter;
 	}
 }

@@ -252,13 +252,15 @@ public class BlobImpl implements Blob {
 	 * 
 	 */
 	private int initializePerimeter() {
-		int counter = 0;
+		int counter = 0; //Zählt Anzahl der Außenkanten hoch => Wert des Umfangs
 
 		for (Point p : boundary()) {
-			int noOfNeighbours = binaryImage.neighbours(p).size();
+			
+			//Anzahl der Rand-Kanten bestimmen
+			int noOfPerimeterEdges = binaryImage.noOfPerimeterEdges(p);
 
-			if ((noOfNeighbours < 4)) {
-				counter += 4 - noOfNeighbours;
+			if ((noOfPerimeterEdges < 4)) {
+				counter += 4 - noOfPerimeterEdges; //coounter um Anzahl der Randkanten erhöhen
 			}
 		}
 

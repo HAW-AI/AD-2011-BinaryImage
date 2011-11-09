@@ -73,4 +73,14 @@ public interface BinaryImage extends Iterable<Blob> {
 	BinaryImage toEigthNeighborBinaryImage();
 
 	String circularities();
+	
+	/**
+	 * Gibt die Anzahl der Randkanten eines Pixels in einem Bild zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl der Randkanten eines Pixels in einem Bild
+	 */
+	int noOfPerimeterEdges(Point point);
 }
