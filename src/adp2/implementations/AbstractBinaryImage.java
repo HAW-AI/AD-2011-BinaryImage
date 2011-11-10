@@ -7,60 +7,67 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import adp2.interfaces.*;
 
-public abstract class AbstractBinaryImage extends AbstractMatrix implements BinaryImage {
+public abstract class AbstractBinaryImage extends AbstractMatrix implements
+		BinaryImage {
 	protected final List<Blob> blobs;
 	protected final List<Point> allPointsOfImage;
 	protected final SortedSet<Point> foregroundPointsSet;
-	protected final boolean isEightNbr;		//true if eightNeighborBinaryImage, false if fourNeighborBinaryImage
+	protected final boolean isEightNbr; // true if eightNeighborBinaryImage,
+										// false if fourNeighborBinaryImage
 
-	protected AbstractBinaryImage(int width, int height, List<Integer> values,boolean isEightNbr) {
+	protected AbstractBinaryImage(int width, int height, List<Integer> values,
+			boolean isEightNbr) {
 		super(width, height, values);
 		this.isEightNbr = isEightNbr;
 		this.allPointsOfImage = wrapList(values);
-		foregroundPointsSet=new TreeSet<Point>();
+		foregroundPointsSet = new TreeSet<Point>();
 		for (Point point : allPointsOfImage) {
-			if(!(point instanceof NaP))
+			if (!(point instanceof NaP))
 				foregroundPointsSet.add(point);
 		}
-		this.blobs = calcBlobs(poitsAsSet());
+		this.blobs = calcBlobs(foregroundPointsSet());
 	}
-	public List<Point> wrapList(List<Integer> values){
-		List<Point> wrapper=new ArrayList<Point>();
-		for (int y=0;y<height();y++) {
+
+	public List<Point> wrapList(List<Integer> values) {
+		List<Point> wrapper = new ArrayList<Point>();
+		for (int y = 0; y < height(); y++) {
 			for (int x = 0; x < width(); x++) {
-				if(get(x, y)>0)
-					wrapper.add(BinaryImages.point(x,y));
+				if (get(x, y) > 0)
+					wrapper.add(BinaryImages.point(x, y));
 				else
 					wrapper.add(BinaryImages.NaP(x, y));
 			}
 		}
 		return wrapper;
 	}
+
 	@Override
 	public boolean isEightNbr() {
 		return isEightNbr;
 	}
+
 	/**
 	 * berechnet die Punkte, die nicht zu Blobs gehoeren ("die False-Punkte")
 	 * 
 	 **/
 	protected List<Point> inversePoints() {
-		 List<Point> l= new ArrayList<Point>();
-		 for (Point p: allPointsOfImage){
-		 	if (p instanceof NaP){
-		 	l.add(BinaryImages.point(p.x(), p.y()));
-		 	} else {
-			  l.add(BinaryImages.NaP(p.x(), p.y()));
-		 	}
-		 }
-		 return l;
+		List<Point> l = new ArrayList<Point>();
+		for (Point p : allPointsOfImage) {
+			if (p instanceof NaP) {
+				l.add(BinaryImages.point(p.x(), p.y()));
+			} else {
+				l.add(BinaryImages.NaP(p.x(), p.y()));
+			}
+		}
+		return l;
 	}
+
 	/**
 	 * Delegates the calculation of Blobs to the preferred algorithm
 	 * 
 	 * @return Ordered list of Blobs
 	 */
-	protected abstract List<Blob> calcBlobs(Set<Point> points) ;
+	protected abstract List<Blob> calcBlobs(Set<Point> points);
 
 	@Override
 	public int blobCount() {
@@ -78,15 +85,18 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 	public List<Blob> blobs() {
 		return new ArrayList<Blob>(blobs);
 	}
+
 	protected abstract Set<Point> neighbours(Point point, Set<Point> points);
 
 	@Override
 	public Set<Point> neighbours(Point point) {
-		return neighbours(point, poitsAsSet());
+		return neighbours(point, foregroundPointsSet());
 	}
-	protected Set<Point> poitsAsSet(){
+
+	protected Set<Point> foregroundPointsSet() {
 		return foregroundPointsSet;
 	}
+
 	@Override
 	public boolean valueAt(Point point) {
 		return allPointsOfImage.contains(point);
@@ -103,17 +113,17 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 		}
 		return false;
 	}
-	
+
 	/**
-	* Helper method to find out, if two points are neighbours (4 neighbourhood)
-	*
-	* @author Oliver Behncke
-	*
-	* @param Point
-	* @param Other
-	* Point
-	* @return
-	*/
+	 * Helper method to find out, if two points are neighbours (4 neighbourhood)
+	 * 
+	 * @author Oliver Behncke
+	 * 
+	 * @param Point
+	 * @param Other
+	 *            Point
+	 * @return
+	 */
 	protected boolean areNeighbours4n(Point p1, Point p2) {
 		return (Math.abs(p1.x() - p2.x()) == 1)
 				&& (Math.abs(p1.y() - p2.y()) == 0)
@@ -121,25 +131,26 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 				&& (Math.abs(p1.y() - p2.y()) == 1);
 	}
 
-
-	
 	/**
-	* Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
-	*
-	* @author Stephan Berngruber
-	* @author Tobias Meurer
-	*
-	* @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
-	*/
+	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und
+	 * gibt diese zurück
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
+	 */
 	@Override
 	public int noOfInnerEdges(Point point) {
 		int counter = 0;
-		//Set<Point> result = new TreeSet<Point>();
+		// Set<Point> result = new TreeSet<Point>();
 		for (Point other : foregroundPointsSet) {
-			//Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
+			// Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
 			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
-			// Das hängt damit zusammen, das es für den Umfang nur entscheidend ist,
-			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an die Ecken
+			// Das hängt damit zusammen, das es für den Umfang nur entscheidend
+			// ist,
+			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an
+			// die Ecken
 			// grenzen beeinflussen den Umfang des einen Pixels NICHT
 			if (areNeighbours4n(point, other)) {
 				counter++;
