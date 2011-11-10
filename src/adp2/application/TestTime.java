@@ -1,6 +1,8 @@
 package adp2.application;
 
 import adp2.implementations.BinaryImages;
+import adp2.interfaces.BinaryImage;
+import adp2.interfaces.Matrix;
 
 public class TestTime {
 
@@ -15,18 +17,18 @@ public class TestTime {
 				"test/fixtures/16x16-einsen.esser",
 				"test/fixtures/32x32-einsen.esser",
 				"test/fixtures/64x64-einsen.esser",
+
 				};
 		
 		long start = 0;
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 1; i++) {
 			for (String file : files) {
-				EsserImage image = EsserParser.parse(file);
 				start = System.currentTimeMillis();
-				System.out.println(BinaryImages.binaryImage(image).blobCount());
+				BinaryImage image = EsserParser.parse(file);
+				System.out.println(image.blobCount());
 				System.out.println(String.format("Runtime in MS: %s (file: %s)", System.currentTimeMillis() - start, file));
 			}
 		}
 	}
-
 }

@@ -16,7 +16,7 @@ import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
 
 public class AxiomsTest {
-	BinaryImage Bi = binaryImage(parse("test/fixtures/32x32.esser"));
+	BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
 	Point p1 = point(3, 1);
 	Blob b1 = blob(Arrays.asList(p1, point(4, 1), point(3, 2)), Bi);
 	Set<Point> es = new TreeSet<Point>();

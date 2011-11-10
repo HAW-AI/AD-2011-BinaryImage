@@ -37,17 +37,17 @@ public class View extends Applet {
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
-	private Button buttonDrawBoundary = new Button("Ränder");
+	private Button buttonDrawBoundary = new Button("Rï¿½nder");
 	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
 
-	// panel hält die Buttons
+	// panel hï¿½lt die Buttons
 	private final Panel panel = new Panel();
-	// panel2 hält die TextArea zur circularity ausgabe
+	// panel2 hï¿½lt die TextArea zur circularity ausgabe
 	private final Panel panel2 = new Panel();
-	// distance hält die höhe von panel + panel2
+	// distance hï¿½lt die hï¿½he von panel + panel2
 	private final int distance;
-	// textAreaCircularity zur ausgabe der Circularitäten
+	// textAreaCircularity zur ausgabe der Circularitï¿½ten
 	private TextArea textAreaCircularity = new TextArea();
 
 	private JFileChooser fileChooser = new JFileChooser(".");
@@ -131,7 +131,7 @@ public class View extends Applet {
 		//
 		// add circularity value
 		setCircularityText();
-		// hier wird in mehreren schritten die größe von panel2 gesetzt,
+		// hier wird in mehreren schritten die grï¿½ï¿½e von panel2 gesetzt,
 		panel2.setBounds(0, 30, 50, 50);
 		// es zu view geadded
 		add(panel2);
@@ -143,7 +143,7 @@ public class View extends Applet {
 	}
 
 	/**
-	 * trägt Circularity aller blobs in die Textarea ein
+	 * trï¿½gt Circularity aller blobs in die Textarea ein
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
@@ -182,7 +182,6 @@ public class View extends Applet {
 	private void buttonDrawFourNeighbor(ActionEvent event) {
 		useRandomColor = true;
 		setImage(getImage().toFourNeighborBinaryImage());
-		setCircularityText();
 
 	}
 
@@ -199,7 +198,7 @@ public class View extends Applet {
 	private void buttonDrawEightNeighbor(ActionEvent evt) {
 		useRandomColor = true;
 		setImage(getImage().toEigthNeighborBinaryImage());
-		setCircularityText();
+
 	}
 
 	/**
@@ -239,8 +238,8 @@ public class View extends Applet {
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			String path = file.getAbsolutePath();
-			controller.setBinaryImage(BinaryImages.binaryImage(controller
-					.openImage(path)));
+			controller.setBinaryImage(controller
+					.openImage(path));
 			setCircularityText();
 			// Resize frame for new image
 			sizeToFit();

@@ -3,6 +3,7 @@ package adp2.application;
 import java.io.File;
 import adp2.implementations.BinaryImages;
 import adp2.interfaces.BinaryImage;
+import adp2.interfaces.Matrix;
 
 /**
  * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
@@ -57,21 +58,8 @@ public class Controller {
 	 * @param filename
 	 * @return
 	 */
-	public EsserImage openImage(String filename) {
+	public BinaryImage openImage(String filename) {
 		return EsserParser.parse(filename);
-	}
-
-	/**
-	 * set binaryImage field to given BinaryImage, after converting from EsserImage
-	 * @param image
-	 */
-	private void setBinaryImage(EsserImage image) {
-		if (!image.isValid()) {
-			setBinaryImage(BinaryImages.NaBI());
-		}
-		else {
-			setBinaryImage(BinaryImages.binaryImage(image));
-		}
 	}
 
 	/**

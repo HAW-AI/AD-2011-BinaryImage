@@ -10,11 +10,11 @@ import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
 
-final class NaBI implements BinaryImage {
+final class NaBI extends NaM implements BinaryImage {
 	
 	private final static NaBI instance = new NaBI();
 	
-	private NaBI() {}
+	private NaBI() { super();}
 	
 	/**
 	 * 
@@ -22,15 +22,6 @@ final class NaBI implements BinaryImage {
 	 */
 	public static BinaryImage valueOf() {
 		return instance;
-	}
-	
-	/**
-	 * 
-	 * @return an iterator of an empty collection of Blob
-	 */
-	@Override
-	public Iterator<Blob> iterator() {
-		return (new ArrayList<Blob>()).iterator();
 	}
 
 	/**
@@ -114,23 +105,13 @@ final class NaBI implements BinaryImage {
 		return this;
 	}
 
-	@Override
-	public BinaryImage toFourNeighborBinaryImage() {
-		return this;
-	}
-
-	@Override
-	public BinaryImage toEigthNeighborBinaryImage() {
-		return this;
-	}
-	
 	public String toString() {
 		return "NaBI";
 	}
 
 	
 	/**
-	 * gibt String "NaBI has no circularity!" für NaBIs zurück
+	 * gibt String "NaBI has no circularity!" fï¿½r NaBIs zurï¿½ck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
@@ -141,17 +122,19 @@ final class NaBI implements BinaryImage {
 	public String circularities() {
 		return "NaBI has no circularity!";
 	}
-	
-	/**
-	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
-	 * 
-	 * @author Stephan Berngruber
-	 * @author Tobias Meurer
-	 * 
-	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild. Hier Wert 0, da NaBI
-	 */	
+
 	@Override
-	public int noOfInnerEdges(Point point) {
-		return 0;
+	public boolean isEightNbr() {
+		return false;
+	}
+
+	@Override
+	public BinaryImage toFourNeighborBinaryImage() {
+		return this;
+	}
+
+	@Override
+	public BinaryImage toEigthNeighborBinaryImage() {
+		return this;
 	}
 }

@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.Integer;
+import java.lang.reflect.Array;
+import adp2.implementations.*;
+import adp2.interfaces.BinaryImage;
+import adp2.interfaces.Matrix;
 
 /**
  * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
@@ -15,43 +20,22 @@ import java.util.List;
  */
 public class EsserParser {
 	private static final String ELEMENT_DELIMITER = " ";
-	
-	public static EsserImage parse(String file) {
-		return EsserImage.valueOf(parse_array(body(content(file)))); 
-	}
-
-	/**
-	 * parse a line into boolean array
-	 * @param line
-	 * @return boolean array
-	 */
-	private static boolean[] elements(String line) {
-		final String[] elements = line.split(ELEMENT_DELIMITER);
-		boolean[] result = new boolean[elements.length];
-		int counter = 0;
-		for (String element : elements) {
-			result[counter] = parse_boolean(element);
-			counter++; // never ever touch this line, else this shit will break
+	public static BinaryImage parse(String file) {
+		return parse_array(content(file)); 
+	}	
+	private static BinaryImage parse_array(String[] content) {	
+		final String[] header = content[0].split(ELEMENT_DELIMITER);
+		int width = Integer.parseInt(header[0]);
+		int height = Integer.parseInt(header[1]);
+		String[] body = body(content);
+		List<Integer> values = new ArrayList<Integer>();
+		for (int line = 0; line < Array.getLength(body); line++) {
+			String[] elements = body[line].split(ELEMENT_DELIMITER);
+			for (int e = 0; e < Array.getLength(elements); e++) {
+				values.add(Integer.parseInt(elements[e]));
+			}
 		}
-		return result;
-	}
-	
-	private static boolean parse_boolean(String string) {
-		return !string.equals("0");
-	}
-
-	/**
-	 * build "physical" image out of an String 2d array
-	 * @param body String representation of an 2d array
-	 */
-	private static boolean[][] parse_array(String[] body) {
-		boolean[][] result = new boolean[body.length][];
-		int counter = 0;
-		for (String line : body) {
-			result[counter] = elements(line);
-			counter++; // never ever touch this line, else this shit will break
-		}
-		return result;
+		return BinaryImages.fourNeighborBinaryImage(width, height, values);
 	}
 
 	/**
@@ -60,6 +44,12 @@ public class EsserParser {
 	 */
 	private static String[] body(String[] content) {
 		return Arrays.copyOfRange(content, 1, content.length);
+	}
+	
+	private static List<String> body(List<String> content) {
+		List<String> result = content;
+		result.remove(0);
+		return result;
 	}
 	
 	/**
@@ -72,7 +62,7 @@ public class EsserParser {
 		try {
 			reader = new BufferedReader(new FileReader(new File(filename)));
 		} catch (FileNotFoundException e) {
-			return new String[]{""};
+			return new String[] {""};
 		}
 		List<String> lines = new ArrayList<String>();
 		String line;

@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import adp2.implementations.EightNeighborBinaryImage;
-import adp2.implementations.FourNeighborBinaryImage;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
@@ -21,7 +19,7 @@ public class BlobTest {
 	List<Point> l1 = Arrays.asList(p1,point(4,1),point(3,2));
 	List<Point> l2 = Arrays.asList(p2,point(6,5),point(6,6));
 	List<Point> l3 = Arrays.asList(p2,point(6,5),point(6,6));
-	BinaryImage Bi = binaryImage(parse("test/fixtures/32x32.esser"));
+	BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
 	Blob b1 = blob(l1, Bi);
 	Blob b2 = blob(l2, Bi);
 	Blob b3 = blob(l3, Bi);
@@ -74,11 +72,7 @@ public class BlobTest {
 	
 	@Test
 	public void testBoundary() {
-		BinaryImage Bi = binaryImage(parse("test/fixtures/32x32.esser"));
-//		BinaryImage Bi2 = binaryImage(parse("test/fixtures/huge.esser"));
-//		BinaryImage Bi3 = binaryImage(parse("test/fixtures/huge-einsen.esser"));
 		assertEquals(24,Bi.blob(0).boundary().size());	
-// TODO: Test mit Huge Bildern, geht aber erst nach neuem Algortihmus
 	}
 
 }

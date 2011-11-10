@@ -3,7 +3,7 @@ package adp2.interfaces;
 import java.util.List;
 import java.util.Set;
 
-public interface BinaryImage extends Iterable<Blob> {
+public interface BinaryImage {
 	/**
 	 * The number of blobs in the image.
 	 */
@@ -33,6 +33,11 @@ public interface BinaryImage extends Iterable<Blob> {
 	 * The height of the image.
 	 */
 	int height();
+	
+	/** 
+	 * Check if it's an eightNeighborBinaryImage
+	 */
+	boolean isEightNbr();
 
 	/**
 	 * The neighbours with the same color as a given point. The number of
@@ -73,14 +78,4 @@ public interface BinaryImage extends Iterable<Blob> {
 	BinaryImage toEigthNeighborBinaryImage();
 
 	String circularities();
-	
-	/**
-	 * Gibt die Anzahl der Nicht-Randkanten eines Pixels in einem Bild zurück
-	 * 
-	 * @author Stephan Berngruber
-	 * @author Tobias Meurer
-	 * 
-	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
-	 */
-	int noOfInnerEdges(Point point);
 }

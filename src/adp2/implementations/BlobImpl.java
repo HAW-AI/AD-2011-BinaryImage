@@ -14,8 +14,6 @@ public class BlobImpl implements Blob {
 	private final TreeSet<Point> pointsOfBlob;
 	private final BinaryImage binaryImage;
 	private final double circularity;
-	private final int perimeter;
-
 
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurÃ¼ck.
@@ -32,18 +30,17 @@ public class BlobImpl implements Blob {
 	 * Blob-Konstruktor.
 	 * 
 	 * @param pointsOfBlob
-	 *            : Collection, die alle Points des Blobs enthält.
+	 *            : Collection, die alle Points des Blobs enthï¿½lt.
 	 */
 	private BlobImpl(Collection<Point> pointsOfBlob, BinaryImage image) {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
 		this.binaryImage = image;
 
-		this.perimeter = initializePerimeter();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
-		this.circularity = initializeCircularity();
+		this.circularity = 4 * Math.PI * pointCount()
+				/ Math.pow(perimeter(), 2);
 	}
-	
 
 	/**
 	 * Gibt einen Iterator Ã¼ber die Menge der Points des Blobs zurÃ¼ck.
@@ -141,8 +138,7 @@ public class BlobImpl implements Blob {
 
 	@Override
 	public String toString() {
-		return String.format(" A=%3d, P=%3d ", pointCount(), perimeter()).concat(this.pointsOfBlob.toString());
-		//return this.pointsOfBlob.toString();
+		return this.pointsOfBlob.toString();
 	}
 
 	@Override
@@ -158,27 +154,19 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * 
-	 *         Gibt die Points zurück die zum Rand des Blobs gehören
-	 * 
+	 *         Gibt die Points zurÃ¼ck die zum Rand des Blobs gehÃ¶ren
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
 	 */
 	@Override
 	public Set<Point> boundary() {
 		Set<Point> boundary = new TreeSet<Point>();
-		int count = 8;
-		if (binaryImage instanceof EightNeighborBinaryImage) {
+		int count = 4;
+		if (binaryImage.isEightNbr()) {
 			count = 8;
-		}
-		if (binaryImage instanceof FourNeighborBinaryImage) {
-			count = 4;
 		}
 
 		for (Point p : pointsOfBlob) {
-			// System.out.println("Neighbours" +binaryImage.neighbours(p) +
-			// " p: " + p);
-
 			if ((binaryImage.neighbours(p).size() < count)) {
 				boundary.add(p);
 			}
@@ -186,24 +174,31 @@ public class BlobImpl implements Blob {
 
 		return boundary;
 	}
-
-	// FUNKTIONIERT NUR KORREKT FÜR 8er IMAGES
-//	@Override
+	
+	
+	
+	// FUNKTIONIERT NUR KORREKT Fï¿½R 8er IMAGES
+//@Override
 //	public Set<Point> boundary() {
 //		Set<Point> boundary = new TreeSet<Point>();
 //		Queue<Point> queue = new ConcurrentLinkedQueue<Point>();
-//		
 //		boolean stop = false;
-//		// Anzahl Nachbarn bei 8er Nachbarschaft
-//		int maxNeighbourCount = 8;
+//		int count = 8;
 //		Point start;
-//
+//		
+////		if (binaryImage instanceof EightNeighborBinaryImage) {
+////			count = 8;
+////		}
+////		if (binaryImage instanceof FourNeighborBinaryImage) {
+////			count = 4;
+////		}
+//		
 //		// Startpunkt suchen (erster Punkt mit weniger Nachbarn)
 //		Iterator<Point> it = pointsOfBlob.iterator();
 //		start = it.next();
 //		while (stop == false && it.hasNext()) {
-//
-//			if (binaryImage.neighbours(start).size() < maxNeighbourCount) {
+//			
+//			if (binaryImage.neighbours(start).size() < count) {
 //				stop = true;
 //			}
 //			start = it.next();
@@ -211,91 +206,54 @@ public class BlobImpl implements Blob {
 //		// Startpunkt in die Queue pushen
 //		queue.add(start);
 //
-//		// Nachbarn der Punkte überprüfen ob diese weniger als Count Nachbarn
+//		// Nachbarn der Punkte ï¿½berprï¿½fen ob diese weniger als Count Nachbarn
 //		// haben.
-//		// Wenn ja, werden diese zur Queue hinzugefügt, falls sie nicht schon in
+//		// Wenn ja, werden diese zur Queue hinzugefï¿½gt, falls sie nicht schon in
 //		// Boundary stehen.
 //		while (!queue.isEmpty()) {
-//
+//			
 //			for (Point p : binaryImage.neighbours(queue.element())) {
-//
-//				if ((binaryImage.neighbours(p).size() < maxNeighbourCount)
+//				
+//				if ((binaryImage.neighbours(p).size() < count)
 //						&& (!(boundary.contains(p)))) {
-//					queue.add(p);
-//				}
+//					queue.add(p);		
+//				}	
 //			}
-//			boundary.add(queue.poll());
+//			boundary.add(queue.poll());	
 //		}
-//
-//		// Entfernen der Inneren Ecken bei 4rer Nachbarschaft?!?!
-////		if (binaryImage instanceof FourNeighborBinaryImage) {
-////			maxNeighbourCount = 4;
-////			for (Point p : boundary) {
-////				if (binaryImage.neighbours(p).size() == 4)
-////					boundary.remove(p);
-////			}
-////
-////		}
-//
 //		return boundary;
 //	}
 
-
-
+	
+	
 	/**
-	 * berechnet Perimeter, wird im Konstruktor zur initialisierung der perimeter konstante verwendet
+	 * gibt die Anzahl der (freistehenden) Auï¿½enkanten der Points der Umrandung
+	 * zurï¿½ck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
 	 * 
-	 * @return Anzahl Außenkannten
+	 * @return Anzahl Auï¿½enkannten
 	 * 
 	 */
-	private int initializePerimeter() {
-		int counter = 0; //Zählt Anzahl der Außenkanten hoch => Wert des Umfangs
+
+	// TODO: perimeter mit boundary implementieren?
+	private int perimeter() {
+		int counter = 0;
 
 		for (Point p : boundary()) {
-			
-			//Anzahl der Rand-Kanten bestimmen
-			int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
+			int noOfNeighbours = binaryImage.neighbours(p).size();
 
-			if ((noOfInnerEdges < 4)) {
-				counter += 4 - noOfInnerEdges; //coounter um Anzahl der Randkanten erhöhen
+			if ((noOfNeighbours < 4)) {
+				counter += 4 - noOfNeighbours;
 			}
 		}
 
 		return counter;
 	}
-	
-	/**
-	 * berechnet circularity, wird im Konstruktor zur initialisierung der circularity konstante verwendet
-	 * 
-	 * @author Stephan Berngruber
-	 * @author Tobias Meurer
-	 * 
-	 * @return Anzahl Außenkannten
-	 * 
-	 */
-	private double initializeCircularity(){
-		return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
-	}
 
 	/**
-	 * gibt die Anzahl der (freistehenden) Außenkanten der Points der Umrandung
-	 * zurück
-	 * 
-	 * @author Stephan Berngruber
-	 * @author Tobias Meurer
-	 * 
-	 * @return Anzahl Außenkannten
-	 * 
-	 */
-	private int perimeter() {
-		return perimeter;
-	}
-
-	/**
-	 * gibt die Circularity des blobs zurück
+	 * gibt die Circularity des blobs zurï¿½ck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
