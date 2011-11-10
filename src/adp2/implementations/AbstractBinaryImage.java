@@ -9,18 +9,18 @@ import adp2.interfaces.*;
 
 public abstract class AbstractBinaryImage extends AbstractMatrix implements BinaryImage {
 	protected final List<Blob> blobs;
-	protected final List<Point> points;
-	protected final SortedSet<Point> pointsSet;
+	protected final List<Point> allPointsOfImage;
+	protected final SortedSet<Point> foregroundPointsSet;
 	protected final boolean isEightNbr;		//true if eightNeighborBinaryImage, false if fourNeighborBinaryImage
 
 	protected AbstractBinaryImage(int width, int height, List<Integer> values,boolean isEightNbr) {
 		super(width, height, values);
 		this.isEightNbr = isEightNbr;
-		this.points = wrapList(values);
-		pointsSet=new TreeSet<Point>();
-		for (Point point : points) {
+		this.allPointsOfImage = wrapList(values);
+		foregroundPointsSet=new TreeSet<Point>();
+		for (Point point : allPointsOfImage) {
 			if(!(point instanceof NaP))
-				pointsSet.add(point);
+				foregroundPointsSet.add(point);
 		}
 		this.blobs = calcBlobs(poitsAsSet());
 	}
@@ -46,7 +46,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 	 **/
 	protected List<Point> inversePoints() {
 		 List<Point> l= new ArrayList<Point>();
-		 for (Point p: points){
+		 for (Point p: allPointsOfImage){
 		 	if (p instanceof NaP){
 		 	l.add(BinaryImages.point(p.x(), p.y()));
 		 	} else {
@@ -85,11 +85,11 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 		return neighbours(point, poitsAsSet());
 	}
 	protected Set<Point> poitsAsSet(){
-		return pointsSet;
+		return foregroundPointsSet;
 	}
 	@Override
 	public boolean valueAt(Point point) {
-		return points.contains(point);
+		return allPointsOfImage.contains(point);
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 	public int noOfInnerEdges(Point point) {
 		int counter = 0;
 		//Set<Point> result = new TreeSet<Point>();
-		for (Point other : pointsSet) {
+		for (Point other : foregroundPointsSet) {
 			//Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
 			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
 			// Das hängt damit zusammen, das es für den Umfang nur entscheidend ist,
