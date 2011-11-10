@@ -14,7 +14,7 @@ public class BlobImpl implements Blob {
 	private final TreeSet<Point> pointsOfBlob;
 	private final BinaryImage binaryImage;
 	private final double circularity;
-
+    private final Set<Point> boundary;
 
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurück.
@@ -38,7 +38,7 @@ public class BlobImpl implements Blob {
 		this.binaryImage = image;
 
 		
-		
+		this.boundary = this.boundary();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
 		this.circularity = 4 * Math.PI * pointCount()
