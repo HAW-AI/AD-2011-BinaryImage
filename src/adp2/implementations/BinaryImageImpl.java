@@ -151,7 +151,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 	/**
 	 * Multipass algorithm to extract blobs of binary image. Takes a set of
 	 * points as representation of the binary image.
-	 * 
+	 * (Mehrere Durchgänge über die Vordergrundpixel um Blobs zu finden)
 	 * @author Panos
 	 * @author Oliver Behncke
 	 * 
@@ -165,6 +165,11 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		Map<Point, Integer> labelMap = new HashMap<Point, Integer>();
 
 		// Initial labeling
+		// Erster Durchgang: Gehe über jeden (vordergrund) Pixel, wenn ein Nachbar in der labelMap
+		// gib aktuellem Pixel die gleiche Nummer, die auch der Nachbar hat,
+		// sonst gib ihm eine nummer - labelcount - und zähle labelcount++
+		// wenn fertig hat man eine Nummerierung die eventuell noch unrichtige 
+		// nummerierungen enthält 
 		int labelCount = 1;
 		for (Point p : points) {
 			boolean neighborLabeled = false;
@@ -182,6 +187,11 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		// Relabel as long as no relabeling is possible
 		// Relabeling consists of agregating neighboured labeled points to one
 		// label
+		// Gehe erneut über alle Vordergrundpixel rüber und prüfe ob aktueller Pixel 
+		// einen nachbar mit kleinerer Nummerrierung hat
+		// wenn ja gib akt. Pixel nummer von Nachbar
+		// Mach das ganze so oft bis es einen Durchgang gab ohne Änderungen in den Nummerierungen
+		// Nun hat man eine Map in der alle Pixel eines Blobs die gleiche nummer als Value haben
 		boolean labelChanged = true;
 		while (labelChanged) {
 			labelChanged = false;
@@ -196,6 +206,8 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		}
 
 		// Extract blobs from labeled map
+		// Blobs aus map erzeugen anhand gleicher nummern
+		
 		for (int i = 1; i <= labelCount; i++) {
 			Set<Point> blobSet = new TreeSet<Point>();
 			for (Point p : points) {
