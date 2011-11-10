@@ -254,7 +254,7 @@ public class BlobImpl implements Blob {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
 					// nicht hinzugefügt
 					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
-						boundary.add(aktuell);
+						result.add(aktuell);
 					}
 					temp = aktuell;
 					aktuell = left_turn(vorg, aktuell);
@@ -270,7 +270,7 @@ public class BlobImpl implements Blob {
 			// Boundary Size == 1
 			// Boundary Size == 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
 			// untereinander als Startrand haben.
-			result.addAll(boundary);
+			
 		}
 
 		return result;
