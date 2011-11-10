@@ -27,7 +27,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 	
 	static BinaryImage valueOf(List<Point> points, int width, int height, boolean isEightNbr) {
     	if(width<0 || height <0 || !properPoints(points, width, height)) return BinaryImages.NaBI();
-        return new BinaryImageImpl(width, height, pointSetToMatrixList(points, width, height), isEightNbr);
+        return new BinaryImageImpl(width, height, pointSetToMatrixList(points), isEightNbr);
     }
 	
 	@Override
@@ -72,7 +72,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 	 * @param matrix
 	 * @return
 	 */
-	protected static List<Integer> pointSetToMatrixList(List<Point> points, int width, int height) {
+	protected static List<Integer> pointSetToMatrixList(List<Point> points) {
 		List<Integer> result = new ArrayList<Integer>();
 		for (Point p: points){
 			if(p instanceof PointImpl){
