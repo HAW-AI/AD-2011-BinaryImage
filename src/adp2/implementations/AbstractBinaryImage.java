@@ -47,7 +47,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 	}
 
 	/**
-	 * berechnet die Punkte, die nicht zu Blobs gehoeren ("die False-Punkte")
+	 * dreht Hintergrund- und Vordergrundpunkte um, aus Punkten werden NaP, aus NaP Punkte
 	 * 
 	 **/
 	protected List<Point> inversePoints() {
