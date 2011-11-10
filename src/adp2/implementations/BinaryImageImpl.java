@@ -33,7 +33,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 	@Override
 	public BinaryImage toFourNeighborBinaryImage() {
 		if (isEightNbr()){
-			return BinaryImageImpl.valueOf(allPointsOfImage, width(), height(), false);
+			return BinaryImageImpl.valueOf(points, width(), height(), false);
 		} else {
 			return this;
 		}
@@ -45,7 +45,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		if (isEightNbr()){
 			return this;
 		} else {
-			return BinaryImageImpl.valueOf(allPointsOfImage, width(), height(), true);
+			return BinaryImageImpl.valueOf(points, width(), height(), true);
 		}
 	}
 
@@ -145,7 +145,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		return result;
 	}
 	private Point getPoint(int x, int y) {
-		return allPointsOfImage.get(x + (y*width()));
+		return points.get(x + (y*width()));
 	}
 
 	/**
