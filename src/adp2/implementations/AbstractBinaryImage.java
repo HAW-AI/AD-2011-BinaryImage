@@ -135,7 +135,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 	public int noOfInnerEdges(Point point) {
 		int counter = 0;
 		//Set<Point> result = new TreeSet<Point>();
-		for (Point other : points) {
+		for (Point other : pointsSet) {
 			//Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
 			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
 			// Das hängt damit zusammen, das es für den Umfang nur entscheidend ist,
