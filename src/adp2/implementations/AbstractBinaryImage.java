@@ -103,4 +103,48 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements Bina
 		}
 		return false;
 	}
+	
+	/**
+	* Helper method to find out, if two points are neighbours (4 neighbourhood)
+	*
+	* @author Oliver Behncke
+	*
+	* @param Point
+	* @param Other
+	* Point
+	* @return
+	*/
+	protected boolean areNeighbours4n(Point p1, Point p2) {
+		return (Math.abs(p1.x() - p2.x()) == 1)
+				&& (Math.abs(p1.y() - p2.y()) == 0)
+				|| (Math.abs(p1.x() - p2.x()) == 0)
+				&& (Math.abs(p1.y() - p2.y()) == 1);
+	}
+
+
+	
+	/**
+	* Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
+	*
+	* @author Stephan Berngruber
+	* @author Tobias Meurer
+	*
+	* @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
+	*/
+	@Override
+	public int noOfInnerEdges(Point point) {
+		int counter = 0;
+		//Set<Point> result = new TreeSet<Point>();
+		for (Point other : points) {
+			//Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
+			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
+			// Das hängt damit zusammen, das es für den Umfang nur entscheidend ist,
+			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an die Ecken
+			// grenzen beeinflussen den Umfang des einen Pixels NICHT
+			if (areNeighbours4n(point, other)) {
+				counter++;
+			}
+		}
+		return counter;
+	}
 }

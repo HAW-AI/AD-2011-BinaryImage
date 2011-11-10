@@ -137,4 +137,17 @@ final class NaBI extends NaM implements BinaryImage {
 	public BinaryImage toEigthNeighborBinaryImage() {
 		return this;
 	}
+
+	/**
+	* Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
+	*
+	* @author Stephan Berngruber
+	* @author Tobias Meurer
+	*
+	* @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild. Hier Wert 0, da NaBI
+	*/
+	@Override
+	public int noOfInnerEdges(Point point) {
+		return 0;
+	}
 }
