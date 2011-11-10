@@ -37,7 +37,7 @@ public class View extends Applet {
 	private Button buttonDrawImage = new Button("Bild malen");
 	private Button buttonDrawFourNeighbor = new Button("4er Blobs");
 	private Button buttonDrawEightNeighbor = new Button("8er Blobs");
-	private Button buttonDrawBoundary = new Button("Rï¿½nder");
+	private Button buttonDrawBoundary = new Button("Ränder");
 	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
 

@@ -418,10 +418,8 @@ public class BlobImpl implements Blob {
 		//Anzahl der Rand-Kanten bestimmen
 		int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
 
-		System.out.println(noOfInnerEdges);
-		if ((noOfInnerEdges < 4)) {
-				counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhöhen
-			}
+		counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhöhen
+
 		}
 		return counter;
 	}
