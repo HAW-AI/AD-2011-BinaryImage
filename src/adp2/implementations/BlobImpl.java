@@ -265,14 +265,14 @@ public class BlobImpl implements Blob {
 					aktuell = right_turn(vorg, aktuell);
 					vorg = temp;
 				}
-			} while (!(start.equals(aktuell)) || (boundary.size() == 1));
+				
+			} while (!(start.equals(aktuell)) || (result.size() == 1));
 			// Suche solange weiter bis Startpunkt = Aktueller Punkt oder
 			// Boundary Size == 1
 			// Boundary Size == 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
 			// untereinander als Startrand haben.
 			
 		}
-
 		return result;
 
 	}
@@ -420,9 +420,6 @@ public class BlobImpl implements Blob {
 //		}
 //		return boundary;
 //	}
-
-	
-	
 	
 	
 	/**
