@@ -244,10 +244,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 
 			sB.append(zwischenraum);
 			sB.append(blob.circularity());
-			 sB.append(area);
-			 sB.append(blob.pointCount());
-			 sB.append(perimeter);
-			 sB.append(blob.boundary().size());
+			 sB.append(blob);
 			sB.append(nl);
 			i++;
 		}

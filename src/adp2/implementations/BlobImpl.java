@@ -143,7 +143,8 @@ public class BlobImpl implements Blob {
 
 	@Override
 	public String toString() {
-		return this.pointsOfBlob.toString();
+		//return this.pointsOfBlob.toString();
+		return "Area: " +pointCount() + " Perimeter: " + perimeter() + " Points:" +this.pointsOfBlob.toString();
 	}
 
 	@Override
@@ -417,11 +418,11 @@ public class BlobImpl implements Blob {
 		//Anzahl der Rand-Kanten bestimmen
 		int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
 
+		System.out.println(noOfInnerEdges);
 		if ((noOfInnerEdges < 4)) {
-		counter += 4 - noOfInnerEdges; //coounter um Anzahl der Randkanten erhöhen
+				counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhöhen
+			}
 		}
-		}
-
 		return counter;
 	}
 }
