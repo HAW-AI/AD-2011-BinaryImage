@@ -72,6 +72,7 @@ public class BlobTest {
 	
 	@Test
 	public void testBoundary() {
+		BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
 		assertEquals(24,Bi.blob(0).boundary().size());	
 	}
 

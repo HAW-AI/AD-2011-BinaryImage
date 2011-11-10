@@ -15,6 +15,7 @@ public class BlobImpl implements Blob {
 	private final BinaryImage binaryImage;
 	private final double circularity;
 
+
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurÃ¼ck.
 	 * 
@@ -36,6 +37,8 @@ public class BlobImpl implements Blob {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
 		this.binaryImage = image;
 
+		
+		
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
 		this.circularity = 4 * Math.PI * pointCount()
@@ -160,19 +163,142 @@ public class BlobImpl implements Blob {
 	 */
 	@Override
 	public Set<Point> boundary() {
-		Set<Point> boundary = new TreeSet<Point>();
-		int count = 4;
-		if (binaryImage.isEightNbr()) {
-			count = 8;
-		}
 
+		int maxNeighbours = 4;
+		if (binaryImage.isEightNbr()) {
+			maxNeighbours = 8;
+			return boundary_all(maxNeighbours);
+
+		}
+		return boundary_esser(maxNeighbours);
+//		 return boundary_all(maxNeighbours);
+
+	}
+
+	private Set<Point> boundary_all(int maxNeighbours) {
+		Set<Point> boundary = new TreeSet<Point>();
 		for (Point p : pointsOfBlob) {
-			if ((binaryImage.neighbours(p).size() < count)) {
+
+			if ((binaryImage.neighbours(p).size() < maxNeighbours)) {
 				boundary.add(p);
 			}
 		}
 
 		return boundary;
+	}
+
+	private Set<Point> boundary_esser(int maxNeighbours) {
+		Set<Point> boundary = new TreeSet<Point>();
+		Set<Point> result = new TreeSet<Point>();
+		Point start = this.pointsOfBlob.first();
+		Point aktuell = start;
+		Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
+		Point temp;
+
+		
+		// When Blob Size = 1, dann Boundary = this.points();
+		if (this.points().size() == 1)
+			result.addAll(this.points());
+		// Bei größeren Blobs...
+		else {
+			do {
+
+				if (this.contains(aktuell)) {
+					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
+					// nicht hinzugefügt
+					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
+						boundary.add(aktuell);
+					}
+					temp = aktuell;
+					aktuell = left_turn(vorg, aktuell);
+					vorg = temp;
+					
+				} else {
+					temp = aktuell;
+					aktuell = right_turn(vorg, aktuell);
+					vorg = temp;
+				}
+			} while (!(start.equals(aktuell)) || (boundary.size() == 1));
+			// Suche solange weiter bis Startpunkt = Aktueller Punkt oder
+			// Boundary Size ==1
+			// Boundary Size <= 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
+			// untereinander als Startrand haben.
+			result.addAll(boundary);
+		}
+
+		return result;
+
+	}
+
+	private Point left_turn(Point vorg, Point aktuell) {
+		int new_x = 0;
+		int new_y = 0;
+		
+		switch (aktuell.x() - vorg.x()) {
+		case -1:
+			new_x = aktuell.x();
+			new_y = aktuell.y() + 1;
+			break;
+		case 0:
+			switch (aktuell.y() - vorg.y()) {
+			case -1:
+				new_x = aktuell.x() - 1;
+				new_y = aktuell.y();
+				break;
+			case 1:
+				new_x = aktuell.x() + 1;
+				new_y = aktuell.y();
+				break;
+			default:
+				// TODO Result = NaP
+				System.out.println("left turn y error");
+			}
+			break;
+		case 1:
+			new_x = aktuell.x();
+			new_y = aktuell.y() - 1;
+			break;
+		default:
+			// TODO Result = NaP
+			throw new RuntimeException("aktu:" + aktuell + " vorg:" + vorg +"left turn y error");
+		}
+		return BinaryImages.point(new_x, new_y);
+	}
+
+	private Point right_turn(Point vorg, Point aktuell) {
+		int new_x = 0;
+		int new_y = 0;
+
+		switch (aktuell.x() - vorg.x()) {
+		case -1:
+			new_x = aktuell.x();
+			new_y = aktuell.y() - 1;
+			break;
+		case 0:
+			switch (aktuell.y() - vorg.y()) {
+			case -1:
+				new_x = aktuell.x() + 1;
+				new_y = aktuell.y();
+				break;
+			case 1:
+				new_x = aktuell.x() - 1;
+				new_y = aktuell.y();
+				break;
+			default:
+				// TODO Result = NaP
+				throw new RuntimeException("aktu:" + aktuell + " vorg:" + vorg +"right turn y error");
+				
+			}
+			break;
+		case 1:
+			new_x = aktuell.x();
+			new_y = aktuell.y() + 1;
+			break;
+		default:
+			// TODO Result = NaP
+			System.out.println("right turn x error");
+		}
+		return BinaryImages.point(new_x, new_y);
 	}
 	
 	
@@ -224,6 +350,8 @@ public class BlobImpl implements Blob {
 //		return boundary;
 //	}
 
+	
+	
 	
 	
 	/**
