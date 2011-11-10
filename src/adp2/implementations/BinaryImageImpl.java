@@ -236,15 +236,15 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		StringBuilder sB = new StringBuilder();
 		String nl = "\n";
 		String zwischenraum = ".)  ";
-		 String area = "    Area: ";
-		 String perimeter = "    Perimeter: ";
+//		 String area = "    Area: ";
+//		 String perimeter = "    Perimeter: ";
 
 		for (Blob blob : blobs) {
 			sB.append(String.format("%5d", i));
 
 			sB.append(zwischenraum);
 			sB.append(blob.circularity());
-			 sB.append(blob);
+		//	 sB.append(blob);
 			sB.append(nl);
 			i++;
 		}
