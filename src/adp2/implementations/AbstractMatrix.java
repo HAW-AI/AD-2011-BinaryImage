@@ -32,6 +32,11 @@ public abstract class AbstractMatrix implements Matrix{
 	public int height() {
 		return height;
 	}
+	
+	public List<Integer> values() {
+		return values;
+	}
+	
 	@Override
 	public Iterator<Integer> iterator() {
 		return values.iterator();
