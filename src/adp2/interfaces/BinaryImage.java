@@ -78,4 +78,6 @@ public interface BinaryImage {
 	BinaryImage toEigthNeighborBinaryImage();
 
 	String circularities();
+
+	int noOfInnerEdges(Point p);
 }

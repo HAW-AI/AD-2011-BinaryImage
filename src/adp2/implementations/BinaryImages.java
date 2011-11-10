@@ -97,4 +97,6 @@ public final class BinaryImages {
 	public static BinaryImage binaryImage(List<Point> points, int width, int height){
 		return BinaryImageImpl.valueOf(points,width, height, false);
 	}
+	
+	
 }

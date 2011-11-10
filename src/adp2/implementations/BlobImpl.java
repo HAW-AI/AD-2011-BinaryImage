@@ -14,6 +14,7 @@ public class BlobImpl implements Blob {
 	private final TreeSet<Point> pointsOfBlob;
 	private final BinaryImage binaryImage;
 	private final double circularity;
+	private final int perimeter;
     private final Set<Point> boundary;
 
 	/**
@@ -41,9 +42,10 @@ public class BlobImpl implements Blob {
 		this.boundary = this.boundary_();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
-		this.circularity = 4 * Math.PI * pointCount()
-				/ Math.pow(perimeter(), 2);
+		this.perimeter = calcPerimeter();
+		this.circularity = calcCircularity();
 	}
+
 
 	/**
 	 * Gibt einen Iterator √ºber die Menge der Points des Blobs zur√ºck.
@@ -141,7 +143,8 @@ public class BlobImpl implements Blob {
 
 	@Override
 	public String toString() {
-		return this.pointsOfBlob.toString();
+		//return this.pointsOfBlob.toString();
+		return "Area: " +pointCount() + " Perimeter: " + perimeter() + " Points:" +this.pointsOfBlob.toString();
 	}
 
 	@Override
@@ -369,17 +372,7 @@ public class BlobImpl implements Blob {
 
 
 	private int perimeter() {
-		int counter = 0;
-
-		for (Point p : boundary()) {
-			int noOfNeighbours = binaryImage.neighbours(p).size();
-
-			if ((noOfNeighbours < 4)) {
-				counter += 4 - noOfNeighbours;
-			}
-		}
-
-		return counter;
+		return perimeter;
 	}
 
 	/**
@@ -394,5 +387,42 @@ public class BlobImpl implements Blob {
 	public double circularity() {
 		return circularity;
 	}
+	
+	/**
+	 * errechnet Circularity
+	 * 
+	 * @author Stephan Berngruber
+	 * @author Tobias Meurer
+	 * 
+	 * @return circularity (liegt zwischen 0 und 1)
+	 */
+	private double calcCircularity(){
+		return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
+	}
 
+	
+	/**
+	* berechnet Perimeter, wird im Konstruktor zur initialisierung der perimeter konstante verwendet
+	*
+	* @author Stephan Berngruber
+	* @author Tobias Meurer
+	*
+	* @return Anzahl Auﬂenkannten
+	*
+	*/
+	private int calcPerimeter() {
+		int counter = 0; //Z‰hlt Anzahl der Auﬂenkanten hoch => Wert des Umfangs
+
+		for (Point p : boundary()) {
+
+		//Anzahl der Rand-Kanten bestimmen
+		int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
+
+		System.out.println(noOfInnerEdges);
+		if ((noOfInnerEdges < 4)) {
+				counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhˆhen
+			}
+		}
+		return counter;
+	}
 }
