@@ -38,8 +38,8 @@ public class BlobImpl implements Blob {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
 		this.binaryImage = image;
 
-		
-		this.boundary = this.boundary_();
+		// Da die Circularity direkt berechnet wird, macht es sinn auch die Boundary sofort zu speichern.
+		this.boundary = this.calcBoundary();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
 		this.perimeter = calcPerimeter();
@@ -170,8 +170,15 @@ public class BlobImpl implements Blob {
 		return this.boundary;
 	}
 	
-	
-	private Set<Point> boundary_() {
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 *         Berechnet den Rand des Blobs, für 4 und 8 Nachbarschaft können unterschiedliche Algorithmen verwendet werden.
+	 * 
+	 * @return Set<Point> mit Punkten des Blobrandes
+	 */
+	private Set<Point> calcBoundary() {
 	
 		int maxNeighbours = 4;
 		if (binaryImage.isEightNbr()) {
@@ -184,6 +191,17 @@ public class BlobImpl implements Blob {
 
 	}
 
+	
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * Berechnet alle Punkte die zum Rand des Blobs gehören indem alle Punkte des 
+	 * Blobs auf die Anzahl ihrer Nachbarn im Blob getestet werden. 
+	 * ISt diese Anzahl gleich der Anzahl der MaxNeighbours, gehört der Punkt nicht zum Rand.
+	 * @param maxNeighbours
+	 * @return
+	 */
 	private Set<Point> boundary_all(int maxNeighbours) {
 		Set<Point> boundary = new TreeSet<Point>();
 		for (Point p : pointsOfBlob) {
@@ -196,6 +214,26 @@ public class BlobImpl implements Blob {
 		return boundary;
 	}
 
+	
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * Algorithmus nur für 4rer Nachbarschaft, da sonst ungenau
+	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
+	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
+	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
+	 * da dieses Sortiert ist.
+	 * Der Vorige Punkt wird immer als Vorgänger zwischengespeichert, damit die Richtung für das Links 
+	 * und Rechts Abbiegen ermittelt werden kann.
+	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
+	 * 
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprüft wird ob die Nachbaranzahl 4 ist.
+	 * 
+	 * 
+	 * @param maxNeighbours
+	 * @return
+	 */
 	private Set<Point> boundary_esser(int maxNeighbours) {
 		Set<Point> boundary = new TreeSet<Point>();
 		Set<Point> result = new TreeSet<Point>();
@@ -239,11 +277,24 @@ public class BlobImpl implements Blob {
 
 	}
 
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * Regelt das "links" Abbiegen für den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgängerpunkt und der Aktuell zu prüfende Punkt verwendet.
+	 * 
+	 * @param vorg
+	 * @param aktuell
+	 * @return
+	 */
 	private Point left_turn(Point vorg, Point aktuell) {
 		int new_x = 0;
 		int new_y = 0;
 		
-		
+		// Zuerst wird die X-Koordinate abgeglichen, sind diese gleich,
+		// wird die Y-Koordinate verwendet.
+	
 		switch (aktuell.x() - vorg.x()) {
 		case -1:
 			new_x = aktuell.x();
@@ -273,9 +324,24 @@ public class BlobImpl implements Blob {
 		return BinaryImages.point(new_x, new_y);
 	}
 
+	
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * Regelt das "rechts" Abbiegen für den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgängerpunkt und der Aktuell zu prüfende Punkt verwendet.
+	 * 
+	 * @param vorg
+	 * @param aktuell
+	 * @return
+	 */
 	private Point right_turn(Point vorg, Point aktuell) {
 		int new_x = 0;
 		int new_y = 0;
+		
+		// Zuerst wird die X-Koordinate abgeglichen, sind diese gleich,
+		// wird die Y-Koordinate verwendet.
 
 		switch (aktuell.x() - vorg.x()) {
 		case -1:
