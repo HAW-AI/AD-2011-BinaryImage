@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
@@ -81,7 +82,7 @@ final class NaB implements Blob {
 
 	@Override
 	public Set<Point> boundary() {
-		return new HashSet<Point>();
+		return new TreeSet<Point>();
 	}
 
 	/**
@@ -97,7 +98,7 @@ final class NaB implements Blob {
 
 	@Override
 	public double circularity() {
-		// TODO Auto-generated method stub
+
 		return -1;
 	}
 }

@@ -38,7 +38,7 @@ public class BlobImpl implements Blob {
 		this.binaryImage = image;
 
 		
-		this.boundary = this.boundary();
+		this.boundary = this.boundary_();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
 		this.circularity = 4 * Math.PI * pointCount()
@@ -161,9 +161,15 @@ public class BlobImpl implements Blob {
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
 	 */
+	
 	@Override
 	public Set<Point> boundary() {
-
+		return this.boundary;
+	}
+	
+	
+	private Set<Point> boundary_() {
+	
 		int maxNeighbours = 4;
 		if (binaryImage.isEightNbr()) {
 			maxNeighbours = 8;
@@ -220,8 +226,8 @@ public class BlobImpl implements Blob {
 				}
 			} while (!(start.equals(aktuell)) || (boundary.size() == 1));
 			// Suche solange weiter bis Startpunkt = Aktueller Punkt oder
-			// Boundary Size ==1
-			// Boundary Size <= 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
+			// Boundary Size == 1
+			// Boundary Size == 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
 			// untereinander als Startrand haben.
 			result.addAll(boundary);
 		}
@@ -233,6 +239,7 @@ public class BlobImpl implements Blob {
 	private Point left_turn(Point vorg, Point aktuell) {
 		int new_x = 0;
 		int new_y = 0;
+		
 		
 		switch (aktuell.x() - vorg.x()) {
 		case -1:
@@ -250,8 +257,7 @@ public class BlobImpl implements Blob {
 				new_y = aktuell.y();
 				break;
 			default:
-				// TODO Result = NaP
-				System.out.println("left turn y error");
+				return NaP.valueOf(new_x, new_y);
 			}
 			break;
 		case 1:
@@ -259,9 +265,8 @@ public class BlobImpl implements Blob {
 			new_y = aktuell.y() - 1;
 			break;
 		default:
-			// TODO Result = NaP
-			throw new RuntimeException("aktu:" + aktuell + " vorg:" + vorg +"left turn y error");
-		}
+			return NaP.valueOf(new_x, new_y);
+			}
 		return BinaryImages.point(new_x, new_y);
 	}
 
@@ -285,9 +290,7 @@ public class BlobImpl implements Blob {
 				new_y = aktuell.y();
 				break;
 			default:
-				// TODO Result = NaP
-				throw new RuntimeException("aktu:" + aktuell + " vorg:" + vorg +"right turn y error");
-				
+				return NaP.valueOf(new_x, new_y);
 			}
 			break;
 		case 1:
@@ -295,8 +298,7 @@ public class BlobImpl implements Blob {
 			new_y = aktuell.y() + 1;
 			break;
 		default:
-			// TODO Result = NaP
-			System.out.println("right turn x error");
+			return NaP.valueOf(new_x, new_y);
 		}
 		return BinaryImages.point(new_x, new_y);
 	}
@@ -365,7 +367,7 @@ public class BlobImpl implements Blob {
 	 * 
 	 */
 
-	// TODO: perimeter mit boundary implementieren?
+
 	private int perimeter() {
 		int counter = 0;
 
