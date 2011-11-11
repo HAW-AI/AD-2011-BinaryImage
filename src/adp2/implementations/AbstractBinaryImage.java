@@ -10,8 +10,9 @@ import adp2.interfaces.*;
 public abstract class AbstractBinaryImage extends AbstractMatrix implements
 		BinaryImage {
 	protected final List<Blob> blobs;
-	protected final List<Point> points;
-	protected final SortedSet<Point> pointsAsSet;
+	// enthält auch die NaP (Not a Points)
+	protected final List<Point> allPoints;
+	protected final SortedSet<Point> foregroundPointsAsSet;
 	protected final boolean isEightNbr; // true if eightNeighborBinaryImage,
 										// false if fourNeighborBinaryImage
 
@@ -19,13 +20,13 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 			boolean isEightNbr) {
 		super(width, height, values);
 		this.isEightNbr = isEightNbr;
-		this.points = wrapList(values);
-		pointsAsSet = new TreeSet<Point>();
-		for (Point point : points) {
+		this.allPoints = wrapList(values);
+		foregroundPointsAsSet = new TreeSet<Point>();
+		for (Point point : allPoints) {
 			if (!(point instanceof NaP))
-				pointsAsSet.add(point);
+				foregroundPointsAsSet.add(point);
 		}
-		this.blobs = calcBlobs(pointsAsSet());
+		this.blobs = calcBlobs(foregroundPointsAsSet());
 	}
 
 	public List<Point> wrapList(List<Integer> values) {
@@ -52,7 +53,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 	 **/
 	protected List<Point> inversePoints() {
 		List<Point> l = new ArrayList<Point>();
-		for (Point p : points) {
+		for (Point p : allPoints) {
 			if (p instanceof NaP) {
 				l.add(BinaryImages.point(p.x(), p.y()));
 			} else {
@@ -90,16 +91,16 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 
 	@Override
 	public Set<Point> neighbours(Point point) {
-		return neighbours(point, pointsAsSet());
+		return neighbours(point, foregroundPointsAsSet());
 	}
 
-	protected Set<Point> pointsAsSet() {
-		return pointsAsSet;
+	protected Set<Point> foregroundPointsAsSet() {
+		return foregroundPointsAsSet;
 	}
 
 	@Override
 	public boolean valueAt(Point point) {
-		return points.contains(point);
+		return allPoints.contains(point);
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 	public int noOfInnerEdges(Point point) {
 		int counter = 0;
 		// Set<Point> result = new TreeSet<Point>();
-		for (Point other : pointsAsSet) {
+		for (Point other : foregroundPointsAsSet) {
 			// Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
 			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
 			// Das hängt damit zusammen, das es für den Umfang nur entscheidend

@@ -148,7 +148,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		return result;
 	}
 	private Point getPoint(int x, int y) {
-		return points.get(x + (y*width()));
+		return allPoints.get(x + (y*width()));
 	}
 
 	/**
