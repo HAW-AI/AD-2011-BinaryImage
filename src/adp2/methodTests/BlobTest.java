@@ -80,4 +80,10 @@ public class BlobTest {
 		
 	}
 
+         @Test
+	public void testCircularity() {
+		BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
+		assertEquals(4 * Math.PI / 16,Bi.blob(1).circularity(), 0.001);
+		assertEquals(4 * Math.PI * 4 / 100,Bi.blob(2).circularity(), 0.001);
+	}
 }
