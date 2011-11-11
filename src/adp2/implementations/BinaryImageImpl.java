@@ -22,6 +22,9 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 	}
 
 	static BinaryImage valueOf(int width, int height, List<Integer> values, boolean isEightNbr){
+		for (Integer i : values) {
+			if (i != 1 && i!= 0) return BinaryImages.NaBI();
+		} 
 		return new BinaryImageImpl(width, height, values, isEightNbr);
 	}
 	
