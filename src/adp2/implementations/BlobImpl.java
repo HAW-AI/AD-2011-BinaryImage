@@ -297,16 +297,19 @@ public class BlobImpl implements Blob {
 	
 		switch (aktuell.x() - vorg.x()) {
 		case -1:
+			//nach unten
 			new_x = aktuell.x();
 			new_y = aktuell.y() + 1;
 			break;
 		case 0:
 			switch (aktuell.y() - vorg.y()) {
 			case -1:
+				//nach links
 				new_x = aktuell.x() - 1;
 				new_y = aktuell.y();
 				break;
 			case 1:
+				//nach rechts
 				new_x = aktuell.x() + 1;
 				new_y = aktuell.y();
 				break;
@@ -315,6 +318,7 @@ public class BlobImpl implements Blob {
 			}
 			break;
 		case 1:
+			//oben
 			new_x = aktuell.x();
 			new_y = aktuell.y() - 1;
 			break;
