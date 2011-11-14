@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-import adp2.interfaces.*;
+import adp2.interfaces.BinaryImage;
+import adp2.interfaces.Blob;
+import adp2.interfaces.BoundarySequence;
+import adp2.interfaces.Point;
 
 public class BlobImpl implements Blob {
 
@@ -21,10 +22,10 @@ public class BlobImpl implements Blob {
     private final List<Integer> boundary2;
     
 	/**
-	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurück.
+	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurueck.
 	 * 
 	 * @param s
-	 *            : Collection, die alle Points des Blobs enthält.
+	 *            : Collection, die alle Points des Blobs enthaelt.
 	 * @return
 	 */
 	public static Blob valueOf(Collection<Point> s, BinaryImage image) {
@@ -35,7 +36,7 @@ public class BlobImpl implements Blob {
 	 * Blob-Konstruktor.
 	 * 
 	 * @param pointsOfBlob
-	 *            : Collection, die alle Points des Blobs enth�lt.
+	 *            : Collection, die alle Points des Blobs enthaelt.
 	 */
 	private BlobImpl(Collection<Point> pointsOfBlob, BinaryImage image) {
 		this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
@@ -52,7 +53,7 @@ public class BlobImpl implements Blob {
 
 
 	/**
-	 * Gibt einen Iterator über die Menge der Points des Blobs zurück.
+	 * Gibt einen Iterator ueber die Menge der Points des Blobs zurueck.
 	 */
 	public Iterator<Point> iterator() {
 		return this.pointsOfBlob.iterator();
@@ -66,14 +67,14 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * Gibt die Größe des Blobs als int zurück.
+	 * Gibt die Groesse des Blobs als int zurueck.
 	 */
 	public int pointCount() {
 		return this.pointsOfBlob.size();
 	}
 
 	/**
-	 * Gibt die Breite des Blobs als int zurück.
+	 * Gibt die Breite des Blobs als int zurueck.
 	 */
 	public int width() {
 		int max = pointsOfBlob.first().x(), min = pointsOfBlob.first().x();
@@ -89,7 +90,7 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * Gibt die Hoehe des Blobs als int zurück.
+	 * Gibt die Hoehe des Blobs als int zurueck.
 	 */
 	public int height() {
 		int max = pointsOfBlob.first().y(), min = pointsOfBlob.first().y();
@@ -105,7 +106,7 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * Gibt den Hashcode des Blobs als int zurück.
+	 * Gibt den Hashcode des Blobs als int zurueck.
 	 */
 	@Override
 	public int hashCode() {
@@ -117,10 +118,10 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * Prüft die Wertgleichheit des Blobs mit einem anderen Objekt.
+	 * Prueft die Wertgleichheit des Blobs mit einem anderen Objekt.
 	 * 
 	 * param obj: Zu vergleichendes Objekt. return: Gibt true bei Wertgleichheit
-	 * zurück, ansonsten false.
+	 * zurueck, ansonsten false.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -164,7 +165,7 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 *         Gibt die Points zurück die zum Rand des Blobs gehören
+	 *         Gibt die Points zurueck die zum Rand des Blobs gehoeren
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
 	 */
@@ -183,7 +184,7 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 *         Berechnet den Rand des Blobs, f�r 4 und 8 Nachbarschaft k�nnen unterschiedliche Algorithmen verwendet werden.
+	 *         Berechnet den Rand des Blobs, fuer 4 und 8 Nachbarschaft koennen unterschiedliche Algorithmen verwendet werden.
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
 	 */
@@ -217,9 +218,9 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Berechnet alle Punkte die zum Rand des Blobs geh�ren indem alle Punkte des 
+	 * Berechnet alle Punkte die zum Rand des Blobs gehoeren indem alle Punkte des 
 	 * Blobs auf die Anzahl ihrer Nachbarn im Blob getestet werden. 
-	 * ISt diese Anzahl gleich der Anzahl der MaxNeighbours, geh�rt der Punkt nicht zum Rand.
+	 * ISt diese Anzahl gleich der Anzahl der MaxNeighbours, gehoert der Punkt nicht zum Rand.
 	 * @param maxNeighbours
 	 * @return
 	 */
@@ -240,16 +241,16 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Algorithmus nur f�r 4rer Nachbarschaft, da sonst ungenau
+	 * Algorithmus nur fuer 4rer Nachbarschaft, da sonst ungenau
 	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
 	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
 	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
 	 * da dieses Sortiert ist.
-	 * Der Vorige Punkt wird immer als Vorg�nger zwischengespeichert, damit die Richtung f�r das Links 
+	 * Der Vorige Punkt wird immer als Vorgaenger zwischengespeichert, damit die Richtung fuer das Links 
 	 * und Rechts Abbiegen ermittelt werden kann.
 	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
 	 * 
-	 * Die "problematischen" Innenecken werden direkt aussortiert indem gepr�ft wird ob die Nachbaranzahl 4 ist.
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft wird ob die Nachbaranzahl 4 ist.
 	 * 
 	 * 
 	 * @param maxNeighbours
@@ -267,13 +268,13 @@ public class BlobImpl implements Blob {
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
 			result.addAll(this.points());
-		// Bei gr��eren Blobs...
+		// Bei groesseren Blobs...
 		else {
 			do {
 
 				if (this.contains(aktuell)) {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
-					// nicht hinzugef�gt
+					// nicht hinzugefuegt
 					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
 						result.add(aktuell);
 					}
@@ -302,16 +303,16 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Algorithmus nur f�r 4rer Nachbarschaft, da sonst ungenau
+	 * Algorithmus nur fuer 4rer Nachbarschaft, da sonst ungenau
 	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
 	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
 	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
 	 * da dieses Sortiert ist.
-	 * Der Vorige Punkt wird immer als Vorg�nger zwischengespeichert, damit die Richtung f�r das Links 
+	 * Der Vorige Punkt wird immer als Vorgaenger zwischengespeichert, damit die Richtung fuer das Links 
 	 * und Rechts Abbiegen ermittelt werden kann.
 	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
 	 * 
-	 * Die "problematischen" Innenecken werden direkt aussortiert indem gepr�ft wird ob die Nachbaranzahl 4 ist.
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft wird ob die Nachbaranzahl 4 ist.
 	 * 
 	 * 
 	 * @param maxNeighbours
@@ -330,12 +331,12 @@ public class BlobImpl implements Blob {
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
 			result.addAll(this.points());
-		// Bei gr��eren Blobs...
+		// Bei groesseren Blobs...
 		else {
 			do {
 				if (this.contains(aktuell)) {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
-					// nicht hinzugef�gt
+					// nicht hinzugefuegt
 					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
 						result.add(aktuell);
 					}
@@ -401,8 +402,8 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Regelt das "links" Abbiegen f�r den Esser Algorithmus zur Kantensuche.
-	 * Es wird der Vorg�ngerpunkt und der Aktuell zu pr�fende Punkt verwendet.
+	 * Regelt das "links" Abbiegen fuer den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgaengerpunkt und der Aktuell zu pruefende Punkt verwendet.
 	 * 
 	 * @param vorg
 	 * @param aktuell
@@ -453,8 +454,8 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Regelt das "rechts" Abbiegen f�r den Esser Algorithmus zur Kantensuche.
-	 * Es wird der Vorg�ngerpunkt und der Aktuell zu pr�fende Punkt verwendet.
+	 * Regelt das "rechts" Abbiegen fuer den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgaengerpunkt und der Aktuell zu pruefende Punkt verwendet.
 	 * 
 	 * @param vorg
 	 * @param aktuell
@@ -498,7 +499,7 @@ public class BlobImpl implements Blob {
 	
 	
 	
-	// FUNKTIONIERT NUR KORREKT F�R 8er IMAGES
+	// FUNKTIONIERT NUR KORREKT FUER 8er IMAGES
 //@Override
 //	public Set<Point> boundary() {
 //		Set<Point> boundary = new TreeSet<Point>();
@@ -527,9 +528,9 @@ public class BlobImpl implements Blob {
 //		// Startpunkt in die Queue pushen
 //		queue.add(start);
 //
-//		// Nachbarn der Punkte �berpr�fen ob diese weniger als Count Nachbarn
+//		// Nachbarn der Punkte ueberpruefen ob diese weniger als Count Nachbarn
 //		// haben.
-//		// Wenn ja, werden diese zur Queue hinzugef�gt, falls sie nicht schon in
+//		// Wenn ja, werden diese zur Queue hinzugefuegt, falls sie nicht schon in
 //		// Boundary stehen.
 //		while (!queue.isEmpty()) {
 //			
@@ -547,13 +548,13 @@ public class BlobImpl implements Blob {
 	
 	
 	/**
-	 * gibt die Anzahl der (freistehenden) Au�enkanten der Points der Umrandung
-	 * zur�ck
+	 * gibt die Anzahl der (freistehenden) Aussenkanten der Points der Umrandung
+	 * zurueck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
 	 * 
-	 * @return Anzahl Au�enkannten
+	 * @return Anzahl Aussenkannten
 	 * 
 	 */
 
@@ -563,7 +564,7 @@ public class BlobImpl implements Blob {
 	}
 
 	/**
-	 * gibt die Circularity des blobs zur�ck
+	 * gibt die Circularity des blobs zurueck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
@@ -594,18 +595,18 @@ public class BlobImpl implements Blob {
 	* @author Stephan Berngruber
 	* @author Tobias Meurer
 	*
-	* @return Anzahl Au�enkannten
+	* @return Anzahl Aussenkannten
 	*
 	*/
 	private int calcPerimeter() {
-		int counter = 0; //Z�hlt Anzahl der Au�enkanten hoch => Wert des Umfangs
+		int counter = 0; //Zaehlt Anzahl der Aussenkanten hoch => Wert des Umfangs
 
 		for (Point p : boundary()) {
 
 		//Anzahl der Rand-Kanten bestimmen
 		int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
 
-		counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erh�hen
+		counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhoehen
 
 		}
 		return counter;
