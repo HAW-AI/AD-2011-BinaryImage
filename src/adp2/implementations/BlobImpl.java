@@ -303,7 +303,7 @@ public class BlobImpl implements Blob {
 		Point aktuell = start;
 		Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
 		Point temp;
-
+		Point previous;
 		
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
@@ -319,6 +319,7 @@ public class BlobImpl implements Blob {
 						result.add(aktuell);
 					}
 					temp = aktuell;
+					
 					aktuell = left_turn(vorg, aktuell);
 					vorg = temp;
 					
