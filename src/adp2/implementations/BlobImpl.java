@@ -208,7 +208,7 @@ public class BlobImpl implements Blob {
 //			return boundary_all(maxNeighbours);
 //
 //		}
-		return boundary_esser2(maxNeighbours);
+		return boundary_esser2(maxNeighbours).getSequence();
 //		 return boundary_all(maxNeighbours);
 
 	}
@@ -317,10 +317,11 @@ public class BlobImpl implements Blob {
 	 * @param maxNeighbours
 	 * @return
 	 */
-	public List<Integer> boundary_esser2(int maxNeighbours) {
+	public BoundarySequence boundary_esser2(int maxNeighbours) {
+		Point start = this.pointsOfBlob.first();
 		Set<Point> result = new TreeSet<Point>();
 		List<Integer> sequence = new ArrayList<Integer>();
-		Point start = this.pointsOfBlob.first();
+		BoundarySequence res = new BoundarySequenceImpl(start, sequence);
 		Point aktuell = start;
 		Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
 		Point temp;
@@ -392,7 +393,7 @@ public class BlobImpl implements Blob {
 			
 		}
 		
-		return sequence;
+		return res;
 
 	}
 
