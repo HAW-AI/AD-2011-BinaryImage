@@ -276,6 +276,68 @@ public class BlobImpl implements Blob {
 		return result;
 
 	}
+	
+	/**
+	 * @author Kai Bielenberg
+	 * @author Tobias Mainusch
+	 * 
+	 * Algorithmus nur für 4rer Nachbarschaft, da sonst ungenau
+	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
+	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
+	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
+	 * da dieses Sortiert ist.
+	 * Der Vorige Punkt wird immer als Vorgänger zwischengespeichert, damit die Richtung für das Links 
+	 * und Rechts Abbiegen ermittelt werden kann.
+	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
+	 * 
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprüft wird ob die Nachbaranzahl 4 ist.
+	 * 
+	 * 
+	 * @param maxNeighbours
+	 * @return
+	 */
+	private Set<Point> boundary_esser2(int maxNeighbours) {
+		Set<Point> boundary = new TreeSet<Point>();
+		Set<Point> result = new TreeSet<Point>();
+		Point start = this.pointsOfBlob.first();
+		Point aktuell = start;
+		Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
+		Point temp;
+
+		
+		// When Blob Size = 1, dann Boundary = this.points();
+		if (this.points().size() == 1)
+			result.addAll(this.points());
+		// Bei größeren Blobs...
+		else {
+			do {
+
+				if (this.contains(aktuell)) {
+					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
+					// nicht hinzugefügt
+					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
+						result.add(aktuell);
+					}
+					temp = aktuell;
+					aktuell = left_turn(vorg, aktuell);
+					vorg = temp;
+					
+				} else {
+					temp = aktuell;
+					aktuell = right_turn(vorg, aktuell);
+					vorg = temp;
+				}
+				
+			} while (!(start.equals(aktuell)) || (result.size() == 1));
+			// Suche solange weiter bis Startpunkt = Aktueller Punkt oder
+			// Boundary Size == 1
+			// Boundary Size == 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
+			// untereinander als Startrand haben.
+			
+		}
+		return result;
+
+	}
 
 	/**
 	 * @author Kai Bielenberg
