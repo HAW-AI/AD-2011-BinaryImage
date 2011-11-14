@@ -77,7 +77,7 @@ public class BlobTest {
 		assertEquals(24,Bi.blob(0).boundary().size());
 		//Problemblob
 		assertEquals(5, Bi.blob(8).boundary().size());
-		Bi.blob(8).boundary2();
+		System.out.println(Bi.blob(1).boundary2());
 		
 	}
 

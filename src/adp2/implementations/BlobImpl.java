@@ -332,7 +332,6 @@ public class BlobImpl implements Blob {
 		// Bei größeren Blobs...
 		else {
 			do {
-
 				if (this.contains(aktuell)) {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
 					// nicht hinzugefügt
@@ -392,7 +391,7 @@ public class BlobImpl implements Blob {
 			// untereinander als Startrand haben.
 			
 		}
-		System.out.println(sequence);
+		
 		return sequence;
 
 	}
