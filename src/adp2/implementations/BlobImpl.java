@@ -183,7 +183,7 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 *         Berechnet den Rand des Blobs, für 4 und 8 Nachbarschaft können unterschiedliche Algorithmen verwendet werden.
+	 *         Berechnet den Rand des Blobs, fï¿½r 4 und 8 Nachbarschaft kï¿½nnen unterschiedliche Algorithmen verwendet werden.
 	 * 
 	 * @return Set<Point> mit Punkten des Blobrandes
 	 */
@@ -217,9 +217,9 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Berechnet alle Punkte die zum Rand des Blobs gehören indem alle Punkte des 
+	 * Berechnet alle Punkte die zum Rand des Blobs gehï¿½ren indem alle Punkte des 
 	 * Blobs auf die Anzahl ihrer Nachbarn im Blob getestet werden. 
-	 * ISt diese Anzahl gleich der Anzahl der MaxNeighbours, gehört der Punkt nicht zum Rand.
+	 * ISt diese Anzahl gleich der Anzahl der MaxNeighbours, gehï¿½rt der Punkt nicht zum Rand.
 	 * @param maxNeighbours
 	 * @return
 	 */
@@ -240,16 +240,16 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Algorithmus nur für 4rer Nachbarschaft, da sonst ungenau
+	 * Algorithmus nur fï¿½r 4rer Nachbarschaft, da sonst ungenau
 	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
 	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
 	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
 	 * da dieses Sortiert ist.
-	 * Der Vorige Punkt wird immer als Vorgänger zwischengespeichert, damit die Richtung für das Links 
+	 * Der Vorige Punkt wird immer als Vorgï¿½nger zwischengespeichert, damit die Richtung fï¿½r das Links 
 	 * und Rechts Abbiegen ermittelt werden kann.
 	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
 	 * 
-	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprüft wird ob die Nachbaranzahl 4 ist.
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprï¿½ft wird ob die Nachbaranzahl 4 ist.
 	 * 
 	 * 
 	 * @param maxNeighbours
@@ -267,13 +267,13 @@ public class BlobImpl implements Blob {
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
 			result.addAll(this.points());
-		// Bei größeren Blobs...
+		// Bei grï¿½ï¿½eren Blobs...
 		else {
 			do {
 
 				if (this.contains(aktuell)) {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
-					// nicht hinzugefügt
+					// nicht hinzugefï¿½gt
 					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
 						result.add(aktuell);
 					}
@@ -302,16 +302,16 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Algorithmus nur für 4rer Nachbarschaft, da sonst ungenau
+	 * Algorithmus nur fï¿½r 4rer Nachbarschaft, da sonst ungenau
 	 * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
 	 * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
 	 * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
 	 * da dieses Sortiert ist.
-	 * Der Vorige Punkt wird immer als Vorgänger zwischengespeichert, damit die Richtung für das Links 
+	 * Der Vorige Punkt wird immer als Vorgï¿½nger zwischengespeichert, damit die Richtung fï¿½r das Links 
 	 * und Rechts Abbiegen ermittelt werden kann.
 	 * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
 	 * 
-	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprüft wird ob die Nachbaranzahl 4 ist.
+	 * Die "problematischen" Innenecken werden direkt aussortiert indem geprï¿½ft wird ob die Nachbaranzahl 4 ist.
 	 * 
 	 * 
 	 * @param maxNeighbours
@@ -330,12 +330,12 @@ public class BlobImpl implements Blob {
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
 			result.addAll(this.points());
-		// Bei größeren Blobs...
+		// Bei grï¿½ï¿½eren Blobs...
 		else {
 			do {
 				if (this.contains(aktuell)) {
 					// Bei 4 Neighbours ist der Punkt eine Innenecke und wird
-					// nicht hinzugefügt
+					// nicht hinzugefï¿½gt
 					if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
 						result.add(aktuell);
 					}
@@ -401,8 +401,8 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Regelt das "links" Abbiegen für den Esser Algorithmus zur Kantensuche.
-	 * Es wird der Vorgängerpunkt und der Aktuell zu prüfende Punkt verwendet.
+	 * Regelt das "links" Abbiegen fï¿½r den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgï¿½ngerpunkt und der Aktuell zu prï¿½fende Punkt verwendet.
 	 * 
 	 * @param vorg
 	 * @param aktuell
@@ -453,8 +453,8 @@ public class BlobImpl implements Blob {
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
 	 * 
-	 * Regelt das "rechts" Abbiegen für den Esser Algorithmus zur Kantensuche.
-	 * Es wird der Vorgängerpunkt und der Aktuell zu prüfende Punkt verwendet.
+	 * Regelt das "rechts" Abbiegen fï¿½r den Esser Algorithmus zur Kantensuche.
+	 * Es wird der Vorgï¿½ngerpunkt und der Aktuell zu prï¿½fende Punkt verwendet.
 	 * 
 	 * @param vorg
 	 * @param aktuell
@@ -594,20 +594,37 @@ public class BlobImpl implements Blob {
 	* @author Stephan Berngruber
 	* @author Tobias Meurer
 	*
-	* @return Anzahl Außenkannten
+	* @return Anzahl Auï¿½enkannten
 	*
 	*/
 	private int calcPerimeter() {
-		int counter = 0; //Zählt Anzahl der Außenkanten hoch => Wert des Umfangs
+		int counter = 0; //Zï¿½hlt Anzahl der Auï¿½enkanten hoch => Wert des Umfangs
 
 		for (Point p : boundary()) {
 
 		//Anzahl der Rand-Kanten bestimmen
 		int noOfInnerEdges = binaryImage.noOfInnerEdges(p);
 
-		counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhöhen
+		counter += 4 - noOfInnerEdges; //counter um Anzahl der Randkanten erhï¿½hen
 
 		}
 		return counter;
 	}
+	
+    /**
+     * Berechnet den Umfang nach Methode der Gruppe 3
+     * 
+     * @author aav511
+     * 
+     * @return Umfang als double
+     */
+    public double calcPerimeterGruppe3() {
+        
+        double res = 0;
+        for(int i : boundary_esser2(4).getSequence()) {
+            if (i % 2 == 0) res += 1;
+            else res += Math.sqrt(2);
+        }
+        return res;
+    }
 }
