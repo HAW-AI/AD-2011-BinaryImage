@@ -1,7 +1,9 @@
 package adp2.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,7 +18,8 @@ public class BlobImpl implements Blob {
 	private final double circularity;
 	private final int perimeter;
     private final Set<Point> boundary;
-
+    private final List<Integer> boundary2;
+    
 	/**
 	 * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurück.
 	 * 
@@ -40,6 +43,7 @@ public class BlobImpl implements Blob {
 
 		// Da die Circularity direkt berechnet wird, macht es sinn auch die Boundary sofort zu speichern.
 		this.boundary = this.calcBoundary();
+		this.boundary2 = this.calcBoundary2();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
 		this.perimeter = calcPerimeter();
@@ -170,6 +174,11 @@ public class BlobImpl implements Blob {
 		return this.boundary;
 	}
 	
+	@Override
+	public List<Integer> boundary2() {
+		return this.boundary2;
+	}
+	
 	/**
 	 * @author Kai Bielenberg
 	 * @author Tobias Mainusch
@@ -191,6 +200,18 @@ public class BlobImpl implements Blob {
 
 	}
 
+	private List<Integer> calcBoundary2() {
+		
+		int maxNeighbours = 4;
+//		if (binaryImage.isEightNbr()) {
+//			maxNeighbours = 8;
+//			return boundary_all(maxNeighbours);
+//
+//		}
+		return boundary_esser2(maxNeighbours);
+//		 return boundary_all(maxNeighbours);
+
+	}
 	
 	/**
 	 * @author Kai Bielenberg
@@ -296,14 +317,14 @@ public class BlobImpl implements Blob {
 	 * @param maxNeighbours
 	 * @return
 	 */
-	private Set<Point> boundary_esser2(int maxNeighbours) {
-		Set<Point> boundary = new TreeSet<Point>();
+	public List<Integer> boundary_esser2(int maxNeighbours) {
 		Set<Point> result = new TreeSet<Point>();
+		List<Integer> sequence = new ArrayList<Integer>();
 		Point start = this.pointsOfBlob.first();
 		Point aktuell = start;
 		Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
 		Point temp;
-		Point previous;
+		Point previous = null;
 		
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
@@ -319,6 +340,41 @@ public class BlobImpl implements Blob {
 						result.add(aktuell);
 					}
 					temp = aktuell;
+					
+					if(previous != null){
+						if(aktuell.x() > previous.x()){
+							if(aktuell.y() > previous.y()){
+								sequence.add(7);
+							} else if (aktuell.y() == previous.y()){
+								sequence.add(0);
+							} else {
+								sequence.add(1);
+							}
+						}
+						
+						else if(aktuell.x() == previous.x()){
+							if(aktuell.y() > previous.y()){
+								sequence.add(6);
+							} else if (aktuell.y() == previous.y()){
+								
+							} else {
+								sequence.add(2);
+							}
+						}
+						
+						else {
+							if(aktuell.y() > previous.y()){
+								sequence.add(5);
+							} else if (aktuell.y() == previous.y()){
+								sequence.add(4);
+							} else {
+								sequence.add(3);
+							}
+						}
+						
+					}
+					
+					previous = aktuell;
 					
 					aktuell = left_turn(vorg, aktuell);
 					vorg = temp;
@@ -336,7 +392,8 @@ public class BlobImpl implements Blob {
 			// untereinander als Startrand haben.
 			
 		}
-		return result;
+		System.out.println(sequence);
+		return sequence;
 
 	}
 

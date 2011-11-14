@@ -2,6 +2,7 @@ package adp2.implementations;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.TreeSet;
@@ -84,6 +85,12 @@ final class NaB implements Blob {
 	public Set<Point> boundary() {
 		return new TreeSet<Point>();
 	}
+	
+	@Override
+	public List<Integer> boundary2() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Integer>();
+	}
 
 	/**
 	 * returnt -1, gültiger circularity-Wert liegt zwischen 0 und
@@ -101,4 +108,5 @@ final class NaB implements Blob {
 
 		return -1;
 	}
+
 }

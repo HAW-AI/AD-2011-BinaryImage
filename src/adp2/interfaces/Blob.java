@@ -1,5 +1,6 @@
 package adp2.interfaces;
 
+import java.util.List;
 import java.util.Set;
 
 public interface Blob extends Iterable<Point> {
@@ -17,5 +18,7 @@ public interface Blob extends Iterable<Point> {
 	
 	Set<Point> boundary();
 
+	List<Integer> boundary2();
+	
 	double circularity();
 }
