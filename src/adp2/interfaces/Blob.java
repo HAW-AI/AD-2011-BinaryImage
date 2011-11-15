@@ -20,6 +20,8 @@ public interface Blob extends Iterable<Point> {
 
 	List<Integer> boundary2();
 	
+	public BoundarySequence boundary_esser2(int maxNeighbours);
+	
 	double circularity();
 	
 	double perimeter();

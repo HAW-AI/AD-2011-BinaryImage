@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
+import adp2.interfaces.BoundarySequence;
 import adp2.interfaces.Point;
 
 final class NaB implements Blob {
@@ -114,6 +115,12 @@ final class NaB implements Blob {
 	 */
 	public double perimeter() {
 	    return -1;
+	}
+
+	@Override
+	public BoundarySequence boundary_esser2(int maxNeighbours) {
+		// TODO Auto-generated method stub
+		return new BoundarySequenceImpl(null, null);
 	}
 
 }

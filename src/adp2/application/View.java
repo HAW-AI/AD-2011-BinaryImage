@@ -13,7 +13,10 @@ import javax.swing.JFileChooser;
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * @author Daniel Liesener
@@ -40,6 +43,7 @@ public class View extends Applet {
 	private Button buttonDrawBoundary = new Button("Kontur");
 	private Button buttonInverse = new Button("invertieren");
 	private Button buttonChooseFile = new Button("Datei laden...");
+	private Button buttonSaveBlobs = new Button("Blobs speichern...");
 
 	// panel hï¿½lt die Buttons
 	private final Panel panel = new Panel();
@@ -121,7 +125,14 @@ public class View extends Applet {
 		buttonChooseFile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonChooseFile(panel, e);
+				buttonChooseFileLoad(panel, e);
+			}
+		});
+		panel.add(buttonSaveBlobs);
+		buttonSaveBlobs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonChooseFileSave(panel, e);
 			}
 		});
 
@@ -234,7 +245,7 @@ public class View extends Applet {
 		repaint();
 	}
 
-	private void buttonChooseFile(Panel panel, ActionEvent event) {
+	private void buttonChooseFileLoad(Panel panel, ActionEvent event) {
 		int ret = fileChooser.showOpenDialog(panel);
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
@@ -244,6 +255,30 @@ public class View extends Applet {
 			setCircularityText();
 			// Resize frame for new image
 			sizeToFit();
+		}
+	}
+	
+	/**
+	 * Button method to save the displayed image with its blobs as file on the file system
+	 * 
+	 * @author Harald Kirschenmann
+	 * @author Philipp Gillé
+	 */
+	private void buttonChooseFileSave(Panel panel, ActionEvent event) {
+		int ret = fileChooser.showSaveDialog(panel);
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			String path = file.getAbsolutePath();
+			// text in datei speichern
+			String binaryImageAsSequenceString = controller.getBinaryImageAsSequence();
+			System.out.println(binaryImageAsSequenceString);//test
+			try {
+				BufferedWriter out = new BufferedWriter(new FileWriter(path));
+				out.write(binaryImageAsSequenceString);
+				out.close();
+			} catch (IOException e) {
+				System.out.println("Error while trying to write the file");
+			}
 		}
 	}
 
