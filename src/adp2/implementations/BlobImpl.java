@@ -17,7 +17,7 @@ public class BlobImpl implements Blob {
 	private final TreeSet<Point> pointsOfBlob;
 	private final BinaryImage binaryImage;
 	private final double circularity;
-	private final int perimeter;
+	private final double perimeter;
     private final Set<Point> boundary;
     private final List<Integer> boundary2;
     
@@ -47,7 +47,8 @@ public class BlobImpl implements Blob {
 		this.boundary2 = this.calcBoundary2();
 		// Berechnung der Circularity des Blobs, festgehalten in der private
 		// final double circularity;
-		this.perimeter = calcPerimeter();
+		//this.perimeter = calcPerimeter();
+		this.perimeter = calcPerimeterGruppe3();
 		this.circularity = calcCircularity();
 	}
 
@@ -257,7 +258,6 @@ public class BlobImpl implements Blob {
 	 * @return
 	 */
 	private Set<Point> boundary_esser(int maxNeighbours) {
-		Set<Point> boundary = new TreeSet<Point>();
 		Set<Point> result = new TreeSet<Point>();
 		Point start = this.pointsOfBlob.first();
 		Point aktuell = start;
@@ -559,7 +559,7 @@ public class BlobImpl implements Blob {
 	 */
 
 
-	private int perimeter() {
+	private double perimeter() {
 		return perimeter;
 	}
 
@@ -591,14 +591,16 @@ public class BlobImpl implements Blob {
 	
 	/**
 	* berechnet Perimeter, wird im Konstruktor zur initialisierung der perimeter konstante verwendet
-	*
+	* @deprecated stattdessen calcPerimeterGruppe3() benutzen. 
+	* 
 	* @author Stephan Berngruber
 	* @author Tobias Meurer
 	*
 	* @return Anzahl Aussenkannten
 	*
 	*/
-	private int calcPerimeter() {
+	@SuppressWarnings("unused")
+    private int calcPerimeter() {
 		int counter = 0; //Zaehlt Anzahl der Aussenkanten hoch => Wert des Umfangs
 
 		for (Point p : boundary()) {
@@ -619,7 +621,7 @@ public class BlobImpl implements Blob {
      * 
      * @return Umfang als double
      */
-    public double calcPerimeterGruppe3() {
+	private double calcPerimeterGruppe3() {
         
         double res = 0;
         for(int i : boundary_esser2(4).getSequence()) {
