@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import adp2.implementations.BlobImpl;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.Point;
@@ -77,7 +78,12 @@ public class BlobTest {
 		assertEquals(24,Bi.blob(0).boundary().size());
 		//Problemblob
 		assertEquals(5, Bi.blob(8).boundary().size());
+		
 		System.out.println(Bi.blob(0).boundary2());
+		
+		for(int i=1; Bi.blob(i) instanceof BlobImpl && i<1000; ++i){
+			System.out.println(Bi.blob(i).boundary2());
+		}
 		
 	}
 
