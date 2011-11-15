@@ -548,16 +548,16 @@ public class BlobImpl implements Blob {
 	
 	
 	/**
-	 * gibt die Anzahl der (freistehenden) Aussenkanten der Points der Umrandung
-	 * zurueck
+	 * Gibt den Umfang des Blobs zurueck.
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
+	 * @author aav511
 	 * 
 	 * @return Anzahl Aussenkannten
 	 * 
 	 */
-	public double perimeter() { //TODO: change from private to public (s.Interface) //before: error in here
+	public double perimeter() {
 		return perimeter;
 	}
 
@@ -614,6 +614,7 @@ public class BlobImpl implements Blob {
 	
     /**
      * Berechnet den Umfang nach Methode der Gruppe 3
+     * Schraege Kanten zaehlen sqrt(2), Gerade 1 Schritt.
      * 
      * @author aav511
      * 
