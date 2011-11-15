@@ -21,4 +21,6 @@ public interface Blob extends Iterable<Point> {
 	List<Integer> boundary2();
 	
 	double circularity();
+	
+	double perimeter();
 }

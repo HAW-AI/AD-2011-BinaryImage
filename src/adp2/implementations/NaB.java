@@ -93,8 +93,8 @@ final class NaB implements Blob {
 	}
 
 	/**
-	 * returnt -1, gültiger circularity-Wert liegt zwischen 0 und
-	 * 1, NaB hat keine gültige circularity.
+	 * returnt -1, gueltiger circularity-Wert liegt zwischen 0 und
+	 * 1, NaB hat keine gueltige circularity.
 	 * 
 	 * @author Tobias Meurer
 	 * @author Stephan Berngruber
@@ -102,11 +102,18 @@ final class NaB implements Blob {
 	 * @return -1
 	 * 
 	 */
-
-	@Override
 	public double circularity() {
-
 		return -1;
+	}
+	
+	/**
+	 * Perimeter von NaB ungueltig, daher -1.
+	 * 
+	 * @author aav511
+	 * @return -1
+	 */
+	public double perimeter() {
+	    return -1;
 	}
 
 }
