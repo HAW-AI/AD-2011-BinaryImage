@@ -557,9 +557,7 @@ public class BlobImpl implements Blob {
 	 * @return Anzahl Aussenkannten
 	 * 
 	 */
-
-
-	private double perimeter() {
+	public double perimeter() { //TODO: change from private to public (s.Interface) //before: error in here
 		return perimeter;
 	}
 
