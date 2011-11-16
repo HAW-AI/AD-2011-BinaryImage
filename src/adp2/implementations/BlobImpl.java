@@ -332,11 +332,9 @@ public class BlobImpl implements Blob {
         // Esser Algorithmus nur für 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
-<<<<<<< HEAD
         
-=======
         BoundarySequence res = BoundarySequenceImpl.valueOf(start, sequence);
->>>>>>> 39847c815ebbd1f08dd30fb2fd78d77b0e5ffef9
+
         Point aktuell = start;
         Point vorg = BinaryImages.point(start.x() - 1, start.y());
         Point previous = null; //leter Point im Rand
@@ -363,7 +361,7 @@ public class BlobImpl implements Blob {
         } while (!(start.equals(aktuell)));
         // solange bis wieder am Start
         
-        return new BoundarySequenceImpl(start, sequence);
+        return BoundarySequenceImpl.valueOf(start, sequence);
 
     }
     
