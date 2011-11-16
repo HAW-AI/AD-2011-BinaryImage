@@ -89,5 +89,5 @@ public interface BinaryImage {
 
     int noOfInnerEdges(Point p);
 
-    public void addBlob(Blob b);
+    BinaryImage addBlob(Blob b);
 }

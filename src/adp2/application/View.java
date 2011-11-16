@@ -237,14 +237,14 @@ public final class View extends Applet {
 		item2.addActionListener(new ActionListener() { //save the blob
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				buttonChooseFileSave(panel, e); //TODO: ddd
+				buttonChooseBlobFileSave(panel, e, blobId);
 			}
 		});
 		
 		item3.addActionListener(new ActionListener() { //load/fill the blob
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: blob + bitmap => newBitmap
+				buttonChooseBlobFileLoad(panel, e);
 			}
 		});
 		
@@ -256,6 +256,49 @@ public final class View extends Applet {
 	}
 	
 	
+	protected void buttonChooseBlobFileLoad(Panel panel3, ActionEvent e) {
+		int ret = fileChooser.showOpenDialog(panel);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            List<Blob> blobs = controller.openBlob(path);
+            
+            if(blobs.size() != 1) return;
+            
+            BinaryImage bi = getImage();
+    		
+    		controller.setBinaryImage(bi.addBlob(blobs.get(0)));
+    		
+    		setCircularityText();
+    		sizeToFit();
+        }
+	}
+
+	protected void buttonChooseBlobFileSave(Panel panel3, ActionEvent e, int blobId) {
+		int ret = fileChooser.showSaveDialog(panel);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            // text in datei speichern
+            String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
+            String[] blobies = binaryImageAsSequenceString.split("\n");
+            
+            if(blobId < 0 || blobId >= blobies.length) return; //ignore No save
+            
+            String blob = blobies[blobId];
+            
+            System.out.println(binaryImageAsSequenceString);//test
+            System.out.println(">> "+blob);//test
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter(path));
+                out.write(blob);
+                out.close();
+            } catch (IOException ex) {
+                System.out.println("Error while trying to write the file");
+            }
+        }
+	}
+
 	/**
 	 * called from the GUI-PopUp to delete one blob
 	 * @param blobId
@@ -266,6 +309,7 @@ public final class View extends Applet {
 		controller.setBinaryImage(bi.deleteBlob(blobId));
 		
 		setCircularityText();
+		sizeToFit();
 	}
 
     /**

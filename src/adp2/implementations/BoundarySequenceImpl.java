@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 import adp2.interfaces.Blob;
 import adp2.interfaces.BoundarySequence;
 import adp2.interfaces.Point;
@@ -45,6 +47,8 @@ public class BoundarySequenceImpl implements BoundarySequence {
      */
     @Override
     public Blob createBlob() {
+//    	System.out.println("BS: "+this);
+    	
         Set<Point> blobPoints = new TreeSet<Point>();
         blobPoints.add(point);
         Point prevPoint = point;
@@ -96,4 +100,5 @@ public class BoundarySequenceImpl implements BoundarySequence {
     public static BoundarySequence valueOf(Point start, List<Integer> elemList) {
         return new BoundarySequenceImpl(start, elemList);
     }
+    
 }
