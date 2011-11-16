@@ -348,44 +348,32 @@ public class BlobImpl implements Blob {
                 temp = aktuell;
 
                 if (previous != null && !aktuell.equals(previous)) {
-                	//wenn ich im Kreis laufe und aktuell == previous ist
-//                    if(aktuell.equals(previous)){
-//                    	sequence.add(lastCorner);
-//                    } else {
-                	System.out.println("IN :" + aktuell.x() + "|"+ aktuell.y());
-//                	
-                	int a = this.direction(previous, aktuell);
 
-                    	if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
-                    		sequence.remove(sequence.size()-1);
-                    		sequence.add(BoundarySequence.TOPRIGHT);
-                    		System.out.println(sequence.toString());
-                    	} 
-                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.BOTTOM && a == BoundarySequence.RIGHT){
-                    		sequence.remove(sequence.size()-1);
-                    		sequence.add(BoundarySequence.BOTTOMRIGHT);
-                    		System.out.println(sequence.toString());
-                    	}
-                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.TOP && a == BoundarySequence.LEFT){
-                    		sequence.remove(sequence.size()-1);
-                    		sequence.add(BoundarySequence.TOPLEFT);
-                    		System.out.println(sequence.toString());
-                    	}
-                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.LEFT && a == BoundarySequence.BOTTOM){
-                    		sequence.remove(sequence.size()-1);
-                    		sequence.add(BoundarySequence.BOTTOMLEFT);
-                    		System.out.println(sequence.toString());
-                    	} 
-                    	else {
-                    		sequence.add(a);
-                    		System.out.println(sequence.toString());
-                    	}
-                    
-                    	
-                    	alreadyIn.add(aktuell);
-//                    }
-                //}
-                
+                	System.out.println("IN :" + aktuell.x() + "|"+ aktuell.y());
+                	
+                	int sequenceSize = sequence.size()-1;
+                	int a = sequenceSize;
+                	
+                    if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
+                    	sequence.remove(sequenceSize);
+                    	sequence.add(BoundarySequence.TOPRIGHT);
+                    } 
+                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.BOTTOM && a == BoundarySequence.RIGHT){
+                    	sequence.remove(sequenceSize);
+                    	sequence.add(BoundarySequence.BOTTOMRIGHT);
+                    }
+                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.TOP && a == BoundarySequence.LEFT){
+                    	sequence.remove(sequenceSize);
+                    	sequence.add(BoundarySequence.TOPLEFT);
+                    }
+                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.LEFT && a == BoundarySequence.BOTTOM){
+                    	sequence.remove(sequenceSize);
+                    	sequence.add(BoundarySequence.BOTTOMLEFT);
+                    } 
+                    else {
+                    	sequence.add(a);
+                    }
+
                 }
                 
                 previous = aktuell;
@@ -393,7 +381,6 @@ public class BlobImpl implements Blob {
                 vorg = temp;
 
             } else {
-            	System.out.println("OUT:" + aktuell.x() + "|"+ aktuell.y());
                 temp = aktuell;
                 aktuell = this.right_turn(vorg, aktuell);
                 vorg = temp;
