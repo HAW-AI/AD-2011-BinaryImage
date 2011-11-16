@@ -81,4 +81,6 @@ public interface BinaryImage {
     String circularities();
 
     int noOfInnerEdges(Point p);
+
+    public void addBlob(Blob b);
 }

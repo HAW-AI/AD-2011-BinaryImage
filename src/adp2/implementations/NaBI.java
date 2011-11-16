@@ -151,4 +151,9 @@ final class NaBI extends NaM implements BinaryImage {
     public int noOfInnerEdges(Point point) {
         return 0;
     }
+
+    @Override
+    public void addBlob(Blob b) {
+        
+    }
 }

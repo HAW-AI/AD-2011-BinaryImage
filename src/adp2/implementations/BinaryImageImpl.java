@@ -290,4 +290,10 @@ public class BinaryImageImpl extends AbstractBinaryImage {
         // System.out.println(sB);
         return sB.toString();
     }
+
+    @Override
+    public void addBlob(Blob b) {
+        if(b.pointCount()== 1) this.allPoints.add(b.points().iterator().next());
+        else this.blobs.add(b);
+    }
 }

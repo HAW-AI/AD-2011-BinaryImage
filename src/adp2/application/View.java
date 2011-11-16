@@ -6,6 +6,8 @@ import adp2.interfaces.Point;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -41,6 +43,7 @@ public final class View extends Applet {
     private Button buttonInverse = new Button("invertieren");
     private Button buttonChooseFile = new Button("Datei laden...");
     private Button buttonSaveBlobs = new Button("Blobs speichern...");
+    private Button buttonLoadBlobs = new Button("Blobs laden...");
     // panel hält die Buttons
     private final Panel panel = new Panel();
     // panel2 hält die TextArea zur circularity ausgabe
@@ -146,6 +149,14 @@ public final class View extends Applet {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonSaveBlob(panel, e);
+            }
+        });
+        panel.add(buttonLoadBlobs);
+        buttonLoadBlobs.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buttonLoadBlob(panel, e);
             }
         });
 
@@ -292,6 +303,22 @@ public final class View extends Applet {
             }
         }
     }
+    
+    private void buttonLoadBlob(Panel panel, ActionEvent e) {
+        int ret = fileChooser.showOpenDialog(panel);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            String path = file.getAbsolutePath();
+            List<Blob> blobs = new ArrayList<Blob>();
+            blobs.addAll(controller.openBlob(path));
+            /*
+             * Anzeige einer Liste der Blobs zur Auswahl oder
+             * alle importieren 
+             */
+            for(Blob b : blobs)
+                this.controller.addBlob(b);
+        }
+    }
 
     /**
      * Resize window to properly fit its contents.
@@ -300,7 +327,8 @@ public final class View extends Applet {
         int minWidth = buttonDrawImage.getWidth()
                 + buttonDrawFourNeighbor.getWidth()
                 + buttonDrawEightNeighbor.getWidth() + buttonInverse.getWidth()
-                + buttonChooseFile.getWidth() + panel2.getWidth() + 50; // some
+                + buttonChooseFile.getWidth() + buttonSaveBlobs.getWidth() 
+                + buttonLoadBlobs.getWidth() + panel2.getWidth() + 50; // some
         // spacing
         int minHeight = buttonDrawImage.getHeight() + 50; // +50px spacing
 
