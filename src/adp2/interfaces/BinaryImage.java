@@ -80,4 +80,11 @@ public interface BinaryImage {
 	String circularities();
 
 	int noOfInnerEdges(Point p);
+
+	/**
+	 * 
+	 * @param blobId
+	 * @return a new BinaryImage without the deleted blob
+	 */
+	BinaryImage deleteBlob(int blobId);
 }

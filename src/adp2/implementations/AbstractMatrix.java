@@ -41,12 +41,14 @@ public abstract class AbstractMatrix implements Matrix{
 	public Iterator<Integer> iterator() {
 		return values.iterator();
 	}
+	
 	public int get(int x, int y) {
 		if (x < 0 || x >= this.width() || y < 0 || y >= this.height()) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
 		return values.get(x + (y*width()));
 	}
+	
 	protected List<Integer> inverseValues() {
 		List<Integer> l= new ArrayList<Integer>();
 		while (values.listIterator().hasPrevious())

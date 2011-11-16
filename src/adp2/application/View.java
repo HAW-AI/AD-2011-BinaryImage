@@ -1,6 +1,8 @@
 package adp2.application;
 
+import adp2.implementations.BinaryImageImpl;
 import adp2.implementations.BinaryImages;
+import adp2.implementations.PointImpl;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
 
@@ -10,6 +12,10 @@ import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
@@ -150,7 +156,94 @@ public class View extends Applet {
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
 		// und die textAreaCircularity panel2 geadded
 		panel2.add(textAreaCircularity);
+		
+		addMouseListener(new MouseAdapter() { //mouseListner for BlobSelect
+	        public void mouseReleased(MouseEvent evt) {
+	        	int x = evt.getX();
+	        	int y = evt.getY();
+	        	BinaryImage b = getImage();
+	        	int w = gridPositionX+b.width()*(pointSizeXY+1);
+	        	int h = gridPositionY+b.height()*(pointSizeXY+1);
+	        	
+	            if (evt.isPopupTrigger() &&
+	            		gridPositionX < x && x < w &&
+	            		gridPositionY < y && y < h) { //check if mouse is over our Bitmap
+	            	
+	            	int pX = (x-gridPositionX)/(pointSizeXY+1); //calculation of X-BitmapPixel
+	            	int pY = (y-gridPositionY)/(pointSizeXY+1); //calculation of Y-BitmapPixel
+	            	
+	            	
+	            	System.out.println("Pos: "+pX+", "+pY);
+	            	
+            		int blobId = -1;
+            		
+            		java.util.List<Blob> bs = b.blobs();
+            		
+            		for(int i=0; i<bs.size(); ++i){ //check which blob is clicked (id)
+            			if(bs.get(i).contains(PointImpl.valueOf(pX, pY))){
+            				blobId = i;
+            				break;
+            			}
+            		}
+            		System.out.println("BlobId: "+blobId);
+            		
+            		showMenu(evt, blobId); //show our menu
+	            }
+	        }
+	    });
+	}
 
+	
+	/**
+	 * open our Menu for Bitmap/Blob interaction
+	 * @param evt
+	 * @param blobId
+	 */
+	private void showMenu(final MouseEvent evt, final int blobId){
+		JPopupMenu menu = new JPopupMenu();
+		JMenuItem item1 = new JMenuItem("Blob löschen");
+		JMenuItem item2 = new JMenuItem("Blob speichern");
+		JMenuItem item3 = new JMenuItem("Blob laden");
+		
+		item1.addActionListener(new ActionListener() { //delete the blob
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonChooseDeleteBlob(blobId);
+			}
+		});
+		
+		item2.addActionListener(new ActionListener() { //save the blob
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonChooseFileSave(panel, e);
+			}
+		});
+		
+		item3.addActionListener(new ActionListener() { //load/fill the blob
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: blob + bitmap => newBitmap
+			}
+		});
+		
+		if(blobId != -1) menu.add(item1); //kill
+		if(blobId != -1) menu.add(item2); //save
+		menu.add(item3); //load
+		
+		menu.show(this, evt.getX(), evt.getY());
+	}
+	
+	
+	/**
+	 * called from the GUI-PopUp to delete one blob
+	 * @param blobId
+	 */
+	protected void buttonChooseDeleteBlob(int blobId) {
+		BinaryImage bi = getImage();
+		
+		controller.setBinaryImage(bi.deleteBlob(blobId));
+		
+		setCircularityText();
 	}
 
 	/**

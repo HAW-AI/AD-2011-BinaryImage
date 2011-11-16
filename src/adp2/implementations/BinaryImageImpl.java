@@ -267,5 +267,22 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		return sB.toString();
 	}
 
+	@Override
+	public BinaryImage deleteBlob(int blobId) {
+		Blob blob = blob(blobId);
+		
+		if(blob instanceof NaB) return this; //blobId doesn't exist - ignore it
+		
+		List<Integer> newValues = new ArrayList<Integer>(values());
+		
+		for(Point p : blob.points()){ //remove pixels of the specified blob
+			newValues.set(p.x() + (p.y()*width()), 0);
+		}
+		
+		BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
+		
+		return bi;
+	}
+
 
 }
