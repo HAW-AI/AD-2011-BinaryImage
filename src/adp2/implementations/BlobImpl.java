@@ -18,6 +18,7 @@ public class BlobImpl implements Blob {
     private final BinaryImage binaryImage;
     private final double circularity;
     private final double perimeter;
+    @Deprecated
     private final Set<Point> boundary;
     private final List<Integer> boundary2;
 
@@ -55,6 +56,7 @@ public class BlobImpl implements Blob {
     /**
      * Gibt einen Iterator ueber die Menge der Points des Blobs zurueck.
      */
+    @Override
     public Iterator<Point> iterator() {
         return this.pointsOfBlob.iterator();
     }
@@ -62,6 +64,7 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die alle Points eines Blobs als Set zurueck.
      */
+    @Override
     public Set<Point> points() {
         return this.pointsOfBlob;
     }
@@ -69,6 +72,7 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die Groesse des Blobs als int zurueck.
      */
+    @Override
     public int pointCount() {
         return this.pointsOfBlob.size();
     }
@@ -76,6 +80,7 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die Breite des Blobs als int zurueck.
      */
+    @Override
     public int width() {
         int max = pointsOfBlob.first().x(), min = pointsOfBlob.first().x();
         for (Point p : pointsOfBlob) {
@@ -92,6 +97,7 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die Hoehe des Blobs als int zurueck.
      */
+    @Override
     public int height() {
         int max = pointsOfBlob.first().y(), min = pointsOfBlob.first().y();
         for (Point p : pointsOfBlob) {
@@ -145,6 +151,7 @@ public class BlobImpl implements Blob {
         return true;
     }
 
+    @Override
     public boolean contains(Point p) {
         if (p == null) {
             return false;
@@ -154,7 +161,6 @@ public class BlobImpl implements Blob {
 
     @Override
     public String toString() {
-        //return this.pointsOfBlob.toString();
         return "Area: " + pointCount() + " Perimeter: " + perimeter() + " Points:" + this.pointsOfBlob.toString();
     }
 
@@ -194,6 +200,7 @@ public class BlobImpl implements Blob {
      * 
      * @return Set<Point> mit Punkten des Blobrandes
      */
+    @Deprecated
     private Set<Point> calcBoundary() {
 
         int maxNeighbours = 4;
@@ -231,15 +238,14 @@ public class BlobImpl implements Blob {
      * @return
      */
     private Set<Point> boundary_all(int maxNeighbours) {
-        Set<Point> boundary = new TreeSet<Point>();
+        Set<Point> result_bundary = new TreeSet<Point>();
         for (Point p : pointsOfBlob) {
-
             if ((binaryImage.neighbours(p).size() < maxNeighbours)) {
-                boundary.add(p);
+                result_bundary.add(p);
             }
         }
 
-        return boundary;
+        return result_bundary;
     }
 
     /**
@@ -261,6 +267,7 @@ public class BlobImpl implements Blob {
      * @param maxNeighbours
      * @return
      */
+    @Deprecated
     private Set<Point> boundary_esser(int maxNeighbours) {
         Set<Point> result = new TreeSet<Point>();
         Point start = this.pointsOfBlob.first();
@@ -268,14 +275,12 @@ public class BlobImpl implements Blob {
         Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
         Point temp;
 
-
         // When Blob Size = 1, dann Boundary = this.points();
         if (this.points().size() == 1) {
             result.addAll(this.points());
         } // Bei groesseren Blobs...
         else {
             do {
-
                 if (this.contains(aktuell)) {
                     // Bei 4 Neighbours ist der Punkt eine Innenecke und wird
                     // nicht hinzugefuegt
@@ -322,87 +327,66 @@ public class BlobImpl implements Blob {
      * @param maxNeighbours
      * @return
      */
+    @Override
     public BoundarySequence boundary_esser2(int maxNeighbours) {
+        // Esser Algorithmus nur für 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
-        Set<Point> result = new TreeSet<Point>();
         List<Integer> sequence = new ArrayList<Integer>();
-        BoundarySequence res = new BoundarySequenceImpl(start, sequence);
+        
         Point aktuell = start;
-        Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
-        Point temp;
-        Point previous = null;
+        Point vorg = BinaryImages.point(start.x() - 1, start.y());
+        Point previous = null; //leter Point im Rand
+                
+        Point temp = null;
 
-        // When Blob Size = 1, dann Boundary = this.points();
-        if (this.points().size() == 1) {
-            result.addAll(this.points());
-        } // Bei groesseren Blobs...
-        else {
-            do {
-                if (this.contains(aktuell)) {
-                    // Bei 4 Neighbours ist der Punkt eine Innenecke und wird
-                    // nicht hinzugefuegt
-                    if (binaryImage().neighbours(aktuell).size() < maxNeighbours) {
-                        result.add(aktuell);
-                    }
-                    temp = aktuell;
+        do {
+            if (this.contains(aktuell)) {
+                temp = aktuell;
 
-                    if (previous != null) {
-                        // nach rechts
-                        if (aktuell.x() > previous.x()) {
-                            // rechts oben 7
-                            if (aktuell.y() > previous.y()) {
-                                sequence.add(7);
-                            // rechts
-                            } else if (aktuell.y() == previous.y()) {
-                                sequence.add(0);
-                            // rechts unten 1
-                            } else {
-                                sequence.add(1);
-                            }
-                        // nach oben oder unten
-                        } else if (aktuell.x() == previous.x()) {
-                            // nach unten
-                            if (aktuell.y() > previous.y()) {
-                                sequence.add(6);
-                            // 
-                            // } else if (aktuell.y() == previous.y()) { gleichheit
-                            // nach oben
-                            } else {
-                                sequence.add(2);
-                            }
-                        } else {
-                            if (aktuell.y() > previous.y()) {
-                                sequence.add(5);
-                            } else if (aktuell.y() == previous.y()) {
-                                sequence.add(4);
-                            } else {
-                                sequence.add(3);
-                            }
-                        }
-
-                    }
-
-                    previous = aktuell;
-
-                    aktuell = left_turn(vorg, aktuell);
-                    vorg = temp;
-
-                } else {
-                    temp = aktuell;
-                    aktuell = right_turn(vorg, aktuell);
-                    vorg = temp;
+                if (previous != null) {
+                    sequence.add(this.direction(previous, aktuell));
                 }
+                previous = aktuell;
 
-            } while (!(start.equals(aktuell)) || (result.size() == 1));
-            // Suche solange weiter bis Startpunkt = Aktueller Punkt oder
-            // Boundary Size == 1
-            // Boundary Size == 1 umgeht Probleme bei Blobs die 2 Punkte Direkt
-            // untereinander als Startrand haben.
+                aktuell = this.left_turn(vorg, aktuell);
+                vorg = temp;
 
+            } else {
+                temp = aktuell;
+                aktuell = this.right_turn(vorg, aktuell);
+                vorg = temp;
+            }
+        } while (!(start.equals(aktuell)));
+        // solange bis wieder am Start
+        
+        return new BoundarySequenceImpl(start, sequence);
+
+    }
+    
+    private int direction(Point von, Point nach) {
+        if(von.x() == nach.x()) { //oben oder unten
+            if(von.y() > nach.y()) { //unten
+                return BoundarySequence.BOTTOM;
+            } else { //oben
+                return BoundarySequence.TOP;
+            }
+        } else if(von.x() > nach.x()) { //links, oben oder unten
+            if(von.y() > nach.y()) { //unten links
+                return BoundarySequence.BOTTOMLEFT;
+            } else if(von.y() < nach.y()) { // oben links
+                return BoundarySequence.TOPLEFT;
+            } else {
+                return BoundarySequence.LEFT;
+            }
+        } else { //rechts oben oder unten
+            if(von.y() > nach.y()) { //unten rechts
+                return BoundarySequence.TOPRIGHT;
+            } else if(von.y() < nach.y()) { // oben rechts
+                return BoundarySequence.BOTTOMRIGHT;
+            } else { // rechts
+                return BoundarySequence.RIGHT;
+            }
         }
-
-        return res;
-
     }
 
     /**
@@ -559,6 +543,7 @@ public class BlobImpl implements Blob {
      * @return Anzahl Aussenkannten
      * 
      */
+    @Override
     public double perimeter() {
         return perimeter;
     }
@@ -598,7 +583,8 @@ public class BlobImpl implements Blob {
      * @return Anzahl Aussenkannten
      *
      */
-    @SuppressWarnings("unused")
+    //@SuppressWarnings("unused")
+    @Deprecated
     private int calcPerimeter() {
         int counter = 0; //Zaehlt Anzahl der Aussenkanten hoch => Wert des Umfangs
 
@@ -626,7 +612,7 @@ public class BlobImpl implements Blob {
         double res = 0;
         List<Integer> seq = boundary_esser2(4).getSequence();
         if (!seq.isEmpty()) {
-            for (int i : boundary_esser2(4).getSequence()) {
+            for (int i : seq) {
                 if (i % 2 == 0) {
                     res += 1;
                 } else {

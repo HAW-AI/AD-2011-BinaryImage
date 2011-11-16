@@ -20,13 +20,11 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
     @Override
     public Point getStartPoint() {
-        // TODO Auto-generated method stub
         return point;
     }
 
     @Override
     public List<Integer> getSequence() {
-        // TODO Auto-generated method stub
         return sequence;
     }
 

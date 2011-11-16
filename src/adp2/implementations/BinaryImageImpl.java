@@ -71,6 +71,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
      * 
      * @return Ordered list of Blobs
      */
+    @Override
     protected List<Blob> calcBlobs(Set<Point> points) {
         return multiPass(points);
     }
@@ -118,6 +119,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
         return true;
     }
 
+    @Override
     protected Set<Point> neighbours(Point point, Set<Point> points) {
         return isEightNbr() ? neighbours8er(point, points) : neighbours4er(point, points);
     }
@@ -267,6 +269,7 @@ public class BinaryImageImpl extends AbstractBinaryImage {
      * 
      * @return String mit Circularity-Werten
      */
+    @Override
     public String circularities() {
         int i = 1;
         StringBuilder sB = new StringBuilder();
