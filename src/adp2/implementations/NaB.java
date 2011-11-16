@@ -123,6 +123,6 @@ final class NaB implements Blob {
     @Override
     public BoundarySequence boundary_esser2(int maxNeighbours) {
         // TODO Auto-generated method stub
-        return new BoundarySequenceImpl(null, null);
+        return BoundarySequenceImpl.valueOf(null, null);
     }
 }
