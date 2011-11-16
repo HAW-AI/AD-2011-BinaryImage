@@ -326,7 +326,7 @@ public class BlobImpl implements Blob {
         Point start = this.pointsOfBlob.first();
         Set<Point> result = new TreeSet<Point>();
         List<Integer> sequence = new ArrayList<Integer>();
-        BoundarySequence res = new BoundarySequenceImpl(start, sequence);
+        BoundarySequence res = BoundarySequenceImpl.valueOf(start, sequence);
         Point aktuell = start;
         Point vorg = BinaryImages.point(aktuell.x() - 1, aktuell.y());
         Point temp;

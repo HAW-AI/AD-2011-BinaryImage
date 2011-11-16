@@ -13,7 +13,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
     List<Integer> sequence;
     Point point;
 
-    public BoundarySequenceImpl(Point point, List<Integer> list) {
+    private BoundarySequenceImpl(Point point, List<Integer> list) {
         this.sequence = list;
         this.point = point;
     }
@@ -58,15 +58,15 @@ public class BoundarySequenceImpl implements BoundarySequence {
                     blobPoints.add(prevPoint);
                     break;
                 case 1:
-                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
                     break;
                 case 2:
-                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
                     break;
                 case 3:
-                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
                     break;
                 case 4:
@@ -74,15 +74,15 @@ public class BoundarySequenceImpl implements BoundarySequence {
                     blobPoints.add(prevPoint);
                     break;
                 case 5:
-                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
                     break;
                 case 6:
-                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
                     break;
                 case 7:
-                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
+                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
                     break;
             }
