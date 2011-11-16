@@ -17,8 +17,7 @@ import adp2.interfaces.BoundarySequence;
  */
 public class BlobParser {
 
-    private static final String ELEMENT_DELIMITER = ",";
-    private static final String SEQUENCE_DELIMITER = ")";
+    private static final String ELEMENT_DELIMITER = "\\,";
 
     public static List<BoundarySequence> parse(String file) {
         return parse_array(content(file));
@@ -26,12 +25,12 @@ public class BlobParser {
 
     private static List<BoundarySequence> parse_array(String[] content) {
         List<BoundarySequence> result = new ArrayList<BoundarySequence>();
-
+        
         for (int i = 0; i < Array.getLength(content); i++) {
-            String[] xSplit = content[i].split("|");
+            String[] xSplit = content[i].split("\\|");
             int x = Integer.parseInt(xSplit[0]);
 
-            String[] ySplit = xSplit[1].split("(");
+            String[] ySplit = xSplit[1].split("\\(");
             int y = Integer.parseInt(ySplit[0]);
 
             String[] elements = ySplit[1].split(ELEMENT_DELIMITER);
@@ -40,9 +39,8 @@ public class BlobParser {
             List<Integer> elemList = new ArrayList<Integer>();
             boolean end = false;
             while (!end) {
-                if (elements[n].endsWith(SEQUENCE_DELIMITER)) {
-                    int sequenceDelIndex = elements[n].lastIndexOf(SEQUENCE_DELIMITER);
-                    elements[n] = elements[n].copyValueOf(elements[n].toCharArray(), 0, sequenceDelIndex - 1);
+                if (elements[n].endsWith(")")) {
+                    elements[n] = elements[n].substring(0, 1);
                     end = true;
                 }
                 elemList.add(Integer.parseInt(elements[n++]));
