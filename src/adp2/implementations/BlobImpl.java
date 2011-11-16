@@ -208,8 +208,6 @@ public class BlobImpl implements Blob {
     }
 
     private List<Integer> calcBoundary2() {
-
-<<<<<<< HEAD
         int maxNeighbours = 4;
 //		if (binaryImage.isEightNbr()) {
 //			maxNeighbours = 8;
@@ -505,7 +503,6 @@ public class BlobImpl implements Blob {
     }
 
     // FUNKTIONIERT NUR KORREKT FUER 8er IMAGES
-=======
 	private List<Integer> calcBoundary2() {
 		int maxNeighbours = 4;
 		if (binaryImage.isEightNbr()) {

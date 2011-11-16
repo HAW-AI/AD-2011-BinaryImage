@@ -10,79 +10,92 @@ import adp2.interfaces.Point;
 
 public class BoundarySequenceImpl implements BoundarySequence {
 
-	List<Integer> sequence;
-	Point point;
-	
-	public BoundarySequenceImpl(Point point, List<Integer> list) {
-		this.sequence = list;
-		this.point = point;
-	}
-	
-	@Override
-	public Point getStartPoint() {
-		// TODO Auto-generated method stub
-		return point;
-	}
+    List<Integer> sequence;
+    Point point;
 
-	@Override
-	public List<Integer> getSequence() {
-		// TODO Auto-generated method stub
-		return sequence;
-	}
-        
-        public String toString() {
-            String result = this.point.toString();
-            for(Integer elem : this.sequence) {
-                result = result + elem.toString();
+    public BoundarySequenceImpl(Point point, List<Integer> list) {
+        this.sequence = list;
+        this.point = point;
+    }
+
+    @Override
+    public Point getStartPoint() {
+        // TODO Auto-generated method stub
+        return point;
+    }
+
+    @Override
+    public List<Integer> getSequence() {
+        // TODO Auto-generated method stub
+        return sequence;
+    }
+
+    /**
+     * @author Benjamin Kahlau
+     */
+    @Override
+    public String toString() {
+        String result = this.point.toString();
+        for (Integer elem : this.sequence) {
+            result = result + elem.toString();
+        }
+        return result;
+    }
+
+    /**
+     * @author Sebastian Bartels
+     */
+    @Override
+    public Blob createBlob() {
+        Set<Point> blobPoints = new TreeSet<Point>();
+        blobPoints.add(point);
+        Point prevPoint = point;
+
+        for (int e : sequence) {
+            switch (e) {
+                case 0:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
+                    blobPoints.add(prevPoint);
+                    break;
+                case 1:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
+                    blobPoints.add(prevPoint);
+                    break;
+                case 2:
+                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
+                    blobPoints.add(prevPoint);
+                    break;
+                case 3:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
+                    blobPoints.add(prevPoint);
+                    break;
+                case 4:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y());
+                    blobPoints.add(prevPoint);
+                    break;
+                case 5:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
+                    blobPoints.add(prevPoint);
+                    break;
+                case 6:
+                    prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
+                    blobPoints.add(prevPoint);
+                    break;
+                case 7:
+                    prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
+                    blobPoints.add(prevPoint);
+                    break;
             }
-            return result;
         }
 
-	/**
-	 * @author Sebastian Bartels
-	 */
-	public Blob createBlob() {
-		Set<Point> blobPoints = new TreeSet<Point>();
-		blobPoints.add(point);
-		Point prevPoint = point;
-		
-		for(int e : sequence) {
-			switch(e) {
-			case 0: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y());
-					blobPoints.add(prevPoint);
-					break;
-			case 1: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y()+1);
-					blobPoints.add(prevPoint);
-					break;
-			case 2: prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y()+1);
-					blobPoints.add(prevPoint);
-					break;
-			case 3: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y()+1);
-					blobPoints.add(prevPoint);
-					break;
-			case 4: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y());
-					blobPoints.add(prevPoint);
-					break;
-			case 5: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y()-1);
-					blobPoints.add(prevPoint);
-					break;
-			case 6: prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y()-1);
-					blobPoints.add(prevPoint);
-					break;
-			case 7: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y()-1);
-					blobPoints.add(prevPoint);
-					break;
-			}
-		}
-		
-		/*
-		 * TODO Missing method to fill a blobs boundary
-		 */
-		
-		return BlobImpl.valueOf(blobPoints, BinaryImages.NaBI());
-	}
+        /*
+         * TODO Missing method to fill a blobs boundary
+         */
 
-	public static BoundarySequence valueOf(Point start, List<Integer> elemList) {
-		return new BoundarySequenceImpl(start, elemList);
-	}
+        return BlobImpl.valueOf(blobPoints, BinaryImages.NaBI());
+    }
+
+    public static BoundarySequence valueOf(Point start, List<Integer> elemList) {
+        return new BoundarySequenceImpl(start, elemList);
+    }
 }
