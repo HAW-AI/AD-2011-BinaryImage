@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import adp2.interfaces.*;
 
 public abstract class AbstractBinaryImage extends AbstractMatrix implements
