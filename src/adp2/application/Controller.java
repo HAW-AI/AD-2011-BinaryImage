@@ -91,7 +91,7 @@ public class Controller {
 	 * @author Harald Kirschenmann
 	 * @author Philipp Gillé
 	 */
-	public String getBinaryImageAsSequence() {
+	public String getBlobAsSequenceString() {
 		String result = "";
 		BoundarySequence sequence;
 		int maxNeighbours = binaryImage.isEightNbr()?8:4;
@@ -107,6 +107,21 @@ public class Controller {
 			result += ")\n";
 		}
 		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 * @return
+	 * 
+	 * @author Sebastian Bartels
+	 */
+	public List<Blob> openBlob(String filename) {
+		List<BoundarySequence> boundaries = BlobParser.parse(filename);
+		List<Blob> result = new ArrayList<Blob>();
+		for(BoundarySequence b : boundaries)
+			result.add(b.createBlob());
 		return result;
 	}
 }

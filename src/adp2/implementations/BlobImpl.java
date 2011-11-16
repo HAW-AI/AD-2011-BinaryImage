@@ -203,16 +203,11 @@ public class BlobImpl implements Blob {
 	}
 
 	private List<Integer> calcBoundary2() {
-		
 		int maxNeighbours = 4;
-//		if (binaryImage.isEightNbr()) {
-//			maxNeighbours = 8;
-//			return boundary_all(maxNeighbours);
-//
-//		}
+		if (binaryImage.isEightNbr()) {
+			maxNeighbours = 8;
+		}
 		return boundary_esser2(maxNeighbours).getSequence();
-//		 return boundary_all(maxNeighbours);
-
 	}
 	
 	/**
@@ -330,7 +325,8 @@ public class BlobImpl implements Blob {
 		
 		// When Blob Size = 1, dann Boundary = this.points();
 		if (this.points().size() == 1)
-			result.addAll(this.points());
+//			result.addAll(this.points());
+			return res;
 		// Bei groesseren Blobs...
 		else {
 			do {

@@ -132,7 +132,7 @@ public class View extends Applet {
 		buttonSaveBlobs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonChooseFileSave(panel, e);
+				buttonSaveBlob(panel, e);
 			}
 		});
 
@@ -264,13 +264,13 @@ public class View extends Applet {
 	 * @author Harald Kirschenmann
 	 * @author Philipp Gillé
 	 */
-	private void buttonChooseFileSave(Panel panel, ActionEvent event) {
+	private void buttonSaveBlob(Panel panel, ActionEvent event) {
 		int ret = fileChooser.showSaveDialog(panel);
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			String path = file.getAbsolutePath();
 			// text in datei speichern
-			String binaryImageAsSequenceString = controller.getBinaryImageAsSequence();
+			String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
 			System.out.println(binaryImageAsSequenceString);//test
 			try {
 				BufferedWriter out = new BufferedWriter(new FileWriter(path));

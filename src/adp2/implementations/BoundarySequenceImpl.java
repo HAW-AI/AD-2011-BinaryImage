@@ -1,7 +1,10 @@
 package adp2.implementations;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import adp2.interfaces.Blob;
 import adp2.interfaces.BoundarySequence;
 import adp2.interfaces.Point;
 
@@ -27,4 +30,51 @@ public class BoundarySequenceImpl implements BoundarySequence {
 		return sequence;
 	}
 
+	/**
+	 * @author Sebastian Bartels
+	 */
+	public Blob createBlob() {
+		Set<Point> blobPoints = new TreeSet<Point>();
+		blobPoints.add(point);
+		Point prevPoint = point;
+		
+		for(int e : sequence) {
+			switch(e) {
+			case 0: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y());
+					blobPoints.add(prevPoint);
+					break;
+			case 1: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y()+1);
+					blobPoints.add(prevPoint);
+					break;
+			case 2: prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y()+1);
+					blobPoints.add(prevPoint);
+					break;
+			case 3: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y()+1);
+					blobPoints.add(prevPoint);
+					break;
+			case 4: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y());
+					blobPoints.add(prevPoint);
+					break;
+			case 5: prevPoint = PointImpl.valueOf(prevPoint.x()-1, prevPoint.y()-1);
+					blobPoints.add(prevPoint);
+					break;
+			case 6: prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y()-1);
+					blobPoints.add(prevPoint);
+					break;
+			case 7: prevPoint = PointImpl.valueOf(prevPoint.x()+1, prevPoint.y()-1);
+					blobPoints.add(prevPoint);
+					break;
+			}
+		}
+		
+		/*
+		 * TODO Missing method to fill a blobs boundary
+		 */
+		
+		return BlobImpl.valueOf(blobPoints, BinaryImages.NaBI());
+	}
+
+	public static BoundarySequence valueOf(Point start, List<Integer> elemList) {
+		return new BoundarySequenceImpl(start, elemList);
+	}
 }
