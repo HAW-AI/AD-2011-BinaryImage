@@ -6,7 +6,7 @@ public interface BoundarySequence {
 
 	Point getStartPoint();
 	List<Integer> getSequence();
-	
+	Blob createBlob();
 	
 	//info/question: boundary2() klappt nur fuer 4er blobs - soll doch auch fuer 8er gehen, oder?
 	
