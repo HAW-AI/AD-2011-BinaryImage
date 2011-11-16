@@ -332,28 +332,68 @@ public class BlobImpl implements Blob {
         // Esser Algorithmus nur für 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
+        Set<Point> alreadyIn = new TreeSet<Point>();
         
         BoundarySequence res = BoundarySequenceImpl.valueOf(start, sequence);
 
         Point aktuell = start;
         Point vorg = BinaryImages.point(start.x() - 1, start.y());
-        Point previous = null; //leter Point im Rand
+        Point previous = null; //letzer Point im Rand
                 
+        System.out.println(vorg.x() + " " + vorg.y());
+        
         Point temp = null;
-
         do {
             if (this.contains(aktuell)) {
                 temp = aktuell;
 
-                if (previous != null) {
-                    sequence.add(this.direction(previous, aktuell));
-                }
-                previous = aktuell;
+                if (previous != null && !aktuell.equals(previous)) {
+                	//wenn ich im Kreis laufe und aktuell == previous ist
+//                    if(aktuell.equals(previous)){
+//                    	sequence.add(lastCorner);
+//                    } else {
+                	System.out.println("IN :" + aktuell.x() + "|"+ aktuell.y());
+//                	
+                	int a = this.direction(previous, aktuell);
 
+                    	if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
+                    		sequence.remove(sequence.size()-1);
+                    		sequence.add(BoundarySequence.TOPRIGHT);
+                    		System.out.println(sequence.toString());
+                    	} 
+                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.BOTTOM && a == BoundarySequence.RIGHT){
+                    		sequence.remove(sequence.size()-1);
+                    		sequence.add(BoundarySequence.BOTTOMRIGHT);
+                    		System.out.println(sequence.toString());
+                    	}
+                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.TOP && a == BoundarySequence.LEFT){
+                    		sequence.remove(sequence.size()-1);
+                    		sequence.add(BoundarySequence.TOPLEFT);
+                    		System.out.println(sequence.toString());
+                    	}
+                    	else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.LEFT && a == BoundarySequence.BOTTOM){
+                    		sequence.remove(sequence.size()-1);
+                    		sequence.add(BoundarySequence.BOTTOMLEFT);
+                    		System.out.println(sequence.toString());
+                    	} 
+                    	else {
+                    		sequence.add(a);
+                    		System.out.println(sequence.toString());
+                    	}
+                    
+                    	
+                    	alreadyIn.add(aktuell);
+//                    }
+                //}
+                
+                }
+                
+                previous = aktuell;
                 aktuell = this.left_turn(vorg, aktuell);
                 vorg = temp;
 
             } else {
+            	System.out.println("OUT:" + aktuell.x() + "|"+ aktuell.y());
                 temp = aktuell;
                 aktuell = this.right_turn(vorg, aktuell);
                 vorg = temp;
@@ -361,6 +401,7 @@ public class BlobImpl implements Blob {
         } while (!(start.equals(aktuell)));
         // solange bis wieder am Start
         
+        System.out.println(sequence);
         return BoundarySequenceImpl.valueOf(start, sequence);
 
     }
@@ -368,14 +409,16 @@ public class BlobImpl implements Blob {
     private int direction(Point von, Point nach) {
         if(von.x() == nach.x()) { //oben oder unten
             if(von.y() > nach.y()) { //unten
-                return BoundarySequence.BOTTOM;
+                //return BoundarySequence.BOTTOM;
+            	return BoundarySequence.TOP;
             } else { //oben
-                return BoundarySequence.TOP;
+                //return BoundarySequence.TOP;
+            	return BoundarySequence.BOTTOM;
             }
         } else if(von.x() > nach.x()) { //links, oben oder unten
-            if(von.y() > nach.y()) { //unten links
+            if(von.y() < nach.y()) { //unten links
                 return BoundarySequence.BOTTOMLEFT;
-            } else if(von.y() < nach.y()) { // oben links
+            } else if(von.y() > nach.y()) { // oben links
                 return BoundarySequence.TOPLEFT;
             } else {
                 return BoundarySequence.LEFT;
