@@ -5,6 +5,8 @@ import adp2.implementations.BinaryImages;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.BoundarySequence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
@@ -115,7 +117,7 @@ public class Controller {
      * @return
      * 
      * @author Sebastian Bartels
-     *//*
+     */
     public List<Blob> openBlob(String filename) {
         List<BoundarySequence> boundaries = BlobParser.parse(filename);
         List<Blob> result = new ArrayList<Blob>();
@@ -123,5 +125,10 @@ public class Controller {
             result.add(b.createBlob());
         }
         return result;
-    }*/
+    }
+
+    protected void addBlob(Blob b) {
+        this.binaryImage.addBlob(b);
+        this.view.repaint();
+    }
 }

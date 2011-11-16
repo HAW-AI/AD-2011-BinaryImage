@@ -73,6 +73,13 @@ public interface BinaryImage {
      */
     BinaryImage toFourNeighborBinaryImage();
 
+	/**
+	 * 
+	 * @param blobId
+	 * @return a new BinaryImage without the deleted blob
+	 */
+	BinaryImage deleteBlob(int blobId);
+
     /**
      * @return BinaryImage with blobs from eight-neighbor representation
      */
@@ -81,4 +88,6 @@ public interface BinaryImage {
     String circularities();
 
     int noOfInnerEdges(Point p);
+
+    BinaryImage addBlob(Blob b);
 }
