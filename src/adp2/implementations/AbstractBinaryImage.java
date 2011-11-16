@@ -10,7 +10,7 @@ import adp2.interfaces.*;
 public abstract class AbstractBinaryImage extends AbstractMatrix implements
 		BinaryImage {
 	protected final List<Blob> blobs;
-	// enthält auch die NaP (Not a Points)
+	// enthÃ¤lt auch die NaP (Not a Points)
 	protected final List<Point> allPoints;
 	protected final SortedSet<Point> foregroundPointsAsSet;
 	protected final boolean isEightNbr; // true if eightNeighborBinaryImage,
@@ -134,7 +134,7 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 
 	/**
 	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und
-	 * gibt diese zurück
+	 * gibt diese zurï¿½ck
 	 * 
 	 * @author Stephan Berngruber
 	 * @author Tobias Meurer
@@ -146,9 +146,9 @@ public abstract class AbstractBinaryImage extends AbstractMatrix implements
 		int counter = 0;
 		// Set<Point> result = new TreeSet<Point>();
 		for (Point other : foregroundPointsAsSet) {
-			// Hier wird die Methode areNeighbours4n verwendet, unabhängig davon
+			// Hier wird die Methode areNeighbours4n verwendet, unabhï¿½ngig davon
 			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
-			// Das hängt damit zusammen, das es für den Umfang nur entscheidend
+			// Das hï¿½ngt damit zusammen, das es fï¿½r den Umfang nur entscheidend
 			// ist,
 			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an
 			// die Ecken

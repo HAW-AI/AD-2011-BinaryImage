@@ -262,7 +262,7 @@ public class View extends Applet {
 	 * Button method to save the displayed image with its blobs as file on the file system
 	 * 
 	 * @author Harald Kirschenmann
-	 * @author Philipp Gillé
+	 * @author Philipp Gille
 	 */
 	private void buttonChooseFileSave(Panel panel, ActionEvent event) {
 		int ret = fileChooser.showSaveDialog(panel);

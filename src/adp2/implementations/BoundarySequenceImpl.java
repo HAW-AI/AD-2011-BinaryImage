@@ -26,5 +26,13 @@ public class BoundarySequenceImpl implements BoundarySequence {
 		// TODO Auto-generated method stub
 		return sequence;
 	}
+        
+        public String toString() {
+            String result = this.point.toString();
+            for(Integer elem : this.sequence) {
+                result = result + elem.toString();
+            }
+            return result;
+        }
 
 }

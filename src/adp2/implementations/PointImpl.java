@@ -10,5 +10,4 @@ public class PointImpl extends AbstractPoint implements Point {
     public static PointImpl valueOf(int x, int y){
     	return new PointImpl(x,y);
     }
-
 }

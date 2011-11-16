@@ -139,7 +139,7 @@ final class NaBI extends NaM implements BinaryImage {
 	}
 
 	/**
-	* Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurück
+	* Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und gibt diese zurÃ¼ck
 	*
 	* @author Stephan Berngruber
 	* @author Tobias Meurer

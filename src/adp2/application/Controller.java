@@ -89,7 +89,7 @@ public class Controller {
 	 * @return long string with a text representation of all blobs with 1 blob in each line
 	 * 
 	 * @author Harald Kirschenmann
-	 * @author Philipp Gillé
+	 * @author Philipp Gille
 	 */
 	public String getBinaryImageAsSequence() {
 		String result = "";
