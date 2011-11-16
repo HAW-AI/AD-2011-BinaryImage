@@ -8,155 +8,159 @@ import java.util.TreeSet;
 import adp2.interfaces.*;
 
 public abstract class AbstractBinaryImage extends AbstractMatrix implements
-		BinaryImage {
-	protected final List<Blob> blobs;
-	// enth‰lt auch die NaP (Not a Points)
-	protected final List<Point> allPoints;
-	protected final SortedSet<Point> foregroundPointsAsSet;
-	protected final boolean isEightNbr; // true if eightNeighborBinaryImage,
-										// false if fourNeighborBinaryImage
+        BinaryImage {
 
-	protected AbstractBinaryImage(int width, int height, List<Integer> values,
-			boolean isEightNbr) {
-		super(width, height, values);
-		this.isEightNbr = isEightNbr;
-		this.allPoints = wrapList(values);
-		foregroundPointsAsSet = new TreeSet<Point>();
-		for (Point point : allPoints) {
-			if (!(point instanceof NaP))
-				foregroundPointsAsSet.add(point);
-		}
-		this.blobs = calcBlobs(foregroundPointsAsSet());
-	}
+    protected final List<Blob> blobs;
+    // enth√§lt auch die NaP (Not a Points)
+    protected final List<Point> allPoints;
+    protected final SortedSet<Point> foregroundPointsAsSet;
+    protected final boolean isEightNbr; // true if eightNeighborBinaryImage,
+    // false if fourNeighborBinaryImage
 
-	public List<Point> wrapList(List<Integer> values) {
-		List<Point> wrapper = new ArrayList<Point>();
-		for (int y = 0; y < height(); y++) {
-			for (int x = 0; x < width(); x++) {
-				if (get(x, y) > 0)
-					wrapper.add(BinaryImages.point(x, y));
-				else
-					wrapper.add(BinaryImages.NaP(x, y));
-			}
-		}
-		return wrapper;
-	}
+    protected AbstractBinaryImage(int width, int height, List<Integer> values, boolean isEightNbr) {
+        super(width, height, values);
+        this.isEightNbr = isEightNbr;
+        this.allPoints = wrapList(values);
+        foregroundPointsAsSet = new TreeSet<Point>();
+        for (Point point : allPoints) {
+            if (!(point instanceof NaP)) {
+                foregroundPointsAsSet.add(point);
+            }
+        }
+        this.blobs = calcBlobs(foregroundPointsAsSet());
+    }
 
-	@Override
-	public boolean isEightNbr() {
-		return isEightNbr;
-	}
+    public List<Point> wrapList(List<Integer> values) {
+        List<Point> wrapper = new ArrayList<Point>();
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(); x++) {
+                if (get(x, y) > 0) {
+                    wrapper.add(BinaryImages.point(x, y));
+                } else {
+                    wrapper.add(BinaryImages.NaP(x, y));
+                }
+            }
+        }
+        return wrapper;
+    }
 
-	/**
-	 * dreht Hintergrund- und Vordergrundpunkte um, aus Punkten werden NaP, aus NaP Punkte
-	 * 
-	 **/
-	protected List<Point> inversePoints() {
-		List<Point> l = new ArrayList<Point>();
-		for (Point p : allPoints) {
-			if (p instanceof NaP) {
-				l.add(BinaryImages.point(p.x(), p.y()));
-			} else {
-				l.add(BinaryImages.NaP(p.x(), p.y()));
-			}
-		}
-		return l;
-	}
+    @Override
+    public boolean isEightNbr() {
+        return isEightNbr;
+    }
 
-	/**
-	 * Delegates the calculation of Blobs to the preferred algorithm
-	 * 
-	 * @return Ordered list of Blobs
-	 */
-	protected abstract List<Blob> calcBlobs(Set<Point> points);
+    /**
+     * dreht Hintergrund- und Vordergrundpunkte um, aus Punkten werden NaP, aus NaP Punkte
+     * 
+     **/
+    protected List<Point> inversePoints() {
+        List<Point> l = new ArrayList<Point>();
+        for (Point p : allPoints) {
+            if (p instanceof NaP) {
+                l.add(BinaryImages.point(p.x(), p.y()));
+            } else {
+                l.add(BinaryImages.NaP(p.x(), p.y()));
+            }
+        }
+        return l;
+    }
 
-	@Override
-	public int blobCount() {
-		return this.blobs.size();
-	}
+    /**
+     * Delegates the calculation of Blobs to the preferred algorithm
+     * 
+     * @return Ordered list of Blobs
+     */
+    protected abstract List<Blob> calcBlobs(Set<Point> points);
 
-	@Override
-	public Blob blob(int i) {
-		if (i < 0 || i >= blobs.size())
-			return BinaryImages.NaB();
-		return blobs.get(i);
-	}
+    @Override
+    public int blobCount() {
+        return this.blobs.size();
+    }
 
-	@Override
-	public List<Blob> blobs() {
-		return new ArrayList<Blob>(blobs);
-	}
+    @Override
+    public Blob blob(int i) {
+        if (i < 0 || i >= blobs.size()) {
+            return BinaryImages.NaB();
+        }
+        return blobs.get(i);
+    }
 
-	protected abstract Set<Point> neighbours(Point point, Set<Point> points);
+    @Override
+    public List<Blob> blobs() {
+        return new ArrayList<Blob>(blobs);
+    }
 
-	@Override
-	public Set<Point> neighbours(Point point) {
-		return neighbours(point, foregroundPointsAsSet());
-	}
+    protected abstract Set<Point> neighbours(Point point, Set<Point> points);
 
-	protected Set<Point> foregroundPointsAsSet() {
-		return foregroundPointsAsSet;
-	}
+    @Override
+    public Set<Point> neighbours(Point point) {
+        return neighbours(point, foregroundPointsAsSet());
+    }
 
-	@Override
-	public boolean valueAt(Point point) {
-		return allPoints.contains(point);
-	}
+    protected Set<Point> foregroundPointsAsSet() {
+        return foregroundPointsAsSet;
+    }
 
-	@Override
-	public boolean connected(Point point1, Point point2) {
-		for (Blob elem : blobs) {
-			if (elem.contains(point1)) {
-				if (elem.contains(point2))
-					return true;
-				return false;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean valueAt(Point point) {
+        return allPoints.contains(point);
+    }
 
-	/**
-	 * Helper method to find out, if two points are neighbours (4 neighbourhood)
-	 * 
-	 * @author Oliver Behncke
-	 * 
-	 * @param Point
-	 * @param Other
-	 *            Point
-	 * @return
-	 */
-	protected boolean areNeighbours4n(Point p1, Point p2) {
-		return (Math.abs(p1.x() - p2.x()) == 1)
-				&& (Math.abs(p1.y() - p2.y()) == 0)
-				|| (Math.abs(p1.x() - p2.x()) == 0)
-				&& (Math.abs(p1.y() - p2.y()) == 1);
-	}
+    @Override
+    public boolean connected(Point point1, Point point2) {
+        for (Blob elem : blobs) {
+            if (elem.contains(point1)) {
+                if (elem.contains(point2)) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und
-	 * gibt diese zur¸ck
-	 * 
-	 * @author Stephan Berngruber
-	 * @author Tobias Meurer
-	 * 
-	 * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
-	 */
-	@Override
-	public int noOfInnerEdges(Point point) {
-		int counter = 0;
-		// Set<Point> result = new TreeSet<Point>();
-		for (Point other : foregroundPointsAsSet) {
-			// Hier wird die Methode areNeighbours4n verwendet, unabh‰ngig davon
-			// ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
-			// Das h‰ngt damit zusammen, das es f¸r den Umfang nur entscheidend
-			// ist,
-			// ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an
-			// die Ecken
-			// grenzen beeinflussen den Umfang des einen Pixels NICHT
-			if (areNeighbours4n(point, other)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
+    /**
+     * Helper method to find out, if two points are neighbours (4 neighbourhood)
+     * 
+     * @author Oliver Behncke
+     * 
+     * @param Point
+     * @param Other
+     *            Point
+     * @return
+     */
+    protected boolean areNeighbours4n(Point p1, Point p2) {
+        return (Math.abs(p1.x() - p2.x()) == 1)
+                && (Math.abs(p1.y() - p2.y()) == 0)
+                || (Math.abs(p1.x() - p2.x()) == 0)
+                && (Math.abs(p1.y() - p2.y()) == 1);
+    }
+
+    /**
+     * Berechnet die Anzahl der Nicht-Randkanten eines Pixels in einem Bild und
+     * gibt diese zur√ºck
+     * 
+     * @author Stephan Berngruber
+     * @author Tobias Meurer
+     * 
+     * @return Anzahl der Nicht-Randkanten eines Pixels in einem Bild
+     */
+    @Override
+    public int noOfInnerEdges(Point point) {
+        int counter = 0;
+        // Set<Point> result = new TreeSet<Point>();
+        for (Point other : foregroundPointsAsSet) {
+            // Hier wird die Methode areNeighbours4n verwendet, unabh√§ngig davon
+            // ob es sich um eine 4er- oder 8er-Nachbarschaft handelt.
+            // Das h√§ngt damit zusammen, das es f√ºr den Umfang nur entscheidend
+            // ist,
+            // ob weitere Pixel an den Rand des Pixels grenzen. Pixel, die an
+            // die Ecken
+            // grenzen beeinflussen den Umfang des einen Pixels NICHT
+            if (areNeighbours4n(point, other)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
 }
