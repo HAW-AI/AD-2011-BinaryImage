@@ -129,5 +129,6 @@ public class Controller {
 
     protected void addBlob(Blob b) {
         this.binaryImage.addBlob(b);
+        this.view.repaint();
     }
 }

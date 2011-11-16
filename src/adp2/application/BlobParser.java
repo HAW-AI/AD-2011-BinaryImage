@@ -18,7 +18,6 @@ import adp2.interfaces.BoundarySequence;
 public class BlobParser {
 
     private static final String ELEMENT_DELIMITER = "\\,";
-    private static final String SEQUENCE_DELIMITER = "\\)";
 
     public static List<BoundarySequence> parse(String file) {
         return parse_array(content(file));
