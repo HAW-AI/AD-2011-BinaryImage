@@ -41,6 +41,11 @@ public class BoundarySequenceImpl implements BoundarySequence {
     }
 
     /**
+     * Creates a new (outline of a) blob, 
+     * whose boundary matches the boundary sequence
+     * 
+     * @return Blob
+     * 
      * @author Sebastian Bartels
      */
     @Override

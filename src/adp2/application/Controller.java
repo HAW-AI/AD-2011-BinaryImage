@@ -112,9 +112,10 @@ public class Controller {
     }
 
     /**
+     * Returns a list of blobs saved as boundary-sequence in the given file
      * 
      * @param filename
-     * @return
+     * @return List<Blob>
      * 
      * @author Sebastian Bartels
      */
@@ -127,6 +128,13 @@ public class Controller {
         return result;
     }
 
+    /*
+     * Adds the selected blob to the currently used binary image
+     * 
+     * @param Blob
+     * 
+     * @author Sebastian Bartels
+     */
     protected void addBlob(Blob b) {
         this.binaryImage.addBlob(b);
         this.view.repaint();

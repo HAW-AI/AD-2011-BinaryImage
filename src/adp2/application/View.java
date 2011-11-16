@@ -304,6 +304,11 @@ public final class View extends Applet {
         }
     }
     
+    /*
+     * Button method to select and load blobs from a file
+     * 
+     * @author Sebastian Bartels
+     */
     private void buttonLoadBlob(Panel panel, ActionEvent e) {
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
@@ -311,10 +316,8 @@ public final class View extends Applet {
             String path = file.getAbsolutePath();
             List<Blob> blobs = new ArrayList<Blob>();
             blobs.addAll(controller.openBlob(path));
-            /*
-             * Anzeige einer Liste der Blobs zur Auswahl oder
-             * alle importieren 
-             */
+//          Anzeige einer Liste der Blobs zur Auswahl? 
+//          oder alle importieren 
             for(Blob b : blobs)
                 this.controller.addBlob(b);
         }

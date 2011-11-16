@@ -13,6 +13,13 @@ import adp2.implementations.*;
 import adp2.interfaces.BoundarySequence;
 
 /**
+ * Creates a list of blob-boundaries read from the given file.
+ * Blobs are saved as:
+ *   x|y(a,b,c)
+ * Where x&y are the starting points coordinates, 
+ * while a, b&c are the sequence (direction from the previous point)
+ * as determined by the method to save the boundaries.
+ * 
  * @author Sebastian Bartels
  */
 public class BlobParser {
@@ -57,6 +64,9 @@ public class BlobParser {
      * returns the file content as String-Array
      * @param file
      * @return String[]
+     * 
+     * @author Ben Rexin <benjamin.rexin@haw-hamburg.de>
+     * @author Patrick Detlefsen <patrick.detlefsen@haw-hamburg.de>
      */
     private static String[] content(String filename) {
         final BufferedReader reader;

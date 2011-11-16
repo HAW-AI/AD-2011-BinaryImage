@@ -291,6 +291,13 @@ public class BinaryImageImpl extends AbstractBinaryImage {
         return sB.toString();
     }
 
+    /*
+     * Adds the given blob to the binary image
+     * 
+     * @param Blob
+     * 
+     * @author Sebastian Bartels
+     */
     @Override
     public void addBlob(Blob b) {
         if(b.pointCount()== 1) this.allPoints.add(b.points().iterator().next());
