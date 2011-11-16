@@ -208,6 +208,10 @@ public class BlobImpl implements Blob {
     }
 
     private List<Integer> calcBoundary2() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8bb2a940a692a567ebc6d1e6b4b7d4e9a461ff0c
         int maxNeighbours = 4;
 //		if (binaryImage.isEightNbr()) {
 //			maxNeighbours = 8;
@@ -503,6 +507,7 @@ public class BlobImpl implements Blob {
     }
 
     // FUNKTIONIERT NUR KORREKT FUER 8er IMAGES
+<<<<<<< HEAD
 	private List<Integer> calcBoundary2() {
 		int maxNeighbours = 4;
 		if (binaryImage.isEightNbr()) {
@@ -798,6 +803,9 @@ public class BlobImpl implements Blob {
 	
 	// FUNKTIONIERT NUR KORREKT FUER 8er IMAGES
 >>>>>>> 3552d988445d389400876bb8ba690d4c44c21032
+=======
+
+>>>>>>> 8bb2a940a692a567ebc6d1e6b4b7d4e9a461ff0c
 //@Override
 //	public Set<Point> boundary() {
 //		Set<Point> boundary = new TreeSet<Point>();
