@@ -104,6 +104,7 @@ public class Controller {
             result += "(";
             for (int i : sequence.getSequence()) {
                 result += i;
+                if(sequence.getSequence().lastIndexOf(i) < sequence.getSequence().size()-1) result+=","; //Separate the elements with a comma
             }
             result += ")\n";
         }
