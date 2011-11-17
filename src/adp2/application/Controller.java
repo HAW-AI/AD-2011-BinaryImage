@@ -136,7 +136,7 @@ public class Controller {
      * @author Sebastian Bartels
      */
     protected void addBlob(Blob b) {
-        this.binaryImage.addBlob(b);
+        this.binaryImage = this.binaryImage.addBlob(b);
         this.view.repaint();
     }
 }
