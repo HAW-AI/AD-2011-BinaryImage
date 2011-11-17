@@ -102,9 +102,11 @@ public class Controller {
             result += "|";
             result += sequence.getStartPoint().y();
             result += "(";
-            for (int i : sequence.getSequence()) {
-                result += i;
-                if(sequence.getSequence().lastIndexOf(i) < sequence.getSequence().size()-1) result+=","; //Separate the elements with a comma
+            if (sequence.getSequence.istEmpty()) {
+                for (int i : sequence.getSequence()) {
+                    result += i + ",";
+                }
+                result = result.substring(0, result.length() -1 );
             }
             result += ")\n";
         }
