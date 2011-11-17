@@ -1,7 +1,12 @@
 package adp2.application;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import adp2.implementations.BinaryImages;
+import adp2.implementations.BlobImpl;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.BoundarySequence;
@@ -86,35 +91,6 @@ public class Controller {
     }
 
     /**
-     * 
-     * @return long string with a text representation of all blobs with 1 blob in each line
-     * 
-     * @author Harald Kirschenmann
-     * @author Philipp Gille
-     */
-    public String getBlobAsSequenceString() {
-        String result = "";
-        BoundarySequence sequence;
-        int maxNeighbours = binaryImage.isEightNbr() ? 8 : 4;
-        for (Blob b : binaryImage.blobs()) {
-            sequence = b.boundary_esser2(maxNeighbours);
-            result += sequence.getStartPoint().x();
-            result += "|";
-            result += sequence.getStartPoint().y();
-            result += "(";
-            if (!sequence.getSequence().isEmpty()) {
-                for (int i : sequence.getSequence()) {
-                    result += i + ",";
-                }
-                result = result.substring(0, result.length() -1 );
-            }
-            result += ")\n";
-        }
-
-        return result;
-    }
-
-    /**
      * Returns a list of blobs saved as boundary-sequence in the given file
      * 
      * @param filename
@@ -141,5 +117,56 @@ public class Controller {
     protected void addBlob(Blob b) {
         this.binaryImage = this.binaryImage.addBlob(b);
         this.view.repaint();
+    }
+    
+    /**
+     * @author Harald Kirschenmann
+     * @author Philipp Gillé
+     */
+    public void writeAllBlobs(String path) {
+    	List<Blob> blobs = binaryImage().blobs();
+    	String resultBlobs = "";
+    	for (Blob b : blobs) {
+    		resultBlobs += b.toString();
+    		resultBlobs += "\n";
+    	}
+    	System.out.println("writeAllBlobs -> " + resultBlobs);//test
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(path));
+            out.write(resultBlobs);
+            out.close();
+        } catch (IOException e) {
+            System.out.println("Error while trying to write the file");
+        }
+    }
+    
+    /**
+     * @author Philipp Gillé
+     * @param path to the file
+     * @param blobId - id of the blob to be written
+     */
+    public void writeOneBlob(String path, int blobId) {
+// jörgs code auskommentiert wegen änderung der blobsequenzmethode - philipp
+//        String binaryImageAsSequenceString = getBlobAsSequenceString();
+//        String[] blobies = binaryImageAsSequenceString.split("\n");
+//
+//        if (blobId < 0 || blobId >= blobies.length) {
+//            return; //ignore No save
+//        }
+//        String blob = blobies[blobId];
+//
+//        System.out.println(binaryImageAsSequenceString);//test
+//        System.out.println(">> " + blob);//test
+    	
+    	List<Blob> blobs = binaryImage().blobs();
+    	String resultBlob = blobs.get(blobId).toString();
+		System.out.println("writeOneBlob mit id=" + blobId + " -> " + resultBlob);//test
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(path));
+            out.write(resultBlob);
+            out.close();
+        } catch (IOException ex) {
+            System.out.println("Error while trying to write the file");
+        }
     }
 }

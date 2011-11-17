@@ -90,7 +90,6 @@ final class NaB implements Blob {
 
     @Override
     public List<Integer> boundary2() {
-        // TODO Auto-generated method stub
         return new ArrayList<Integer>();
     }
 
@@ -122,7 +121,6 @@ final class NaB implements Blob {
 
     @Override
     public BoundarySequence boundary_esser2(int maxNeighbours) {
-        // TODO Auto-generated method stub
         return BoundarySequenceImpl.valueOf(null, null);
     }
 }
