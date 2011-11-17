@@ -32,13 +32,22 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
     /**
      * @author Benjamin Kahlau
+     * @author Philipp Gillé
      */
     @Override
     public String toString() {
-        String result = this.point.toString();
-        for (Integer elem : this.sequence) {
-            result = result + elem.toString();
+    	String result = "";
+        result += getStartPoint().x();
+        result += "|";
+        result += getStartPoint().y();
+        result += "(";
+        if (!getSequence().isEmpty()) {
+            for (int i : getSequence()) {
+                result += i + ",";
+            }
+            result = result.substring(0, result.length() -1 );
         }
+        result += ")";
         return result;
     }
 
