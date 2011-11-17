@@ -101,7 +101,47 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
         return BlobImpl.valueOf(blobPoints, BinaryImages.NaBI());
     }
+    
+    /**
+     * Prueft die Wertgleichheit der BoundarySequence mit einem anderen Objekt.
+     * 
+     * param obj: Zu vergleichendes Objekt. return: Gibt true bei Wertgleichheit
+     * zurueck, ansonsten false.
+     * @return boolean
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        BoundarySequenceImpl other = (BoundarySequenceImpl) obj;
+        if (sequence == null) {
+            if (other.getSequence() != null) {
+                return false;
+            }
+        } else if (!sequence.equals(other.getSequence())) {
+            return false;
+        } else if (!point.equals(other.getStartPoint())){
+        	return false;
+        }
+        return true;
+    }
 
+    /**
+     * Factory Methode von BoundarySequence. Erstellt ein BoundarySequence Objekt und gibt ihn zurueck.
+     * 
+     * @param startpoint
+     *            : Point mit x und y Wert,
+     *        elementliste
+     *            : Liste mit der Sequence
+     *            
+     * @return BoundarySequence
+     */
     public static BoundarySequence valueOf(Point start, List<Integer> elemList) {
         return new BoundarySequenceImpl(start, elemList);
     }

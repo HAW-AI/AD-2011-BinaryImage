@@ -312,16 +312,16 @@ public class BlobImpl implements Blob {
      * @author Kai Bielenberg
      * @author Tobias Mainusch
      * 
-     * Algorithmus nur fuer 4rer Nachbarschaft, da sonst ungenau
+     * Algorithmus nur fuer 4rer Nachbarschaft.
      * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
      * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
      * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
      * da dieses Sortiert ist.
-     * Der Vorige Punkt wird immer als Vorgaenger zwischengespeichert, damit die Richtung fuer das Links 
-     * und Rechts Abbiegen ermittelt werden kann.
-     * Der Algorithmus hat Probleme mit Blobs.size() = 1, daher fangen wir das Ergebis direkt ab.
+     * Es wird immer in die Sequence der Weg von vorherigen Punkt zum aktuellen Punkt gespeichert.
      * 
-     * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft wird ob die Nachbaranzahl 4 ist.
+     * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft ob man nach 
+     * oben links oder rechts, oder unten links oder rechts geht. Dabei wird der letzte Weg 
+     * gelöscht und aus einer Ecke eine Schräge gemacht, wenn verlangt.
      * 
      * 
      * @param maxNeighbours
@@ -329,7 +329,7 @@ public class BlobImpl implements Blob {
      */
     @Override
     public BoundarySequence boundary_esser2(int maxNeighbours) {
-        // Esser Algorithmus nur fÃ¼r 4er Nachbarschaft
+        // Esser Algorithmus nur für 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
         Set<Point> alreadyIn = new TreeSet<Point>();
