@@ -46,14 +46,27 @@ public class BlobParser {
 
             int n = 0;
             List<Integer> elemList = new ArrayList<Integer>();
+            
+            System.out.println("----------------------------------------Vor while----------------------------------------");
             while (elements[n] != ')') {
-                elemList.add(Integer.parseInt(""+elements[n++]));
+                System.out.print("n="+n+" elements[n]="+elements[n]+" added?:");
+                if(n%2 == 1){
+                    if(elements[n] != ',') return result; //element higher than 10 -> error
+                    System.out.print("no");
+                }
+                else {
+                    elemList.add(Integer.parseInt(""+elements[n]));
+                    System.out.print("yes");
+                }
+                System.out.print("\n");
+                n++;
             };
 
             if ((x > -1 && y > -1)) {
                 result.add(BoundarySequenceImpl.valueOf(PointImpl.valueOf(x, y), elemList));
             }
         }
+        
         return result;
     }
 
