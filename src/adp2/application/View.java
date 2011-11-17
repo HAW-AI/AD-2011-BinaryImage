@@ -61,6 +61,8 @@ public final class View extends Applet {
     // textAreaCircularity zur ausgabe der Circularitäten
     private TextArea textAreaCircularity = new TextArea();
     private JFileChooser fileChooser = new JFileChooser(".");
+    private EsserFilter esser = new EsserFilter();
+    private BlobFilter blobs = new BlobFilter();
 
     public View(Controller controller) {
         this.setController(controller);
@@ -260,7 +262,7 @@ public final class View extends Applet {
 	}
 	
 	protected void buttonChooseBlobFileLoad(Point point) {
-            fileChooser.setFileFilter(new BlobFilter());
+            fileChooser.setFileFilter(blobs);
             int ret = fileChooser.showOpenDialog(panel);
             if (ret == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -300,7 +302,7 @@ public final class View extends Applet {
 	}
 
         protected void buttonChooseBlobFileSave(Panel panel3, ActionEvent e, int blobId) {
-            fileChooser.setFileFilter(new BlobFilter());
+            fileChooser.setFileFilter(blobs);
             int ret = fileChooser.showSaveDialog(panel);
             if (ret == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -415,7 +417,7 @@ public final class View extends Applet {
     }
 
     private void buttonChooseFileLoad(Panel panel, ActionEvent event) {
-        fileChooser.setFileFilter(new EsserFilter());
+        fileChooser.setFileFilter(esser);
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -436,7 +438,7 @@ public final class View extends Applet {
     private void buttonSaveBlob(Panel panel, ActionEvent event) {
     	// sequence only works for 4-blob, so saving blobs does so too
     	if (!controller.binaryImage().isEightNbr()) {
-	        fileChooser.setFileFilter(new BlobFilter());
+	        fileChooser.setFileFilter(blobs);
 	        int ret = fileChooser.showSaveDialog(panel);
 	        if (ret == JFileChooser.APPROVE_OPTION) {
 	            File file = fileChooser.getSelectedFile();
@@ -455,7 +457,7 @@ public final class View extends Applet {
      * @author Sebastian Bartels
      */
     private void buttonLoadBlob(Panel panel, ActionEvent e) {
-        fileChooser.setFileFilter(new BlobFilter());
+        fileChooser.setFileFilter(blobs);
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
