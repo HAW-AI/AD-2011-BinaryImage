@@ -380,6 +380,8 @@ public class BlobImpl implements Blob {
         } while (!(start.equals(aktuell)));
         // solange bis wieder am Start
         
+        sequence.add(this.direction(previous, aktuell));
+        
         return BoundarySequenceImpl.valueOf(start, sequence);
 
     }
