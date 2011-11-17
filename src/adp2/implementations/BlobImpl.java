@@ -592,7 +592,7 @@ public class BlobImpl implements Blob {
      * @author Stephan Berngruber
      * @author Tobias Meurer
      * 
-     * @return circularity (liegt zwischen 0 und 1)
+     * @return circularity 1 = Kreis, je groesser der Wert, desto unkreisfoermiger der Blob
      */
     private double calcCircularity() {
         return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
