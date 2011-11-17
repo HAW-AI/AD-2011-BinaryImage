@@ -19,9 +19,7 @@ public interface Blob extends Iterable<Point> {
 
     Set<Point> boundary();
 
-    List<Integer> boundary2();
-
-    BoundarySequence boundary_esser2(int maxNeighbours);
+    BoundarySequence boundary2();
 
     double circularity();
 
