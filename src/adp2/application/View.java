@@ -21,6 +21,7 @@ import java.awt.event.*;
 import java.applet.*;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -223,7 +224,7 @@ public final class View extends Applet {
 	 */
 	private void showMenu(final MouseEvent evt, final int blobId){
 		JPopupMenu menu = new JPopupMenu();
-		JMenuItem item1 = new JMenuItem("Blob löschen");
+		JMenuItem item1 = new JMenuItem("Blob lï¿½schen");
 		JMenuItem item2 = new JMenuItem("Blob speichern");
 		JMenuItem item3 = new JMenuItem("Blob laden");
 		
@@ -257,47 +258,50 @@ public final class View extends Applet {
 	
 	
 	protected void buttonChooseBlobFileLoad(Panel panel3, ActionEvent e) {
-		int ret = fileChooser.showOpenDialog(panel);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String path = file.getAbsolutePath();
-            List<Blob> blobs = controller.openBlob(path);
+            fileChooser.setFileFilter(new BlobFilter());
+            int ret = fileChooser.showOpenDialog(panel);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String path = file.getAbsolutePath();
+                List<Blob> blobs = controller.openBlob(path);
             
-            if(blobs.size() != 1) return;
+                if(blobs.size() != 1) return;
             
-            BinaryImage bi = getImage();
+                BinaryImage bi = getImage();
     		
     		controller.setBinaryImage(bi.addBlob(blobs.get(0)));
     		
     		setCircularityText();
     		sizeToFit();
-        }
+            }
 	}
 
-	protected void buttonChooseBlobFileSave(Panel panel3, ActionEvent e, int blobId) {
-		int ret = fileChooser.showSaveDialog(panel);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String path = file.getAbsolutePath();
-            // text in datei speichern
-            String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
-            String[] blobies = binaryImageAsSequenceString.split("\n");
-            
-            if(blobId < 0 || blobId >= blobies.length) return; //ignore No save
-            
-            String blob = blobies[blobId];
-            
-            System.out.println(binaryImageAsSequenceString);//test
-            System.out.println(">> "+blob);//test
-            try {
-                BufferedWriter out = new BufferedWriter(new FileWriter(path));
-                out.write(blob);
-                out.close();
-            } catch (IOException ex) {
-                System.out.println("Error while trying to write the file");
+        protected void buttonChooseBlobFileSave(Panel panel3, ActionEvent e, int blobId) {
+            fileChooser.setFileFilter(new BlobFilter());
+            int ret = fileChooser.showSaveDialog(panel);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String path = file.getAbsolutePath();
+                // text in datei speichern
+                String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
+                String[] blobies = binaryImageAsSequenceString.split("\n");
+
+                if (blobId < 0 || blobId >= blobies.length) {
+                    return; //ignore No save
+                }
+                String blob = blobies[blobId];
+
+                System.out.println(binaryImageAsSequenceString);//test
+                System.out.println(">> " + blob);//test
+                try {
+                    BufferedWriter out = new BufferedWriter(new FileWriter(path));
+                    out.write(blob);
+                    out.close();
+                } catch (IOException ex) {
+                    System.out.println("Error while trying to write the file");
+                }
             }
         }
-	}
 
 	/**
 	 * called from the GUI-PopUp to delete one blob
@@ -404,6 +408,7 @@ public final class View extends Applet {
     }
 
     private void buttonChooseFileLoad(Panel panel, ActionEvent event) {
+        fileChooser.setFileFilter(new EsserFilter());
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -422,6 +427,7 @@ public final class View extends Applet {
      * @author Philipp Gille
      */
     private void buttonSaveBlob(Panel panel, ActionEvent event) {
+        fileChooser.setFileFilter(new BlobFilter());
         int ret = fileChooser.showSaveDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -445,6 +451,7 @@ public final class View extends Applet {
      * @author Sebastian Bartels
      */
     private void buttonLoadBlob(Panel panel, ActionEvent e) {
+        fileChooser.setFileFilter(new BlobFilter());
         int ret = fileChooser.showOpenDialog(panel);
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
