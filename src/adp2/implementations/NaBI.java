@@ -124,6 +124,11 @@ final class NaBI extends NaM implements BinaryImage {
         return "NaBI has no circularity!";
     }
 
+	@Override
+	public BinaryImage deleteBlob(int blobId) {
+		return instance;
+	}
+
     @Override
     public boolean isEightNbr() {
         return false;
@@ -153,7 +158,7 @@ final class NaBI extends NaM implements BinaryImage {
     }
 
     @Override
-    public void addBlob(Blob b) {
-        
+    public BinaryImage addBlob(Blob b) {
+        return this;
     }
 }

@@ -40,17 +40,14 @@ public class BlobParser {
             String[] ySplit = xSplit[1].split("\\(");
             int y = Integer.parseInt(ySplit[0]);
 
-            String[] elements = ySplit[1].split(ELEMENT_DELIMITER);
+            if(!ySplit[1].endsWith(")")) return result; //error
+            
+            char[] elements = ySplit[1].toCharArray();
 
             int n = 0;
             List<Integer> elemList = new ArrayList<Integer>();
-            boolean end = false;
-            while (!end) {
-                if (elements[n].endsWith(")")) {
-                    elements[n] = elements[n].substring(0, 1);
-                    end = true;
-                }
-                elemList.add(Integer.parseInt(elements[n++]));
+            while (elements[n] != ')') {
+                elemList.add(Integer.parseInt(""+elements[n++]));
             };
 
             if ((x > -1 && y > -1)) {

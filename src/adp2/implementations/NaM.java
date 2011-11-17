@@ -2,6 +2,7 @@ package adp2.implementations;
 
 import java.util.ArrayList;
 
+
 public abstract class NaM extends AbstractMatrix {
 
     protected NaM() {

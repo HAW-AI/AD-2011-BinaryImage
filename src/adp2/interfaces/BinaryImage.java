@@ -73,6 +73,13 @@ public interface BinaryImage {
      */
     BinaryImage toFourNeighborBinaryImage();
 
+	/**
+	 * 
+	 * @param blobId
+	 * @return a new BinaryImage without the deleted blob
+	 */
+	BinaryImage deleteBlob(int blobId);
+
     /**
      * @return BinaryImage with blobs from eight-neighbor representation
      */
@@ -82,5 +89,5 @@ public interface BinaryImage {
 
     int noOfInnerEdges(Point p);
 
-    public void addBlob(Blob b);
+    BinaryImage addBlob(Blob b);
 }

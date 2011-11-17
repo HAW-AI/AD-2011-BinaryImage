@@ -291,16 +291,35 @@ public class BinaryImageImpl extends AbstractBinaryImage {
         return sB.toString();
     }
 
-    /*
-     * Adds the given blob to the binary image
-     * 
-     * @param Blob
-     * 
-     * @author Sebastian Bartels
-     */
+	@Override
+	public BinaryImage deleteBlob(int blobId) {
+		Blob blob = blob(blobId);
+		
+		if(blob instanceof NaB) return this; //blobId doesn't exist - ignore it
+		
+		List<Integer> newValues = new ArrayList<Integer>(values());
+		
+		for(Point p : blob.points()){ //remove pixels of the specified blob
+			newValues.set(p.x() + (p.y()*width()), 0);
+		}
+		
+		BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
+		
+		return bi;
+	}
+
     @Override
-    public void addBlob(Blob b) {
-        if(b.pointCount()== 1) this.allPoints.add(b.points().iterator().next());
-        else this.blobs.add(b);
+    public BinaryImage addBlob(Blob blob) {
+    	if(blob instanceof NaB) return this; //blobId doesn't exist - ignore it
+		
+		List<Integer> newValues = new ArrayList<Integer>(values());
+		
+		for(Point p : blob.points()){ //remove pixels of the specified blob
+			newValues.set(p.x() + (p.y()*width()), 1);
+		}
+		
+		BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
+		
+		return bi;
     }
 }
