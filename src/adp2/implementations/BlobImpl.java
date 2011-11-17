@@ -321,7 +321,7 @@ public class BlobImpl implements Blob {
      * 
      * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft ob man nach 
      * oben links oder rechts, oder unten links oder rechts geht. Dabei wird der letzte Weg 
-     * gelöscht und aus einer Ecke eine Schräge gemacht, wenn verlangt.
+     * geloescht und aus einer Ecke eine Schraege gemacht, wenn verlangt.
      * 
      * 
      * @param maxNeighbours
@@ -329,10 +329,10 @@ public class BlobImpl implements Blob {
      */
     @Override
     public BoundarySequence boundary_esser2(int maxNeighbours) {
-        // Esser Algorithmus nur für 4er Nachbarschaft
+        // Esser Algorithmus nur fuer 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
-        Set<Point> alreadyIn = new TreeSet<Point>();
+        //Set<Point> alreadyIn = new TreeSet<Point>();
 
         Point aktuell = start;
         Point vorg = BinaryImages.point(start.x() - 1, start.y());
@@ -608,7 +608,7 @@ public class BlobImpl implements Blob {
      * @return Anzahl Aussenkannten
      *
      */
-    //@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     @Deprecated
     private int calcPerimeter() {
         int counter = 0; //Zaehlt Anzahl der Aussenkanten hoch => Wert des Umfangs
@@ -633,20 +633,13 @@ public class BlobImpl implements Blob {
      * @return Umfang als double
      */
     private double calcPerimeterGruppe3() {
-
-        double res = 0;
-        List<Integer> seq = boundary_esser2(4).getSequence();
-        if (!seq.isEmpty()) {
-            for (int i : seq) {
-                if (i % 2 == 0) {
-                    res += 1;
-                } else {
-                    res += Math.sqrt(2);
-                }
-            }
-        } else {
-            res = 1;
+        double res = 1;
+        
+        for (int i : boundary_esser2(4).getSequence()) {
+            if (i % 2 == 0) res += 1;
+            else res += Math.sqrt(2);
         }
+
         return res;
     }
 }
