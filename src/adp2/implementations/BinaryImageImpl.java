@@ -314,8 +314,16 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 		
 		List<Integer> newValues = new ArrayList<Integer>(values());
 		
+		int w = width();
+		int h = height();
+		
 		for(Point p : blob.points()){ //remove pixels of the specified blob
-			newValues.set(p.x() + (p.y()*width()), 1);
+			int x = p.x();
+			int y = p.y();
+			
+			if(x>=0 && x<w && y>=0 && y<h){
+				newValues.set(x + (y*width()), 1);
+			}
 		}
 		
 		BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
