@@ -307,6 +307,10 @@ public final class View extends Applet {
             if (ret == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 String path = file.getAbsolutePath();
+                
+                //fixPath
+                if(!path.endsWith(".blob")) path+=".blob";
+                
                 // text in datei speichern
                 controller.writeOneBlob(path, blobId);
             }
