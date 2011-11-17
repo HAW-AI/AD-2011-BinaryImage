@@ -102,7 +102,7 @@ public class Controller {
             result += "|";
             result += sequence.getStartPoint().y();
             result += "(";
-            if (sequence.getSequence().isEmpty()) {
+            if (!sequence.getSequence().isEmpty()) {
                 for (int i : sequence.getSequence()) {
                     result += i + ",";
                 }
