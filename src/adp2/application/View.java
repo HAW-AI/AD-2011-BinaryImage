@@ -1,5 +1,6 @@
 package adp2.application;
 
+import adp2.implementations.BoundarySequenceImpl;
 import adp2.implementations.PointImpl;
 import adp2.interfaces.*;
 import adp2.interfaces.Point;
@@ -212,7 +213,7 @@ public final class View extends Applet {
             		}
             		System.out.println("BlobId: "+blobId);
             		
-            		showMenu(evt, blobId); //show our menu
+            		showMenu(evt, blobId, PointImpl.valueOf(pX, pY)); //show our menu
 	            }
 	        }
 	    });
@@ -222,10 +223,11 @@ public final class View extends Applet {
 	 * open our Menu for Bitmap/Blob interaction
 	 * @param evt
 	 * @param blobId
+     * @param point 
 	 */
-	private void showMenu(final MouseEvent evt, final int blobId){
+	private void showMenu(final MouseEvent evt, final int blobId, final Point point){
 		JPopupMenu menu = new JPopupMenu();
-		JMenuItem item1 = new JMenuItem("Blob l�schen");
+		JMenuItem item1 = new JMenuItem("Blob killen");
 		JMenuItem item2 = new JMenuItem("Blob speichern");
 		JMenuItem item3 = new JMenuItem("Blob laden");
 		
@@ -246,34 +248,54 @@ public final class View extends Applet {
 		item3.addActionListener(new ActionListener() { //load/fill the blob
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buttonChooseBlobFileLoad(panel, e);
+				buttonChooseBlobFileLoad(point);
 			}
 		});
 		
 		if(blobId != -1) menu.add(item1); //kill
-		if(blobId != -1) menu.add(item2); //save
+		if(blobId != -1 && !getImage().isEightNbr()) menu.add(item2); //save
 		menu.add(item3); //load
 		
 		menu.show(this, evt.getX(), evt.getY());
 	}
 	
-	
-	protected void buttonChooseBlobFileLoad(Panel panel3, ActionEvent e) {
+	protected void buttonChooseBlobFileLoad(Point point) {
             fileChooser.setFileFilter(new BlobFilter());
             int ret = fileChooser.showOpenDialog(panel);
             if (ret == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 String path = file.getAbsolutePath();
-                List<Blob> blobs = controller.openBlob(path);
+//                List<Blob> blobs = controller.openBlob(path);
             
+                List<BoundarySequence> boundaries = BlobParser.parse(path);
+                List<Blob> result = new ArrayList<Blob>();
+                for (BoundarySequence b : boundaries) {
+                	List<Integer> bList = b.getSequence();
+                	int pos=0;
+                	int xNeu = 0;
+                	int yNeu = 0;
+                	
+                	for(int i : bList){//getHeight
+                		if(i>=1 && i<=3) yNeu = Math.max(yNeu, ++pos);
+                		if(i>=5 && i<=7) --pos;
+                	}
+                	
+                	System.out.println("MySyso: "+xNeu+" "+yNeu);
+                	
+                	Point p2 = PointImpl.valueOf(point.x()+xNeu, point.y()+yNeu);
+                	BoundarySequence b2 = BoundarySequenceImpl.valueOf(p2, bList);
+                    result.add(b2.createBlob());
+                }
+                List<Blob> blobs = result;
+                
                 if(blobs.size() != 1) return;
             
                 BinaryImage bi = getImage();
     		
-    		controller.setBinaryImage(bi.addBlob(blobs.get(0)));
-    		
-    		setCircularityText();
-    		sizeToFit();
+	    		controller.setBinaryImage(bi.addBlob(blobs.get(0)));
+	    		
+	    		setCircularityText();
+	    		sizeToFit();
             }
 	}
 
