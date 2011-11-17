@@ -33,7 +33,7 @@ public class BlobParser {
     private static List<BoundarySequence> parse_array(String[] content) {
         List<BoundarySequence> result = new ArrayList<BoundarySequence>();
         
-        for (int i = 0; i < Array.getLength(content); i++) {
+        for (int i = 0; i < content.length; i++) {
             String[] xSplit = content[i].split("\\|");
             int x = Integer.parseInt(xSplit[0]);
 
@@ -47,18 +47,13 @@ public class BlobParser {
             int n = 0;
             List<Integer> elemList = new ArrayList<Integer>();
             
-            System.out.println("----------------------------------------Vor while----------------------------------------");
             while (elements[n] != ')') {
-                System.out.print("n="+n+" elements[n]="+elements[n]+" added?:");
                 if(n%2 == 1){
                     if(elements[n] != ',') return result; //element higher than 10 -> error
-                    System.out.print("no");
                 }
                 else {
                     elemList.add(Integer.parseInt(""+elements[n]));
-                    System.out.print("yes");
                 }
-                System.out.print("\n");
                 n++;
             };
 

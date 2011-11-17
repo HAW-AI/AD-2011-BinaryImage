@@ -52,8 +52,6 @@ public class BoundarySequenceImpl implements BoundarySequence {
      */
     @Override
     public Blob createBlob() {
-//    	System.out.println("BS: "+this);
-    	
         Set<Point> blobPoints = new TreeSet<Point>();
         blobPoints.add(point);
         Point prevPoint = point;
