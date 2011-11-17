@@ -284,23 +284,7 @@ public final class View extends Applet {
                 File file = fileChooser.getSelectedFile();
                 String path = file.getAbsolutePath();
                 // text in datei speichern
-                String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
-                String[] blobies = binaryImageAsSequenceString.split("\n");
-
-                if (blobId < 0 || blobId >= blobies.length) {
-                    return; //ignore No save
-                }
-                String blob = blobies[blobId];
-
-                System.out.println(binaryImageAsSequenceString);//test
-                System.out.println(">> " + blob);//test
-                try {
-                    BufferedWriter out = new BufferedWriter(new FileWriter(path));
-                    out.write(blob);
-                    out.close();
-                } catch (IOException ex) {
-                    System.out.println("Error while trying to write the file");
-                }
+                controller.writeOneBlob(path, blobId);
             }
         }
 
@@ -436,15 +420,7 @@ public final class View extends Applet {
 	            File file = fileChooser.getSelectedFile();
 	            String path = file.getAbsolutePath();
 	            // text in datei speichern
-	            String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
-	            System.out.println(binaryImageAsSequenceString);//test
-	            try {
-	                BufferedWriter out = new BufferedWriter(new FileWriter(path));
-	                out.write(binaryImageAsSequenceString);
-	                out.close();
-	            } catch (IOException e) {
-	                System.out.println("Error while trying to write the file");
-	            }
+	            controller.writeAllBlobs(path);
 	        }
     	} else {
     		JOptionPane.showMessageDialog(null, "Saving blobs only works in 4-blob mode", "Error", JOptionPane.ERROR_MESSAGE);
