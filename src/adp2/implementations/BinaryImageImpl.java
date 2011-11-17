@@ -310,24 +310,24 @@ public class BinaryImageImpl extends AbstractBinaryImage {
 
     @Override
     public BinaryImage addBlob(Blob blob) {
-    	if(blob instanceof NaB) return this; //blobId doesn't exist - ignore it
-		
-		List<Integer> newValues = new ArrayList<Integer>(values());
-		
-		int w = width();
-		int h = height();
-		
-		for(Point p : blob.points()){ //remove pixels of the specified blob
-			int x = p.x();
-			int y = p.y();
-			
-			if(x>=0 && x<w && y>=0 && y<h){
-				newValues.set(x + (y*width()), 1);
-			}
-		}
-		
-		BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
-		
-		return bi;
+        if (blob instanceof NaB) {
+            return this; //blobId doesn't exist - ignore it
+        }
+        /* Blob ist großer als das 
+        if (blob.height() > this.height() || blob.width() > this.height()) {
+            return this;
+        }*/
+        List<Integer> newValues = new ArrayList<Integer>(values());
+
+        for (Point p : blob.points()) { //remove pixels of the specified blob
+            System.out.print("P" + p.x() + " " + p.y() + " DIM" + this.width() + " " + this.height());
+            if(p.x() < this.width() && p.y() < this.height()) {
+                newValues.set(p.x() + (p.y() * width()), 1);
+            }
+        }
+
+        BinaryImageImpl bi = new BinaryImageImpl(width(), height(), newValues, isEightNbr());
+
+        return bi;
     }
 }

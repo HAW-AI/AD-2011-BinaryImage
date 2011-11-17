@@ -1,10 +1,5 @@
 package adp2.implementations;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.GeneralPath;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -66,13 +61,10 @@ public class BoundarySequenceImpl implements BoundarySequence {
      */
     @Override
     public Blob createBlob() {
-//    	System.out.println("BS: "+this);
-    	
-//        Set<Point> blobPoints = new TreeSet<Point>();
-        List<Point> blobPoints = new ArrayList<Point>();
+        Set<Point> blobPoints = new TreeSet<Point>();
         blobPoints.add(point);
         Point prevPoint = point;
-        
+
         for (int e : sequence) {
             switch (e) {
                 case 0:
@@ -113,33 +105,8 @@ public class BoundarySequenceImpl implements BoundarySequence {
         /*
          * TODO Missing method to fill a blobs boundary
          */
-        
-        BufferedImage bi = new BufferedImage(128,128,BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = (Graphics2D) bi.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 128, 128);
-        
-        GeneralPath star = new GeneralPath();
-        star.moveTo(blobPoints.get(0).x(), blobPoints.get(0).y());
-        for (int k=1; k < blobPoints.size(); k++){
-            star.lineTo(blobPoints.get(k).x(), blobPoints.get(k).y());
-        }
-        star.lineTo(blobPoints.get(0).x(), blobPoints.get(0).y());
-        star.closePath();
-        
-        g.setColor(Color.BLACK);
-        g.fill(star);
-        
-        List<Point> blobPoints2 = new ArrayList<Point>(blobPoints);
-        
-        int black = Color.BLACK.getRGB();
-        for(int y=0; y<128; ++y){
-        	for(int x=0; x<128; ++x){
-        		if(bi.getRGB(x, y) == black) blobPoints2.add(PointImpl.valueOf(x, y));
-        	}
-        }
 
-        return BlobImpl.valueOf(blobPoints2, BinaryImages.NaBI());
+        return BlobImpl.valueOf(blobPoints, BinaryImages.NaBI());
     }
     
     /**
