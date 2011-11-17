@@ -333,14 +333,10 @@ public class BlobImpl implements Blob {
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
         Set<Point> alreadyIn = new TreeSet<Point>();
-        
-        BoundarySequence res = BoundarySequenceImpl.valueOf(start, sequence);
 
         Point aktuell = start;
         Point vorg = BinaryImages.point(start.x() - 1, start.y());
         Point previous = null; //letzer Point im Rand
-                
-        System.out.println(vorg.x() + " " + vorg.y());
         
         Point temp = null;
         do {
@@ -348,11 +344,9 @@ public class BlobImpl implements Blob {
                 temp = aktuell;
 
                 if (previous != null && !aktuell.equals(previous)) {
-
-                	System.out.println("IN :" + aktuell.x() + "|"+ aktuell.y());
                 	
                 	int sequenceSize = sequence.size()-1;
-                	int a = sequenceSize;
+                	int a = direction(previous, aktuell);
                 	
                     if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
                     	sequence.remove(sequenceSize);
@@ -388,7 +382,6 @@ public class BlobImpl implements Blob {
         } while (!(start.equals(aktuell)));
         // solange bis wieder am Start
         
-        System.out.println(sequence);
         return BoundarySequenceImpl.valueOf(start, sequence);
 
     }
