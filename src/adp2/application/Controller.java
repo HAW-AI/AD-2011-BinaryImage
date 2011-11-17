@@ -127,7 +127,7 @@ public class Controller {
     	List<Blob> blobs = binaryImage().blobs();
     	String resultBlobs = "";
     	for (Blob b : blobs) {
-    		resultBlobs += b.toString();
+    		resultBlobs += b.boundary_esser2(4).toString(); // TODO max neighbours hier einfach 4 ist unschön
     		resultBlobs += "\n";
     	}
     	System.out.println("writeAllBlobs -> " + resultBlobs);//test
@@ -159,7 +159,7 @@ public class Controller {
 //        System.out.println(">> " + blob);//test
     	
     	List<Blob> blobs = binaryImage().blobs();
-    	String resultBlob = blobs.get(blobId).toString();
+    	String resultBlob = blobs.get(blobId).boundary_esser2(4).toString(); // TODO max neighbours hier einfach 4 ist unschön
 		System.out.println("writeOneBlob mit id=" + blobId + " -> " + resultBlob);//test
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(path));
