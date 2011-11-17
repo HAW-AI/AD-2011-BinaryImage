@@ -14,6 +14,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import java.awt.*;
@@ -427,22 +428,27 @@ public final class View extends Applet {
      * @author Philipp Gille
      */
     private void buttonSaveBlob(Panel panel, ActionEvent event) {
-        fileChooser.setFileFilter(new BlobFilter());
-        int ret = fileChooser.showSaveDialog(panel);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            String path = file.getAbsolutePath();
-            // text in datei speichern
-            String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
-            System.out.println(binaryImageAsSequenceString);//test
-            try {
-                BufferedWriter out = new BufferedWriter(new FileWriter(path));
-                out.write(binaryImageAsSequenceString);
-                out.close();
-            } catch (IOException e) {
-                System.out.println("Error while trying to write the file");
-            }
-        }
+    	// sequence only works for 4-blob, so saving blobs does so too
+    	if (!controller.binaryImage().isEightNbr()) {
+	        fileChooser.setFileFilter(new BlobFilter());
+	        int ret = fileChooser.showSaveDialog(panel);
+	        if (ret == JFileChooser.APPROVE_OPTION) {
+	            File file = fileChooser.getSelectedFile();
+	            String path = file.getAbsolutePath();
+	            // text in datei speichern
+	            String binaryImageAsSequenceString = controller.getBlobAsSequenceString();
+	            System.out.println(binaryImageAsSequenceString);//test
+	            try {
+	                BufferedWriter out = new BufferedWriter(new FileWriter(path));
+	                out.write(binaryImageAsSequenceString);
+	                out.close();
+	            } catch (IOException e) {
+	                System.out.println("Error while trying to write the file");
+	            }
+	        }
+    	} else {
+    		JOptionPane.showMessageDialog(null, "Saving blobs only works in 4-blob mode", "Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }
     
     /*
