@@ -12,6 +12,7 @@ import org.junit.Test;
 import adp2.implementations.BlobImpl;
 import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
+import adp2.interfaces.BoundarySequence;
 import adp2.interfaces.Point;
 
 public class BlobTest {
@@ -80,7 +81,7 @@ public class BlobTest {
     @Test
     public void testBoundary() {
         BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1000; i++) //???
             assertEquals(24, Bi.blob(0).boundary().size());
         // Problemblob
         assertEquals(5, Bi.blob(8).boundary().size());
@@ -91,6 +92,19 @@ public class BlobTest {
             System.out.println(Bi.blob(i).boundary2());
         }
 
+    }
+    
+    @Test
+    public void testBoundary2() {
+        BinaryImage Bi = (parse("test/fixtures/32x32.esser"));
+        
+        assertEquals("4|4(0,0,0,0,0,0,0,6,6,6,6,6,4,4,4,4,4,4,4,2,2,2,2,2)", Bi.blob(0).boundary2());
+        // Problemblob
+        assertEquals("27|3(7,5,6,2,2,2)", Bi.blob(8).boundary2());
+        
+        for (int i = 1; Bi.blob(i) instanceof BlobImpl && i < 1000; ++i) {
+            System.out.println(Bi.blob(i).boundary2());
+        }
     }
 
     @Test
