@@ -27,7 +27,7 @@ public final class NaS implements BoundarySequence{
 
 	@Override
 	public Blob createBlob() {
-		return ;
+		return BlobImpl.valueOf(null, null);
 	}
 
 	
