@@ -615,11 +615,7 @@ public class BlobImpl implements Blob {
     private double calcPerimeterGruppe3() {
         double res = 1;
         
-<<<<<<< HEAD
-        for (int i : this.boundary_esser2(4).getSequence()) {
-=======
-        for (int i : boundary_esser2().getSequence()) {
->>>>>>> 85b975cfc8bf30746bc048529686805bca5fa4e7
+        for (int i : this.boundary_esser2().getSequence()) {
             if (i % 2 == 0) res += 1;
             else res += Math.sqrt(2);
         }
