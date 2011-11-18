@@ -69,17 +69,17 @@ public class BoundarySequenceImpl implements BoundarySequence {
         Point prevPoint = point;
         int x = point.x();
         int y = point.y();
-        int xMin=x, xMax=x, yMin=y ,yMax=y;
+        int xMin=x, yMin=y; // benoetigt fuer die Transformation des "Blobs" (zum Fuellen des "Blob"-Inhaltes)
         
         for (int e : sequence) {
             switch (e) {
                 case RIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
-                    xMax = Math.max(xMax, ++x);
+                    ++x;
                     break;
                 case TOPRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
-                    xMax = Math.max(xMax, ++x);
+                    ++x;
                     yMin = Math.min(yMin, --y);
                     break;
                 case TOP:
@@ -98,16 +98,16 @@ public class BoundarySequenceImpl implements BoundarySequence {
                 case BOTTOMLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
                     xMin = Math.min(xMin, --x);
-                    yMax = Math.max(yMax, ++y);
+                    ++y;
                     break;
                 case BOTTOM:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
-                    yMax = Math.max(yMax, ++y);
+                    ++y;
                     break;
                 case BOTTOMRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
-                    yMax = Math.max(yMax, ++y);
-                    xMax = Math.max(xMax, ++x);
+                    ++y;
+                    ++x;
                     break;
             }
             blobPoints.add(prevPoint);
@@ -125,6 +125,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, tmp.width(), tmp.height());
         
+        //Transformiere "Blob" in die obere linke Ecke (s. xMin,yMin)
         GeneralPath path = new GeneralPath();
         path.moveTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
         for (int k=1; k < blobPoints.size(); k++){
@@ -134,7 +135,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
         path.closePath();
         
         g.setColor(Color.BLACK);
-        g.fill(path);
+        g.fill(path); //fuellt den Inhalt des verbundenen Blob-Randes ins BufferedImage 
         
         List<Point> blobPoints2 = new ArrayList<Point>(blobPoints);
         
@@ -142,7 +143,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
         int black = Color.BLACK.getRGB();
         for(int y1=0; y1<tmp.height(); ++y1){
         	for(int x1=0; x1<tmp.width(); ++x1){
-        		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin));
+        		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin)); //Retransformation des "Blobs"
         	}
         }
 
