@@ -11,6 +11,7 @@ import adp2.interfaces.BinaryImage;
 import adp2.interfaces.Blob;
 import adp2.interfaces.BoundarySequence;
 import adp2.interfaces.Point;
+import java.util.HashSet;
 
 public class BlobImpl implements Blob {
 
@@ -72,7 +73,6 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die Groesse des Blobs als int zurueck.
      */
-    @Override
     public int pointCount() {
         return this.pointsOfBlob.size();
     }
@@ -80,7 +80,6 @@ public class BlobImpl implements Blob {
     /**
      * Gibt die Breite des Blobs als int zurueck.
      */
-    @Override
     public int width() {
         int max = pointsOfBlob.first().x(), min = pointsOfBlob.first().x();
         for (Point p : pointsOfBlob) {
@@ -168,7 +167,7 @@ public class BlobImpl implements Blob {
     public BinaryImage binaryImage() {
         return this.getBinaryImage();
     }
-    //TODO redudant
+    
     @Deprecated
     public BinaryImage getBinaryImage() {
         return binaryImage;
@@ -215,7 +214,7 @@ public class BlobImpl implements Blob {
 
     }
 
-// nicht mehr benötigt, hier passiert nichts mehr
+// nicht mehr benï¿½tigt, hier passiert nichts mehr
 //    private BoundarySequence calcBoundary2() {
 //        return boundary_esser2();
 //    }
@@ -301,30 +300,10 @@ public class BlobImpl implements Blob {
 
     }
 
-    /*
-     * @author Kai Bielenberg
-     * @author Tobias Mainusch
-     * 
-     * Algorithmus nur fuer 4rer Nachbarschaft.
-     * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
-     * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
-     * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
-     * da dieses Sortiert ist.
-     * Es wird immer in die Sequence der Weg von vorherigen Punkt zum aktuellen Punkt gespeichert.
-     * 
-     * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft ob man nach 
-     * oben links oder rechts, oder unten links oder rechts geht. Dabei wird der letzte Weg 
-     * geloescht und aus einer Ecke eine Schraege gemacht, wenn verlangt.
-     * 
-     * 
-     * @param maxNeighbours
-     * @return
-     */
-    
-    // alter javacode unsinn hier. neu:
-    
     /**
-     * @author Marc Wüseke
+     * Boundary Algorithmus fÃ¼r Vier-Nachbarschaft
+     * 
+     * @author Marc WÃ¼seke
      */
     private BoundarySequence boundary_esser2(){
         // Esser Algorithmus nur fuer 4er Nachbarschaft
@@ -337,50 +316,51 @@ public class BlobImpl implements Blob {
         Point previous = null; //letzer Point im Rand
         
         Point temp = null;
-        do {
-            if (this.contains(aktuell)) {
-                temp = aktuell;
+        if (this.pointsOfBlob.size() > 1) {
+            do {
+                if (this.contains(aktuell)) {
+                    temp = aktuell;
 
-                if (previous != null && !aktuell.equals(previous)) {
-                	
-                	int sequenceSize = sequence.size()-1;
-                	int a = direction(previous, aktuell);
-                	
-                    if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
-                    	sequence.remove(sequenceSize);
-                    	sequence.add(BoundarySequence.TOPRIGHT);
-                    } 
-                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.BOTTOM && a == BoundarySequence.RIGHT){
-                    	sequence.remove(sequenceSize);
-                    	sequence.add(BoundarySequence.BOTTOMRIGHT);
-                    }
-                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.TOP && a == BoundarySequence.LEFT){
-                    	sequence.remove(sequenceSize);
-                    	sequence.add(BoundarySequence.TOPLEFT);
-                    }
-                    else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.LEFT && a == BoundarySequence.BOTTOM){
-                    	sequence.remove(sequenceSize);
-                    	sequence.add(BoundarySequence.BOTTOMLEFT);
-                    } 
-                    else {
-                    	sequence.add(a);
+                    if (previous != null && !aktuell.equals(previous)) {
+
+                            int sequenceSize = sequence.size()-1;
+                            int a = direction(previous, aktuell);
+
+                        if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.RIGHT && a == BoundarySequence.TOP){
+                            sequence.remove(sequenceSize);
+                            sequence.add(BoundarySequence.TOPRIGHT);
+                        } 
+                        else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.BOTTOM && a == BoundarySequence.RIGHT){
+                            sequence.remove(sequenceSize);
+                            sequence.add(BoundarySequence.BOTTOMRIGHT);
+                        }
+                        else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.TOP && a == BoundarySequence.LEFT){
+                            sequence.remove(sequenceSize);
+                            sequence.add(BoundarySequence.TOPLEFT);
+                        }
+                        else if(sequence.size() > 0 && sequence.get(sequence.size()-1) == BoundarySequence.LEFT && a == BoundarySequence.BOTTOM){
+                            sequence.remove(sequenceSize);
+                            sequence.add(BoundarySequence.BOTTOMLEFT);
+                        } 
+                        else {
+                            sequence.add(a);
+                        }
+
                     }
 
+                    previous = aktuell;
+                    aktuell = this.left_turn(vorg, aktuell);
+                    vorg = temp;
+
+                } else {
+                    temp = aktuell;
+                    aktuell = this.right_turn(vorg, aktuell);
+                    vorg = temp;
                 }
-                
-                previous = aktuell;
-                aktuell = this.left_turn(vorg, aktuell);
-                vorg = temp;
-
-            } else {
-                temp = aktuell;
-                aktuell = this.right_turn(vorg, aktuell);
-                vorg = temp;
-            }
-        } while (!(start.equals(aktuell)));
-        // solange bis wieder am Start
-        
-        sequence.add(this.direction(previous, aktuell));
+            } while (!(start.equals(aktuell)));
+            // solange bis wieder am Start
+            sequence.add(this.direction(previous, aktuell));
+        }
         
         return BoundarySequenceImpl.valueOf(start, sequence);
 
@@ -595,7 +575,7 @@ public class BlobImpl implements Blob {
      * @return circularity 1 = Kreis, je groesser der Wert, desto unkreisfoermiger der Blob
      */
     private double calcCircularity() {
-        return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
+        return (4 * Math.PI * pointCount()) / Math.pow(perimeter(), 2);
     }
 
     /**
@@ -635,11 +615,17 @@ public class BlobImpl implements Blob {
     private double calcPerimeterGruppe3() {
         double res = 1;
         
-        for (int i : boundary_esser2().getSequence()) {
+        for (int i : this.boundary_esser2().getSequence()) {
             if (i % 2 == 0) res += 1;
             else res += Math.sqrt(2);
         }
-
         return res;
+    }
+    
+    public int[] boudingbox() {
+        int[] result = new int[2];
+        result[0] = this.width();
+        result[1] = this.height();
+        return result;
     }
 }

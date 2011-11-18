@@ -13,8 +13,8 @@ import adp2.interfaces.Point;
 
 public class BoundarySequenceImpl implements BoundarySequence {
 
-    List<Integer> sequence;
-    Point point;
+    final private List<Integer> sequence;
+    final private Point point;
 
     private BoundarySequenceImpl(Point point, List<Integer> list) {
         this.sequence = list;
@@ -26,7 +26,6 @@ public class BoundarySequenceImpl implements BoundarySequence {
         return point;
     }
 
-    @Override
     public List<Integer> getSequence() {
         return sequence;
     }
@@ -35,7 +34,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
      * @return String that looks like "startPoint.x|startPoint.y(direction,direction,...)"
      * ex.: a square could be 4|4(0,0,0,0,0,0,0,6,6,6,6,6,4,4,4,4,4,4,4,2,2,2,2)
      * @author Benjamin Kahlau
-     * @author Philipp Gill�
+     * @author Philipp Gille
      */
     @Override
     public String toString() {
@@ -64,81 +63,97 @@ public class BoundarySequenceImpl implements BoundarySequence {
      */
     @Override
     public Blob createBlob() {
-//      Set<Point> blobPoints = new TreeSet<Point>();
         List<Point> blobPoints = new ArrayList<Point>();
 
         blobPoints.add(point);
         Point prevPoint = point;
+        int x = point.x();
+        int y = point.y();
+        int xMin=x, xMax=x, yMin=y ,yMax=y;
         
         for (int e : sequence) {
             switch (e) {
-                case 0:
+                case RIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
-                    blobPoints.add(prevPoint);
+                    xMax = Math.max(xMax, ++x);
                     break;
-                case 1:
+                case TOPRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
+                    xMax = Math.max(xMax, ++x);
+                    yMin = Math.min(yMin, --y);
                     break;
-                case 2:
+                case TOP:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
+                    yMin = Math.min(yMin, --y);
                     break;
-                case 3:
+                case TOPLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
+                    yMin = Math.min(yMin, --y);
+                    xMin = Math.min(xMin, --x);
                     break;
-                case 4:
+                case LEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y());
-                    blobPoints.add(prevPoint);
+                    xMin = Math.min(xMin, --x);
                     break;
-                case 5:
+                case BOTTOMLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
+                    xMin = Math.min(xMin, --x);
+                    yMax = Math.max(yMax, ++y);
                     break;
-                case 6:
+                case BOTTOM:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
+                    yMax = Math.max(yMax, ++y);
                     break;
-                case 7:
+                case BOTTOMRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
+                    yMax = Math.max(yMax, ++y);
+                    xMax = Math.max(xMax, ++x);
                     break;
             }
+            blobPoints.add(prevPoint);
         }
 
         /*
-         * TODO Missing method to fill a blobs boundary
+         * Missing method to fill a blobs boundary
          */
         
-        BufferedImage bi = new BufferedImage(128,128,BufferedImage.TYPE_INT_RGB);
+        int w = xMax-xMin;
+        int h = yMax-yMin;
+        
+        System.out.println("BlobCreate-BufferedImage-Size(w,h): "+w+", "+h);
+        
+        BufferedImage bi = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 128, 128);
+        g.fillRect(0, 0, w, h);
         
-        GeneralPath star = new GeneralPath();
-        star.moveTo(blobPoints.get(0).x(), blobPoints.get(0).y());
+        GeneralPath path = new GeneralPath();
+        path.moveTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
         for (int k=1; k < blobPoints.size(); k++){
-            star.lineTo(blobPoints.get(k).x(), blobPoints.get(k).y());
+            path.lineTo(blobPoints.get(k).x()-xMin, blobPoints.get(k).y()-yMin);
         }
-        star.lineTo(blobPoints.get(0).x(), blobPoints.get(0).y());
-        star.closePath();
+        path.lineTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
+        path.closePath();
         
         g.setColor(Color.BLACK);
-        g.fill(star);
+        g.fill(path);
         
         List<Point> blobPoints2 = new ArrayList<Point>(blobPoints);
         
+        
+        
         int black = Color.BLACK.getRGB();
-        for(int y=0; y<128; ++y){
-        	for(int x=0; x<128; ++x){
-        		if(bi.getRGB(x, y) == black) blobPoints2.add(PointImpl.valueOf(x, y));
+        for(int y1=0; y1<h; ++y1){
+        	for(int x1=0; x1<w; ++x1){
+        		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin));
         	}
         }
 
         return BlobImpl.valueOf(blobPoints2, BinaryImages.NaBI());
     }
-    
+
+
+      
     /**
      * Prueft die Wertgleichheit der BoundarySequence mit einem anderen Objekt.
      * 
@@ -146,6 +161,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
      * zurueck, ansonsten false.
      * @return boolean
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -163,10 +179,18 @@ public class BoundarySequenceImpl implements BoundarySequence {
             }
         } else if (!sequence.equals(other.getSequence())) {
             return false;
-        } else if (!point.equals(other.getStartPoint())){
-        	return false;
+        } else if (!point.equals(other.getStartPoint())) {
+            return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + (this.sequence != null ? this.sequence.hashCode() : 0);
+        hash = 11 * hash + (this.point != null ? this.point.hashCode() : 0);
+        return hash;
     }
 
     /**

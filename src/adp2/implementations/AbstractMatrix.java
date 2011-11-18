@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import adp2.interfaces.Matrix;
-import adp2.interfaces.Point;
 
 /**
  * 
@@ -24,14 +23,12 @@ public abstract class AbstractMatrix implements Matrix {
         this.values = values;
     }
 
-    public boolean isValid() {
-        return (width * height) == values.size();
-    }
-
+    @Override
     public int width() {
         return width;
     }
 
+    @Override
     public int height() {
         return height;
     }
@@ -45,6 +42,7 @@ public abstract class AbstractMatrix implements Matrix {
         return values.iterator();
     }
 
+    @Override
     public int get(int x, int y) {
         if (x < 0 || x >= this.width() || y < 0 || y >= this.height()) {
             throw new ArrayIndexOutOfBoundsException();
@@ -52,6 +50,7 @@ public abstract class AbstractMatrix implements Matrix {
         return values.get(x + (y * width()));
     }
 
+    @Deprecated
     protected List<Integer> inverseValues() {
         List<Integer> l = new ArrayList<Integer>();
         while (values.listIterator().hasPrevious()) {
@@ -60,6 +59,7 @@ public abstract class AbstractMatrix implements Matrix {
         return l;
     }
 
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (int y = 0; y < height(); y++) {
