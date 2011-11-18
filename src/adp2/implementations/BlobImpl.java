@@ -327,7 +327,39 @@ public class BlobImpl implements Blob {
      * @param maxNeighbours
      * @return
      */
-    @Override
+    /*
+    public BoundarySequence boundary_esser2(int maxNeighbours) {
+        // Esser Algorithmus nur für 4er Nachbarschaft
+        Point start = this.pointsOfBlob.first();
+        List<Integer> sequence = new ArrayList<Integer>();
+
+        Point vorg = BinaryImages.point(start.x() - 1, start.y());
+        Point aktuell = this.left_turn(vorg, start);
+        Point previous_in_rand = start; //letzer Point im Rand
+        vorg = start;
+
+        Point temp = null;
+
+        // solange bis wieder am Start
+        while (!(start.equals(aktuell) && !this.contains(this.left_turn(vorg, start)))) {
+            temp = aktuell;
+
+            if (this.contains(aktuell)) {
+                sequence.add(this.direction(previous_in_rand, aktuell));
+                previous_in_rand = aktuell;
+
+                aktuell = this.left_turn(vorg, aktuell);
+            } else {
+                aktuell = this.right_turn(vorg, aktuell);
+            }
+            vorg = temp;
+        }
+        sequence.add(this.direction(previous_in_rand, aktuell)); //abschließender Startpixel nochmal hinzu
+        System.out.println(sequence);
+        return BoundarySequenceImpl.valueOf(start, sequence);
+
+    }
+    */
     public BoundarySequence boundary_esser2(int maxNeighbours) {
         // Esser Algorithmus nur fuer 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
@@ -595,7 +627,7 @@ public class BlobImpl implements Blob {
      * @return circularity 1 = Kreis, je groesser der Wert, desto unkreisfoermiger der Blob
      */
     private double calcCircularity() {
-        return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
+        return (4 * Math.PI * pointCount()) / Math.pow(perimeter(), 2);
     }
 
     /**
@@ -635,7 +667,7 @@ public class BlobImpl implements Blob {
     private double calcPerimeterGruppe3() {
         double res = 1;
         
-        for (int i : boundary_esser2(4).getSequence()) {
+        for (int i : this.boundary_esser2(4).getSequence()) {
             if (i % 2 == 0) res += 1;
             else res += Math.sqrt(2);
         }

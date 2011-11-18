@@ -13,8 +13,8 @@ import adp2.interfaces.Point;
 
 public class BoundarySequenceImpl implements BoundarySequence {
 
-    List<Integer> sequence;
-    Point point;
+    final private List<Integer> sequence;
+    final private Point point;
 
     private BoundarySequenceImpl(Point point, List<Integer> list) {
         this.sequence = list;
@@ -26,14 +26,13 @@ public class BoundarySequenceImpl implements BoundarySequence {
         return point;
     }
 
-    @Override
     public List<Integer> getSequence() {
         return sequence;
     }
 
     /**
      * @author Benjamin Kahlau
-     * @author Philipp Gill�
+     * @author Philipp Gille
      */
     @Override
     public String toString() {
@@ -62,7 +61,6 @@ public class BoundarySequenceImpl implements BoundarySequence {
      */
     @Override
     public Blob createBlob() {
-//      Set<Point> blobPoints = new TreeSet<Point>();
         List<Point> blobPoints = new ArrayList<Point>();
 
         blobPoints.add(point);
@@ -72,43 +70,35 @@ public class BoundarySequenceImpl implements BoundarySequence {
             switch (e) {
                 case 0:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
-                    blobPoints.add(prevPoint);
                     break;
                 case 1:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
                     break;
                 case 2:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
                     break;
                 case 3:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
-                    blobPoints.add(prevPoint);
                     break;
                 case 4:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y());
-                    blobPoints.add(prevPoint);
                     break;
                 case 5:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
                     break;
                 case 6:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
                     break;
                 case 7:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
-                    blobPoints.add(prevPoint);
                     break;
             }
+            blobPoints.add(prevPoint);
         }
 
         /*
          * TODO Missing method to fill a blobs boundary
          */
-        
         BufferedImage bi = new BufferedImage(128,128,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setColor(Color.WHITE);
@@ -136,7 +126,9 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
         return BlobImpl.valueOf(blobPoints2, BinaryImages.NaBI());
     }
-    
+
+
+      
     /**
      * Prueft die Wertgleichheit der BoundarySequence mit einem anderen Objekt.
      * 
@@ -144,6 +136,7 @@ public class BoundarySequenceImpl implements BoundarySequence {
      * zurueck, ansonsten false.
      * @return boolean
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -161,10 +154,18 @@ public class BoundarySequenceImpl implements BoundarySequence {
             }
         } else if (!sequence.equals(other.getSequence())) {
             return false;
-        } else if (!point.equals(other.getStartPoint())){
-        	return false;
+        } else if (!point.equals(other.getStartPoint())) {
+            return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + (this.sequence != null ? this.sequence.hashCode() : 0);
+        hash = 11 * hash + (this.point != null ? this.point.hashCode() : 0);
+        return hash;
     }
 
     /**
