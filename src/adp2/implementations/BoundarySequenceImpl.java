@@ -67,9 +67,9 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
         blobPoints.add(point);
         Point prevPoint = point;
-        int xMin=Integer.MAX_VALUE, xMax=0, yMin=Integer.MAX_VALUE ,yMax=0;
         int x = point.x();
         int y = point.y();
+        int xMin=x, xMax=x, yMin=y ,yMax=y;
         
         for (int e : sequence) {
             switch (e) {
