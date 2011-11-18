@@ -69,40 +69,55 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
         blobPoints.add(point);
         Point prevPoint = point;
+        int xMin=Integer.MAX_VALUE, xMax=0, yMin=Integer.MAX_VALUE ,yMax=0;
+        int x = point.x();
+        int y = point.y();
         
         for (int e : sequence) {
             switch (e) {
-                case 0:
+                case RIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
                     blobPoints.add(prevPoint);
+                    xMax = Math.max(xMax, ++x);
                     break;
-                case 1:
+                case TOPRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
+                    xMax = Math.max(xMax, ++x);
+                    yMin = Math.min(yMin, --y);
                     break;
-                case 2:
+                case TOP:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
+                    yMin = Math.min(yMin, --y);
                     break;
-                case 3:
+                case TOPLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
                     blobPoints.add(prevPoint);
+                    yMin = Math.min(yMin, --y);
+                    xMin = Math.min(xMin, --x);
                     break;
-                case 4:
+                case LEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y());
                     blobPoints.add(prevPoint);
+                    xMin = Math.min(xMin, --x);
                     break;
-                case 5:
+                case BOTTOMLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
+                    xMin = Math.min(xMin, --x);
+                    yMax = Math.max(yMax, ++y);
                     break;
-                case 6:
+                case BOTTOM:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
+                    yMax = Math.max(yMax, ++y);
                     break;
-                case 7:
+                case BOTTOMRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
                     blobPoints.add(prevPoint);
+                    yMax = Math.max(yMax, ++y);
+                    xMax = Math.max(xMax, ++x);
                     break;
             }
         }
@@ -111,28 +126,35 @@ public class BoundarySequenceImpl implements BoundarySequence {
          * TODO Missing method to fill a blobs boundary
          */
         
-        BufferedImage bi = new BufferedImage(128,128,BufferedImage.TYPE_INT_RGB);
+        int w = xMax-xMin;
+        int h = yMax-yMin;
+        
+        System.out.println("BlobCreate-BufferedImage-Size(w,h): "+w+", "+h);
+        
+        BufferedImage bi = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 128, 128);
+        g.fillRect(0, 0, w, h);
         
-        GeneralPath star = new GeneralPath();
-        star.moveTo(blobPoints.get(0).x(), blobPoints.get(0).y());
+        GeneralPath path = new GeneralPath();
+        path.moveTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
         for (int k=1; k < blobPoints.size(); k++){
-            star.lineTo(blobPoints.get(k).x(), blobPoints.get(k).y());
+            path.lineTo(blobPoints.get(k).x()-xMin, blobPoints.get(k).y()-yMin);
         }
-        star.lineTo(blobPoints.get(0).x(), blobPoints.get(0).y());
-        star.closePath();
+        path.lineTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
+        path.closePath();
         
         g.setColor(Color.BLACK);
-        g.fill(star);
+        g.fill(path);
         
         List<Point> blobPoints2 = new ArrayList<Point>(blobPoints);
         
+        
+        
         int black = Color.BLACK.getRGB();
-        for(int y=0; y<128; ++y){
-        	for(int x=0; x<128; ++x){
-        		if(bi.getRGB(x, y) == black) blobPoints2.add(PointImpl.valueOf(x, y));
+        for(int y1=0; y1<h; ++y1){
+        	for(int x1=0; x1<w; ++x1){
+        		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin));
         	}
         }
 
