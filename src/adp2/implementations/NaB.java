@@ -89,8 +89,8 @@ final class NaB implements Blob {
     }
 
     @Override
-    public List<Integer> boundary2() {
-        return new ArrayList<Integer>();
+    public BoundarySequence boundary2() {
+        return new NaS();
     }
 
     /**
@@ -117,10 +117,5 @@ final class NaB implements Blob {
     @Override
     public double perimeter() {
         return -1;
-    }
-
-    @Override
-    public BoundarySequence boundary_esser2(int maxNeighbours) {
-        return BoundarySequenceImpl.valueOf(null, null);
     }
 }

@@ -20,7 +20,7 @@ public class BlobImpl implements Blob {
     private final double perimeter;
     @Deprecated
     private final Set<Point> boundary;
-    private final List<Integer> boundary2;
+    private final BoundarySequence boundary2;
 
     /**
      * Factory Methode von Blob. Erstellt ein Blob Objekt und gibt ihn zurueck.
@@ -45,7 +45,7 @@ public class BlobImpl implements Blob {
 
         // Da die Circularity direkt berechnet wird, macht es sinn auch die Boundary sofort zu speichern.
         this.boundary = this.calcBoundary();
-        this.boundary2 = this.calcBoundary2();
+        this.boundary2 = this.boundary_esser2();
         // Berechnung der Circularity des Blobs, festgehalten in der private
         // final double circularity;
         //this.perimeter = calcPerimeter();
@@ -183,12 +183,13 @@ public class BlobImpl implements Blob {
      * @return Set<Point> mit Punkten des Blobrandes
      */
     @Override
+    @Deprecated
     public Set<Point> boundary() {
         return this.boundary;
     }
 
     @Override
-    public List<Integer> boundary2() {
+    public BoundarySequence boundary2() {
         return this.boundary2;
     }
 
@@ -214,18 +215,10 @@ public class BlobImpl implements Blob {
 
     }
 
-    private List<Integer> calcBoundary2() {
-
-        int maxNeighbours = 4;
-//		if (binaryImage.isEightNbr()) {
-//			maxNeighbours = 8;
-//			return boundary_all(maxNeighbours);
-//
-//		}
-        return boundary_esser2(maxNeighbours).getSequence();
-//		 return boundary_all(maxNeighbours);
-
-    }
+// nicht mehr benötigt, hier passiert nichts mehr
+//    private BoundarySequence calcBoundary2() {
+//        return boundary_esser2();
+//    }
 
     /**
      * @author Kai Bielenberg
@@ -308,7 +301,7 @@ public class BlobImpl implements Blob {
 
     }
 
-    /**
+    /*
      * @author Kai Bielenberg
      * @author Tobias Mainusch
      * 
@@ -327,6 +320,7 @@ public class BlobImpl implements Blob {
      * @param maxNeighbours
      * @return
      */
+<<<<<<< HEAD
     /*
     public BoundarySequence boundary_esser2(int maxNeighbours) {
         // Esser Algorithmus nur fÃ¼r 4er Nachbarschaft
@@ -361,6 +355,15 @@ public class BlobImpl implements Blob {
     }
     */
     public BoundarySequence boundary_esser2(int maxNeighbours) {
+=======
+    
+    // alter javacode unsinn hier. neu:
+    
+    /**
+     * @author Marc Wüseke
+     */
+    private BoundarySequence boundary_esser2(){
+>>>>>>> 85b975cfc8bf30746bc048529686805bca5fa4e7
         // Esser Algorithmus nur fuer 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
@@ -413,6 +416,8 @@ public class BlobImpl implements Blob {
             }
         } while (!(start.equals(aktuell)));
         // solange bis wieder am Start
+        
+        sequence.add(this.direction(previous, aktuell));
         
         return BoundarySequenceImpl.valueOf(start, sequence);
 
@@ -667,7 +672,11 @@ public class BlobImpl implements Blob {
     private double calcPerimeterGruppe3() {
         double res = 1;
         
+<<<<<<< HEAD
         for (int i : this.boundary_esser2(4).getSequence()) {
+=======
+        for (int i : boundary_esser2().getSequence()) {
+>>>>>>> 85b975cfc8bf30746bc048529686805bca5fa4e7
             if (i % 2 == 0) res += 1;
             else res += Math.sqrt(2);
         }

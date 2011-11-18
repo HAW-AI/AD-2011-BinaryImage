@@ -31,6 +31,8 @@ public class BoundarySequenceImpl implements BoundarySequence {
     }
 
     /**
+     * @return String that looks like "startPoint.x|startPoint.y(direction,direction,...)"
+     * ex.: a square could be 4|4(0,0,0,0,0,0,0,6,6,6,6,6,4,4,4,4,4,4,4,2,2,2,2)
      * @author Benjamin Kahlau
      * @author Philipp Gille
      */
