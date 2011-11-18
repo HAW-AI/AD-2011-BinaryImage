@@ -7,6 +7,4 @@ public interface Matrix extends Iterable<Integer> {
     int height();
 
     int get(int x, int y);
-
-    boolean isValid();
 }

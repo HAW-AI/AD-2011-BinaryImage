@@ -215,7 +215,7 @@ public class BlobImpl implements Blob {
 
     }
 
-// nicht mehr benötigt, hier passiert nichts mehr
+// nicht mehr benï¿½tigt, hier passiert nichts mehr
 //    private BoundarySequence calcBoundary2() {
 //        return boundary_esser2();
 //    }
@@ -301,30 +301,10 @@ public class BlobImpl implements Blob {
 
     }
 
-    /*
-     * @author Kai Bielenberg
-     * @author Tobias Mainusch
-     * 
-     * Algorithmus nur fuer 4rer Nachbarschaft.
-     * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
-     * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
-     * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
-     * da dieses Sortiert ist.
-     * Es wird immer in die Sequence der Weg von vorherigen Punkt zum aktuellen Punkt gespeichert.
-     * 
-     * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft ob man nach 
-     * oben links oder rechts, oder unten links oder rechts geht. Dabei wird der letzte Weg 
-     * geloescht und aus einer Ecke eine Schraege gemacht, wenn verlangt.
-     * 
-     * 
-     * @param maxNeighbours
-     * @return
-     */
-    
-    // alter javacode unsinn hier. neu:
-    
     /**
-     * @author Marc Wüseke
+     * Boundary Algorithmus fÃ¼r Vier-Nachbarschaft
+     * 
+     * @author Marc WÃ¼seke
      */
     private BoundarySequence boundary_esser2(){
         // Esser Algorithmus nur fuer 4er Nachbarschaft
@@ -595,7 +575,7 @@ public class BlobImpl implements Blob {
      * @return circularity 1 = Kreis, je groesser der Wert, desto unkreisfoermiger der Blob
      */
     private double calcCircularity() {
-        return 4 * Math.PI * pointCount() / Math.pow(perimeter(), 2);
+        return (4 * Math.PI * pointCount()) / Math.pow(perimeter(), 2);
     }
 
     /**
@@ -635,7 +615,7 @@ public class BlobImpl implements Blob {
     private double calcPerimeterGruppe3() {
         double res = 1;
         
-        for (int i : boundary_esser2().getSequence()) {
+        for (int i : this.boundary_esser2().getSequence()) {
             if (i % 2 == 0) res += 1;
             else res += Math.sqrt(2);
         }
