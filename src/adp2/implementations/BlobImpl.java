@@ -215,7 +215,7 @@ public class BlobImpl implements Blob {
 
     }
 
-// nicht mehr ben�tigt, hier passiert nichts mehr
+// nicht mehr ben�tigt, hier passiert nichts mehr
 //    private BoundarySequence calcBoundary2() {
 //        return boundary_esser2();
 //    }
@@ -301,69 +301,12 @@ public class BlobImpl implements Blob {
 
     }
 
-    /*
-     * @author Kai Bielenberg
-     * @author Tobias Mainusch
-     * 
-     * Algorithmus nur fuer 4rer Nachbarschaft.
-     * Berechnet die Kanten des Blobs anhand eines Sprungverfahrens.
-     * Ist der Aktuelle Punkt im Blob, biegt man auf seinem Weg links ab, ansonsten rechts.
-     * Der Start ist der Erste Punkt des Blobs im Koordinatensystem. Dieser ist der erste im TreeSet,
-     * da dieses Sortiert ist.
-     * Es wird immer in die Sequence der Weg von vorherigen Punkt zum aktuellen Punkt gespeichert.
-     * 
-     * Die "problematischen" Innenecken werden direkt aussortiert indem geprueft ob man nach 
-     * oben links oder rechts, oder unten links oder rechts geht. Dabei wird der letzte Weg 
-     * geloescht und aus einer Ecke eine Schraege gemacht, wenn verlangt.
-     * 
-     * 
-     * @param maxNeighbours
-     * @return
-     */
-<<<<<<< HEAD
-    /*
-    public BoundarySequence boundary_esser2(int maxNeighbours) {
-        // Esser Algorithmus nur für 4er Nachbarschaft
-        Point start = this.pointsOfBlob.first();
-        List<Integer> sequence = new ArrayList<Integer>();
-
-        Point vorg = BinaryImages.point(start.x() - 1, start.y());
-        Point aktuell = this.left_turn(vorg, start);
-        Point previous_in_rand = start; //letzer Point im Rand
-        vorg = start;
-
-        Point temp = null;
-
-        // solange bis wieder am Start
-        while (!(start.equals(aktuell) && !this.contains(this.left_turn(vorg, start)))) {
-            temp = aktuell;
-
-            if (this.contains(aktuell)) {
-                sequence.add(this.direction(previous_in_rand, aktuell));
-                previous_in_rand = aktuell;
-
-                aktuell = this.left_turn(vorg, aktuell);
-            } else {
-                aktuell = this.right_turn(vorg, aktuell);
-            }
-            vorg = temp;
-        }
-        sequence.add(this.direction(previous_in_rand, aktuell)); //abschließender Startpixel nochmal hinzu
-        System.out.println(sequence);
-        return BoundarySequenceImpl.valueOf(start, sequence);
-
-    }
-    */
-    public BoundarySequence boundary_esser2(int maxNeighbours) {
-=======
-    
-    // alter javacode unsinn hier. neu:
-    
     /**
-     * @author Marc W�seke
+     * Boundary Algorithmus für Vier-Nachbarschaft
+     * 
+     * @author Marc Wüseke
      */
     private BoundarySequence boundary_esser2(){
->>>>>>> 85b975cfc8bf30746bc048529686805bca5fa4e7
         // Esser Algorithmus nur fuer 4er Nachbarschaft
         Point start = this.pointsOfBlob.first();
         List<Integer> sequence = new ArrayList<Integer>();
