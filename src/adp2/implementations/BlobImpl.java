@@ -16,11 +16,11 @@ import java.util.HashSet;
 public class BlobImpl implements Blob {
 
     private final TreeSet<Point> pointsOfBlob;
-    private final BinaryImage binaryImage;
+    private BinaryImage binaryImage;
     private final double circularity;
     private final double perimeter;
     @Deprecated
-    private final Set<Point> boundary;
+    private Set<Point> boundary;
     private final BoundarySequence boundary2;
 
     /**
@@ -32,6 +32,10 @@ public class BlobImpl implements Blob {
      */
     public static Blob valueOf(Collection<Point> s, BinaryImage image) {
         return new BlobImpl(s, image);
+    }
+    
+    public static Blob valueOf(List<Point> s) {
+        return new BlobImpl(s);
     }
 
     /**
@@ -46,6 +50,19 @@ public class BlobImpl implements Blob {
 
         // Da die Circularity direkt berechnet wird, macht es sinn auch die Boundary sofort zu speichern.
         this.boundary = this.calcBoundary();
+        this.boundary2 = this.boundary_esser2();
+        // Berechnung der Circularity des Blobs, festgehalten in der private
+        // final double circularity;
+        //this.perimeter = calcPerimeter();
+        this.perimeter = calcPerimeterGruppe3();
+        this.circularity = calcCircularity();
+    }
+    
+    private BlobImpl(Collection<Point> pointsOfBlob) {
+        this.pointsOfBlob = new TreeSet<Point>(pointsOfBlob);
+
+        // Da die Circularity direkt berechnet wird, macht es sinn auch die Boundary sofort zu speichern.
+        //this.boundary = this.calcBoundary();
         this.boundary2 = this.boundary_esser2();
         // Berechnung der Circularity des Blobs, festgehalten in der private
         // final double circularity;

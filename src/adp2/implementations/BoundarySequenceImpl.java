@@ -116,16 +116,14 @@ public class BoundarySequenceImpl implements BoundarySequence {
         /*
          * Missing method to fill a blobs boundary
          */
+
         
-        int w = xMax-xMin;
-        int h = yMax-yMin;
+        Blob tmp = BlobImpl.valueOf(blobPoints);
         
-        System.out.println("BlobCreate-BufferedImage-Size(w,h): "+w+", "+h);
-        
-        BufferedImage bi = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(tmp.width(),tmp.height(),BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, w, h);
+        g.fillRect(0, 0, tmp.width(), tmp.height());
         
         GeneralPath path = new GeneralPath();
         path.moveTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
@@ -141,10 +139,9 @@ public class BoundarySequenceImpl implements BoundarySequence {
         List<Point> blobPoints2 = new ArrayList<Point>(blobPoints);
         
         
-        
         int black = Color.BLACK.getRGB();
-        for(int y1=0; y1<h; ++y1){
-        	for(int x1=0; x1<w; ++x1){
+        for(int y1=0; y1<tmp.height(); ++y1){
+        	for(int x1=0; x1<tmp.width(); ++x1){
         		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin));
         	}
         }
