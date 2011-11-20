@@ -1,5 +1,6 @@
 package adp2.interfaces;
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Set;
 
@@ -24,4 +25,6 @@ public interface Blob extends Iterable<Point> {
     double circularity();
 
     double perimeter();
+
+	Rectangle boundingBox();
 }

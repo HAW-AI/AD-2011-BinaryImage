@@ -1,5 +1,6 @@
 package adp2.implementations;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -639,10 +640,23 @@ public class BlobImpl implements Blob {
         return res;
     }
     
-    public int[] boudingbox() {
-        int[] result = new int[2];
-        result[0] = this.width();
-        result[1] = this.height();
-        return result;
+    @Override
+    public Rectangle boundingBox() {
+    	Rectangle rect = new Rectangle();
+    	rect.setSize(width(), height());
+    	
+    	int xMin = pointsOfBlob.first().x(), yMin = pointsOfBlob.first().y();
+        for (Point p : pointsOfBlob) { //get the upper left corner of the boundingBox
+            if (p.x() < xMin) {
+                xMin = p.x();
+            }
+            if (p.y() < yMin) {
+            	yMin = p.y();
+            }
+        }
+        
+        rect.setLocation(xMin, yMin);
+        
+        return rect;
     }
 }

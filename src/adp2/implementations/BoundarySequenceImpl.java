@@ -2,6 +2,7 @@ package adp2.implementations;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -67,71 +68,57 @@ public class BoundarySequenceImpl implements BoundarySequence {
 
         blobPoints.add(point);
         Point prevPoint = point;
-        int x = point.x();
-        int y = point.y();
-        int xMin=x, yMin=y; // benoetigt fuer die Transformation des "Blobs" (zum Fuellen des "Blob"-Inhaltes)
         
         for (int e : sequence) {
             switch (e) {
                 case RIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y());
-                    ++x;
                     break;
                 case TOPRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() - 1);
-                    ++x;
-                    yMin = Math.min(yMin, --y);
                     break;
                 case TOP:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() - 1);
-                    yMin = Math.min(yMin, --y);
                     break;
                 case TOPLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() - 1);
-                    yMin = Math.min(yMin, --y);
-                    xMin = Math.min(xMin, --x);
                     break;
                 case LEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y());
-                    xMin = Math.min(xMin, --x);
                     break;
                 case BOTTOMLEFT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() - 1, prevPoint.y() + 1);
-                    xMin = Math.min(xMin, --x);
-                    ++y;
                     break;
                 case BOTTOM:
                     prevPoint = PointImpl.valueOf(prevPoint.x(), prevPoint.y() + 1);
-                    ++y;
                     break;
                 case BOTTOMRIGHT:
                     prevPoint = PointImpl.valueOf(prevPoint.x() + 1, prevPoint.y() + 1);
-                    ++y;
-                    ++x;
                     break;
             }
             blobPoints.add(prevPoint);
         }
 
-        /*
-         * Missing method to fill a blobs boundary
-         */
+        
+        //fill a blobs boundary
 
+        Blob tmpBlob = BlobImpl.valueOf(blobPoints);
+        Rectangle blobRect = tmpBlob.boundingBox();
+        int xToUpperCorner = (int) blobRect.getX();
+        int yToUpperCorner = (int) blobRect.getY();
         
-        Blob tmp = BlobImpl.valueOf(blobPoints);
-        
-        BufferedImage bi = new BufferedImage(tmp.width(),tmp.height(),BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage((int)blobRect.getWidth(), (int)blobRect.getHeight(),BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, tmp.width(), tmp.height());
+        g.fillRect(0, 0, (int)blobRect.getWidth(), (int)blobRect.getHeight());
         
-        //Transformiere "Blob" in die obere linke Ecke (s. xMin,yMin)
+        //Transformiere "Blob" in die obere linke Ecke
         GeneralPath path = new GeneralPath();
-        path.moveTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
+        path.moveTo(blobPoints.get(0).x()-xToUpperCorner, blobPoints.get(0).y()-yToUpperCorner);
         for (int k=1; k < blobPoints.size(); k++){
-            path.lineTo(blobPoints.get(k).x()-xMin, blobPoints.get(k).y()-yMin);
+            path.lineTo(blobPoints.get(k).x()-xToUpperCorner, blobPoints.get(k).y()-yToUpperCorner);
         }
-        path.lineTo(blobPoints.get(0).x()-xMin, blobPoints.get(0).y()-yMin);
+        path.lineTo(blobPoints.get(0).x()-xToUpperCorner, blobPoints.get(0).y()-yToUpperCorner);
         path.closePath();
         
         g.setColor(Color.BLACK);
@@ -141,9 +128,9 @@ public class BoundarySequenceImpl implements BoundarySequence {
         
         
         int black = Color.BLACK.getRGB();
-        for(int y1=0; y1<tmp.height(); ++y1){
-        	for(int x1=0; x1<tmp.width(); ++x1){
-        		if(bi.getRGB(x1, y1) == black) blobPoints2.add(PointImpl.valueOf(x1+xMin, y1+yMin)); //Retransformation des "Blobs"
+        for(int y=0; y<blobRect.getHeight(); ++y){
+        	for(int x=0; x<blobRect.getWidth(); ++x){
+        		if(bi.getRGB(x, y) == black) blobPoints2.add(PointImpl.valueOf(x+xToUpperCorner, y+yToUpperCorner)); //Retransformation des "Blobs"
         	}
         }
 

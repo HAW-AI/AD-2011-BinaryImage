@@ -1,5 +1,6 @@
 package adp2.implementations;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -118,4 +119,9 @@ final class NaB implements Blob {
     public double perimeter() {
         return -1;
     }
+
+	@Override
+	public Rectangle boundingBox() {
+		return new Rectangle();
+	}
 }
